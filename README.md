@@ -2,7 +2,8 @@
 
 Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
 ### For ECLIPSE IDE:
-After cloning, just important the root folder
+1. Clone
+2. click->file-> Open Projects from Filesystem -> Directory->Point it to the project's root folder
 
 ## Folder Structure
 
