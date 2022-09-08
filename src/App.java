@@ -38,6 +38,7 @@ public class App extends JFrame {
 	private JMenuItem rExtend;
 	private JMenuItem rCancel;
 	private JMenu menuRoomService;
+	private AuthenticatorView a;
     State state = State.CHECKEDIN;
 	public App() {
 		initMenu();
@@ -89,6 +90,7 @@ public class App extends JFrame {
 	}
 
 	private void initComponents() {
-		add(new AuthenticatorView(Authenticator.instance));
+		a = new AuthenticatorView();
+		add(a);
 	}
 }
