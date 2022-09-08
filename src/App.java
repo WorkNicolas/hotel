@@ -1,11 +1,27 @@
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.GroupLayout;
+
+/*
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch(state) {
+            case auth:
+                break;
+            case booked:
+                break;
+            case browse:
+                break;
+            case checkedin:
+                break;
+            default:
+                break;
+        }
+        this.pack();
+        System.out.println(state);
+    }
+
+}
+ */
 
 /**
  * @author Jean Carlo Molina San Juan
@@ -22,14 +38,16 @@ public class App extends JFrame {
 	private JMenuItem rExtend;
 	private JMenuItem rCancel;
 	private JMenu menuRoomService;
-    State state = State.checkedin;
-
+    State state = State.CHECKEDIN;
 	public App() {
+		initMenu();
 		initComponents();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		pack();
+		setLocationRelativeTo(getOwner());
 	}
 
-	private void initComponents() {
+	private void initMenu() {
 		navbar = new JMenuBar();
 		menuUser = new JMenu("User");
 		uLogin = new JMenuItem("Login");
@@ -43,8 +61,6 @@ public class App extends JFrame {
 		menuRoomService = new JMenu("Room Service");
 
 		setTitle("Hotel El San Juan");
-		Container contentPane = getContentPane();
-
 		menuUser.add(uLogin);
 		menuUser.add(uRegister);
 		menuUser.add(uLogout);
@@ -56,16 +72,6 @@ public class App extends JFrame {
 		navbar.add(menuReservation);
 		navbar.add(menuRoomService);
 		setJMenuBar(navbar);
-		GroupLayout contentPaneLayout = new GroupLayout(contentPane);
-		contentPane.setLayout(contentPaneLayout);
-		contentPaneLayout.setHorizontalGroup(
-				contentPaneLayout.createParallelGroup()
-						.addGap(0, 398, Short.MAX_VALUE));
-		contentPaneLayout.setVerticalGroup(
-				contentPaneLayout.createParallelGroup()
-						.addGap(0, 246, Short.MAX_VALUE));
-		pack();
-		setLocationRelativeTo(getOwner());
 	}
 
 	public static void main(String[] args) {
@@ -80,5 +86,9 @@ public class App extends JFrame {
 				}
 			}
 		});
+	}
+
+	private void initComponents() {
+		add(new AuthenticatorView(Authenticator.instance));
 	}
 }

@@ -1,23 +1,30 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Scanner;
 
 /**
  * @author Jean Carlo M. San Juan
  * @summary A singleton that handles user verification.
  */
-public class AccountController
+public class Authenticator implements AnAuthenticator<User>
 {
     HashMap <String, String> credentials = new HashMap <String, String>();
-    private final String database_path = ".\\account.db";
-    private String user = "";
-    private final String seperator = "   ";
-    public static final AccountController instance = new AccountController();
-
-    private AccountController()
     {
-        initDefaults();
+        credentials.put("Carl", "CNM");
+        credentials.put("Charimel", "CM");
+        credentials.put("Ralph", "RS");
+        credentials.put("Jean", "JCSJ");
+        credentials.put("Roxanne", "RB");
+    };
+    private final String database_path = ".\\account.db";
+    private User user = null;
+    private final String seperator = "   ";
+    public static final Authenticator instance = new Authenticator();
+
+    private Authenticator()
+    {
         getAccountsFromDB();
     }
 
@@ -46,29 +53,22 @@ public class AccountController
         
         sc.close();
     }
-    private void initDefaults() {
-        credentials.put("Carl", "CNM");
-        credentials.put("Charimel", "CM");
-        credentials.put("Ralph", "RS");
-        credentials.put("Jean", "JCSJ");
-        credentials.put("Roxanne", "RB");
-    }
 
-    public boolean login(String name, String phrase) {
-        final String correctPhrase = credentials.get(name);
-        boolean verified = correctPhrase != null && phrase.compareTo(correctPhrase) == 0;
+    public boolean login(User u) {
+        final String correctPhrase = credentials.get(u.name());
+        boolean verified = correctPhrase != null && u.phrase().compareTo(correctPhrase) == 0;
     
         if (verified) {
-            this.user = name;
+            this.user = u;
         }
 
         return verified;
     }
 
     public void logout() {
-        this.user = "";
+        this.user = null;
     }
-    public String getUser() {
-        return this.user;
+    public Optional<User> getUser() {
+        return Optional.ofNullable(this.user);
     }
 }
