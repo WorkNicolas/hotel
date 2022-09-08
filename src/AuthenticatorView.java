@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Observable;
+
 import javax.swing.*;
 
 /**
@@ -96,9 +98,7 @@ public class AuthenticatorView extends JPanel implements LoginObserver {
 
 	@Override
 	public void onSuccess(User u) {
-		this.setVisible(false);
-		// TODO Auto-generated method stub
-		
+		Status.instance.setS(State.BROWSE);
 	}
 
 	@Override

@@ -1,67 +1,55 @@
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.*;
-
-/*
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch(state) {
-            case auth:
-                break;
-            case booked:
-                break;
-            case browse:
-                break;
-            case checkedin:
-                break;
-            default:
-                break;
-        }
-        this.pack();
-        System.out.println(state);
-    }
-
-}
- */
 
 /**
  * @author Jean Carlo Molina San Juan
  */
-public class App extends JFrame {
-	private JMenuBar navbar;
-	private JMenu menuUser;
-	private JMenuItem uLogin;
-	private JMenuItem uRegister;
-	private JMenuItem uLogout;
-	private JMenu menuReservation;
-	private JMenuItem rInfo;
-	private JMenuItem rNew;
-	private JMenuItem rExtend;
-	private JMenuItem rCancel;
-	private JMenu menuRoomService;
+public class App extends JFrame implements Observer {
+	private JMenuBar navbar = new JMenuBar();
+	private JMenu menuUser  = new JMenu("User");
+	private JMenuItem uLogin = new JMenuItem("Login");
+	private JMenuItem uRegister = new JMenuItem("Register");
+	private JMenuItem uLogout  = new JMenuItem("Logout");
+	private JMenu menuReservation = new JMenu("Reservation");
+	private JMenuItem rInfo = new JMenuItem("Info");
+	private JMenuItem rNew = new JMenuItem("New");
+	private JMenuItem rExtend = new JMenuItem("Extend");
+	private JMenuItem rCancel = new JMenuItem("Cancel");
+	private JMenu menuRoomService = new JMenu("Room Service");
+	private JPanel active;
 	private AuthenticatorView a;
-    State state = State.CHECKEDIN;
+	private HashMap<State, JPanel> panels = new HashMap<>();
+	{	
+		//TODO: Add JPanels
+		panels.put(State.BOOKED, null);
+		panels.put(State.CHECKEDIN, null);
+		panels.put(State.BROWSE, new JPanel());
+		panels.put(State.auth, a);
+	}
 	public App() {
+		setTitle("Hotel El San Juan");
 		initMenu();
 		initComponents();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		pack();
 		setLocationRelativeTo(getOwner());
+		Status.instance.addObserver(this);
+		setActive(a);
 	}
 
 	private void initMenu() {
-		navbar = new JMenuBar();
-		menuUser = new JMenu("User");
-		uLogin = new JMenuItem("Login");
-		uRegister = new JMenuItem("Register");
-		uLogout = new JMenuItem("Logout");
-		menuReservation = new JMenu("Reservation");
-		rInfo = new JMenuItem("Info");
-		rNew = new JMenuItem("New");
-		rExtend = new JMenuItem("Extend");
-		rCancel = new JMenuItem("Cancel");
-		menuRoomService = new JMenu("Room Service");
-
-		setTitle("Hotel El San Juan");
+		uLogout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Status.instance.setS(State.auth);
+			}
+		});
 		menuUser.add(uLogin);
 		menuUser.add(uRegister);
 		menuUser.add(uLogout);
@@ -92,5 +80,21 @@ public class App extends JFrame {
 	private void initComponents() {
 		a = new AuthenticatorView();
 		add(a);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		setActive(
+			panels.get((State) arg));
+	}
+
+	public void setActive(JPanel a) {
+		if (a == null)
+			return;
+
+		if (active != null) 
+			active.setVisible(false);
+		active = a;
+		a.setVisible(true);
 	}
 }
