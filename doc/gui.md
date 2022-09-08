@@ -67,3 +67,4 @@ _Note_:
 1. JPanel will 
     1. ...be the root component for each view.
     1. ...consume the entire window's space.
+2. After using any GUI builder, adjust the variable names for readability.
