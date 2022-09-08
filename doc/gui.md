@@ -61,3 +61,9 @@ _Note_:
         1. New input form
     1. tab:leave
         1. Require authentication
+
+## Constraints
+1. Don't use absolute positioning
+1. JPanel will 
+    1. ...be the root component for each view.
+    1. ...consume the entire window's space.
