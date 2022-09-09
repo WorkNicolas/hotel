@@ -1,16 +1,17 @@
-import java.util.Observable;
+import java.util.concurrent.SubmissionPublisher;
 
 /**
  * Singleton for keeping App Major States
  */
-public class Status extends Observable {
-    private State s = State.auth;
-    public static Status instance = new Status();
-    private Status() {};
-    public void setS(State s) {
-        this.s = s;
-        setChanged();
-        notifyObservers(s);
-        System.out.println(s);
+public class Status extends SubmissionPublisher<State> {
+    protected State value;
+    public Status(State value) {
+        super();
+        this.value = value;
+    }
+    public static Status self = new Status(State.auth);
+
+    public State getValue() {
+        return value;
     }
 }

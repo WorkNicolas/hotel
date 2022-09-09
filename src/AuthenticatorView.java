@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.util.Observable;
-
 import javax.swing.*;
 
 /**
@@ -98,19 +96,20 @@ public class AuthenticatorView extends JPanel implements LoginObserver {
 
 	@Override
 	public void onSuccess(User u) {
-		Status.instance.setS(State.BROWSE);
+		Status.self.submit(State.BROWSE);
+		inputName.setText("");
+		inputPhrase.setText("");
 	}
 
 	@Override
 	public void onFail() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onMaxTries() {
+		Status.self.close();
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

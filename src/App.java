@@ -2,15 +2,15 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.concurrent.Flow.Subscriber;
+import java.util.concurrent.Flow.Subscription;
 
 import javax.swing.*;
 
 /**
  * @author Jean Carlo Molina San Juan
  */
-public class App extends JFrame implements Observer {
+public class App extends JFrame implements Subscriber<State> {
 	private JMenuBar navbar = new JMenuBar();
 	private JMenu menuUser  = new JMenu("User");
 	private JMenuItem uLogin = new JMenuItem("Login");
@@ -23,15 +23,9 @@ public class App extends JFrame implements Observer {
 	private JMenuItem rCancel = new JMenuItem("Cancel");
 	private JMenu menuRoomService = new JMenu("Room Service");
 	private JPanel active;
-	private AuthenticatorView a;
+	private AuthenticatorView authenticator;
 	private HashMap<State, JPanel> panels = new HashMap<>();
-	{	
-		//TODO: Add JPanels
-		panels.put(State.BOOKED, null);
-		panels.put(State.CHECKEDIN, null);
-		panels.put(State.BROWSE, new JPanel());
-		panels.put(State.auth, a);
-	}
+	private Subscription subscription;
 	public App() {
 		setTitle("Hotel El San Juan");
 		initMenu();
@@ -39,15 +33,22 @@ public class App extends JFrame implements Observer {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		pack();
 		setLocationRelativeTo(getOwner());
-		Status.instance.addObserver(this);
-		setActive(a);
+		activate(authenticator);
+		{	
+			//TODO: Add JPanels
+			panels.put(State.BOOKED, null);
+			panels.put(State.CHECKEDIN, null);
+			panels.put(State.BROWSE, new JPanel());
+			panels.put(State.auth, authenticator);
+		}
+		Status.self.subscribe(this);
 	}
 
 	private void initMenu() {
 		uLogout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Status.instance.setS(State.auth);
+				Status.self.submit(State.auth);
 			}
 		});
 		menuUser.add(uLogin);
@@ -70,6 +71,7 @@ public class App extends JFrame implements Observer {
 					App a = new App();
 					a.setVisible(true);
 					a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -78,17 +80,11 @@ public class App extends JFrame implements Observer {
 	}
 
 	private void initComponents() {
-		a = new AuthenticatorView();
-		add(a);
+		authenticator = new AuthenticatorView();
+		add(authenticator);
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		setActive(
-			panels.get((State) arg));
-	}
-
-	public void setActive(JPanel a) {
+	public void activate(JPanel a) {
 		if (a == null)
 			return;
 
@@ -96,5 +92,31 @@ public class App extends JFrame implements Observer {
 			active.setVisible(false);
 		active = a;
 		a.setVisible(true);
+	}
+
+	@Override
+	public void onSubscribe(Subscription subscription) {
+		this.subscription = subscription;
+		this.subscription.request(1);
+	}
+
+	@Override
+	public void onNext(State item) {
+		activate(
+			panels.get(item)
+		);
+		this.subscription.request(1);
+	}
+
+	@Override
+	public void onError(Throwable throwable) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onComplete() {
+		System.exit(0);
+		// TODO Auto-generated method stub
 	}
 }
