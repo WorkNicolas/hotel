@@ -4,7 +4,7 @@ import javax.swing.*;
 /**
  * @author Jean Carlo Molina San Juan
  */
-public class AuthenticatorView extends JPanel implements LoginObserver {
+public class AuthenticatorView extends JPanel {
 	private LoginListener l;
 
 	private JLabel lName = new JLabel("Email:");
@@ -20,9 +20,9 @@ public class AuthenticatorView extends JPanel implements LoginObserver {
 		GUEST
 	}
 
-	public AuthenticatorView() {
+	public AuthenticatorView(Verifier v) {
 		initComponents();
-		l = new LoginListener(inputName, inputPhrase, bLogin, 10, this);
+		l = new LoginListener(inputName, inputPhrase, bLogin, 10, v);
 	}
 
 	private void initComponents() {
@@ -93,34 +93,4 @@ public class AuthenticatorView extends JPanel implements LoginObserver {
 	// Generated using JFormDesigner Evaluation license - Jean Carlo Molina San Juan
 
 	// JFormDesigner - End of variables declaration //GEN-END:variables
-
-	@Override
-	public void onSuccess(User u) {
-		Status.self.submit(State.BROWSE);
-		inputName.setText("");
-		inputPhrase.setText("");
-	}
-
-	@Override
-	public void onFail() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onMaxTries() {
-		Status.self.close();
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onRegister() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onGuest() {
-		// TODO Auto-generated method stub
-		
-	}
 }

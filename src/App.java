@@ -22,6 +22,7 @@ public class App extends JFrame implements Subscriber<State> {
 	private JMenuItem rExtend = new JMenuItem("Extend");
 	private JMenuItem rCancel = new JMenuItem("Cancel");
 	private JMenu menuRoomService = new JMenu("Room Service");
+	private Verifier verifier = new Verifier();
 	private JPanel active;
 	private AuthenticatorView authenticator;
 	private HashMap<State, JPanel> panels = new HashMap<>();
@@ -80,7 +81,7 @@ public class App extends JFrame implements Subscriber<State> {
 	}
 
 	private void initComponents() {
-		authenticator = new AuthenticatorView();
+		authenticator = new AuthenticatorView(verifier);
 		add(authenticator);
 	}
 

@@ -5,24 +5,24 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LoginListener implements ActionListener {
+public class LoginListener implements ActionListener, LoginObserver {
     protected JTextField user;
     protected JPasswordField phrase;
     protected final int MAX_ATTEMPTS;
     protected JButton activator;
-    private LoginObserver observer;
     protected int attempt = 0;
+    protected AnAuthenticator<User> authenticator;
     public enum Action {
 		LOGIN,
 		REGISTER,
 		GUEST
 	}
-    public LoginListener(JTextField user, JPasswordField phrase, JButton activator, int MAX_ATTEMPTS, LoginObserver l) {
+    public LoginListener(JTextField user, JPasswordField phrase, JButton activator, int MAX_ATTEMPTS, AnAuthenticator<User> authenticator) {
         this.MAX_ATTEMPTS = MAX_ATTEMPTS;
         this.user = user;
         this.phrase = phrase;
         this.activator = activator;
-        this.observer = l;
+        this.authenticator = authenticator;
         activator.addActionListener(this);
         activator.setActionCommand("" + Action.LOGIN);
     }
@@ -34,24 +34,52 @@ public class LoginListener implements ActionListener {
             case LOGIN:
                 var u = new User(user.getText(), String.valueOf(phrase.getPassword()));
 
-                if (Authenticator.instance.login(u))
+                if (authenticator.login(u))
                 {
-                    observer.onSuccess(u);
+                    onSuccess(u);
                 } else {
                     if (++attempt >= MAX_ATTEMPTS) {
-                        observer.onMaxTries();
+                        onMaxTries();
                     } else
-                        observer.onFail();
+                        onFail();
                 }
                 break;
             case REGISTER:
-                observer.onRegister();
+                onRegister();
                 break;
             case GUEST:
-                observer.onGuest();
+                onGuest();
                 break;
             default:
                 System.out.println("Unkown action event: " + e.getActionCommand());
         }
     }
+
+    @Override
+	public void onSuccess(User u) {
+		Status.self.submit(State.BROWSE);
+	}
+
+	@Override
+	public void onFail() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onMaxTries() {
+		Status.self.close();
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onRegister() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onGuest() {
+		// TODO Auto-generated method stub
+		
+	}
 }
