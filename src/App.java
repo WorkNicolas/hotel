@@ -116,7 +116,6 @@ public class App extends JFrame implements Subscriber<State> {
 
 	@Override
 	public void onComplete() {
-		System.exit(0);
-		// TODO Auto-generated method stub
+		System.exit(0); //FORCE SHUTDOWN
 	}
 }
