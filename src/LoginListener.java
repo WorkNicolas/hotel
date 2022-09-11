@@ -5,6 +5,10 @@ import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+/**
+ * Reacts to user input for the login form.
+ * @see LoginForm
+ */
 public class LoginListener implements ActionListener, LoginObserver {
     protected JTextField user;
     protected JPasswordField phrase;
@@ -17,6 +21,13 @@ public class LoginListener implements ActionListener, LoginObserver {
 		REGISTER,
 		GUEST
 	}
+    /**
+     * @param user
+     * @param phrase
+     * @param activator
+     * @param MAX_ATTEMPTS
+     * @param authenticator
+     */
     public LoginListener(JTextField user, JPasswordField phrase, JButton activator, int MAX_ATTEMPTS, AnAuthenticator<User> authenticator) {
         this.MAX_ATTEMPTS = MAX_ATTEMPTS;
         this.user = user;

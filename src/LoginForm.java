@@ -4,7 +4,7 @@ import javax.swing.*;
 /**
  * @author Jean Carlo Molina San Juan
  */
-public class AuthenticatorView extends JPanel {
+public class LoginForm extends JPanel {
 	private LoginListener l;
 
 	private JLabel lName = new JLabel("Email:");
@@ -20,19 +20,19 @@ public class AuthenticatorView extends JPanel {
 		GUEST
 	}
 
-	public AuthenticatorView(Verifier v) {
+	public LoginForm(Verifier v) {
 		initComponents();
 		l = new LoginListener(inputName, inputPhrase, bLogin, 10, v);
 	}
 
 	private void initComponents() {
-		setMaximumSize(new Dimension(1920, 1080));
-		setPreferredSize(new Dimension(1920, 1080));
+		var d= new Dimension(1920, 1080);
+		setMaximumSize(d);
+		setPreferredSize(d);
 		setInheritsPopupMenu(true);
 		var font = new Font("Tahoma", Font.PLAIN, 24);
 		setFont(font);
 		setLayout(new GridBagLayout());
-		
 		// ---- lName ----
 		lName.setHorizontalAlignment(SwingConstants.RIGHT);
 		lName.setFont(font);

@@ -24,7 +24,7 @@ public class App extends JFrame implements Subscriber<State> {
 	private JMenu menuRoomService = new JMenu("Room Service");
 	private Verifier verifier = new Verifier();
 	private JPanel active;
-	private AuthenticatorView authenticator;
+	private LoginForm loginForm;
 	private HashMap<State, JPanel> panels = new HashMap<>();
 	private Subscription subscription;
 	public App() {
@@ -34,13 +34,13 @@ public class App extends JFrame implements Subscriber<State> {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		pack();
 		setLocationRelativeTo(getOwner());
-		activate(authenticator);
+		activate(loginForm);
 		{	
 			//TODO: Add JPanels
 			panels.put(State.BOOKED, null);
 			panels.put(State.CHECKEDIN, null);
 			panels.put(State.BROWSE, new JPanel());
-			panels.put(State.auth, authenticator);
+			panels.put(State.auth, loginForm);
 		}
 		Status.self.subscribe(this);
 	}
@@ -81,8 +81,8 @@ public class App extends JFrame implements Subscriber<State> {
 	}
 
 	private void initComponents() {
-		authenticator = new AuthenticatorView(verifier);
-		add(authenticator);
+		loginForm = new LoginForm(verifier);
+		add(loginForm);
 	}
 
 	public void activate(JPanel a) {
