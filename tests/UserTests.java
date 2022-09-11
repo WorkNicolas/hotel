@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 
+import java.sql.SQLException;
+
 import org.junit.Test;
 
 public class UserTests {
@@ -13,10 +15,9 @@ public class UserTests {
     }
 
     @Test 
-    public void canRegisterAndDelete() {
+    public void canRegisterAndDelete() throws SQLException {
         var r = new Registrar();
         UserInfo u = new UserInfo("Tempest", "temporary@account", "Temporary account");
-
         assertEquals(true, r.register(u));
 
         assertEquals(
