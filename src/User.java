@@ -1,3 +1,3 @@
-public record User(String name, String phrase) {
+public record User(String email, String phrase) {
 
 }
