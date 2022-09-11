@@ -2,19 +2,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Optional;
 
+/**
+ * {@summary For user authentication}
+ * @see Registrar
+ */
 public class Verifier extends Connector implements AnAuthenticator<User> {
-    protected String TABLE_NAME = "users";
-    /* 
-     CREATE TABLE `users` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `email` varchar(320) NOT NULL,
-        `name` varchar(256) NOT NULL,
-        `phrase` varchar(256) NOT NULL,
-        PRIMARY KEY (`id`),
-        UNIQUE KEY `email` (`email`)
-    )
-     * 
-     */
+    protected String TABLE_NAME = Registrar.TABLE_NAME;
     protected Optional<User> user = Optional.ofNullable(null);
     @Override
     public boolean login(User u) {

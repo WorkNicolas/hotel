@@ -1,9 +1,21 @@
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * {@summary} Handles database management for users}
+ * @see Verifier
+ */
 public class Registrar extends Connector {
-    private static final String TABLE_NAME = "users";
+    public static final String TABLE_NAME = "users";
 
+    public Registrar() throws SQLException {
+        Connection conn = connect();
+        var s =  conn.createStatement();
+        s.execute(
+            "CREATE TABLE IF NOT EXISTS `users` (`id` int NOT NULL AUTO_INCREMENT, `email` varchar(320) NOT NULL, `name` varchar(256) NOT NULL, `phrase` varchar(256) NOT NULL,PRIMARY KEY (`id`), UNIQUE KEY `email` (`email`))"
+        );
+        conn.close();
+    }
     /**
      * 
      * @return whether the registration was successful
