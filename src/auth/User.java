@@ -1,3 +1,5 @@
+package auth;
+
 /**
  * {@summary For user authorization}
  * @see Registrar

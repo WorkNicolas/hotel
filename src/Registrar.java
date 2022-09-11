@@ -1,6 +1,9 @@
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import auth.User;
+import auth.UserInfo;
+
 /**
  * {@summary} Handles database management for users}
  * @see Verifier
@@ -26,9 +29,9 @@ public class Registrar extends Connector {
         try {
             conn = connect();
             var p = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(name, phrase, email) VALUES(?,?,?)");
-            p.setString(1, u.name);
-            p.setString(2, u.phrase);
-            p.setString(3, u.email);
+            p.setString(1, u.getName());
+            p.setString(2, u.getPhrase());
+            p.setString(3, u.getEmail());
             status = p.executeUpdate();
             conn.close();
         } catch (SQLException e) {

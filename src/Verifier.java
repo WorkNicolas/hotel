@@ -2,6 +2,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Optional;
 
+import auth.AnAuthenticator;
+import auth.User;
+
 /**
  * {@summary For user authentication}
  * @see Registrar

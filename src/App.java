@@ -7,6 +7,11 @@ import java.util.concurrent.Flow.Subscription;
 
 import javax.swing.*;
 
+import auth.LoginForm;
+import auth.LoginListener;
+import auth.LoginObserver;
+import auth.User;
+
 /**
  * @author Jean Carlo Molina San Juan
  */
@@ -81,7 +86,38 @@ public class App extends JFrame implements Subscriber<State> {
 	}
 
 	private void initComponents() {
-		loginForm = new LoginForm(verifier);
+		var o = new LoginObserver() {
+
+			@Override
+			public void onSuccess(User u) {
+				Status.self.submit(State.BROWSE);
+			}
+
+			@Override
+			public void onFail() {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void onMaxTries() {
+				Status.self.close();
+			}
+
+			@Override
+			public void onRegister() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onGuest() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		loginForm = new LoginForm();
+		var l = new LoginListener(loginForm, 10, verifier, o);
 		add(loginForm);
 	}
 

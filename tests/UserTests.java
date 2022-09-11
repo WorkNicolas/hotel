@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import auth.User;
+import auth.UserInfo;
+
 public class UserTests {
     @Test
     public void customerCanLogin() {
@@ -22,7 +25,7 @@ public class UserTests {
 
         assertEquals(
             true, 
-            r.delete(new User(u.email, u.phrase))
+            r.delete(new User(u.getEmail(), u.getPhrase()))
         );
     }
 }

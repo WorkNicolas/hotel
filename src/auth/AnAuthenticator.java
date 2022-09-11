@@ -1,3 +1,5 @@
+package auth;
+
 import java.util.Optional;
 
 public interface AnAuthenticator<U> {

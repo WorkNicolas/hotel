@@ -1,3 +1,4 @@
+package auth;
 import java.awt.*;
 import javax.swing.*;
 
@@ -5,24 +6,21 @@ import javax.swing.*;
  * @author Jean Carlo Molina San Juan
  */
 public class LoginForm extends JPanel {
-	private LoginListener l;
-
 	private JLabel lName = new JLabel("Email:");
 	private JLabel lPhrase = new JLabel("Passphrase:");
 	private JTextField inputName = new JTextField();
 	private JPasswordField inputPhrase = new JPasswordField();
-	private JButton bLogin = new JButton("Login");
-	private JButton bGuest = new JButton("Guest");
-	private JButton bRegister = new JButton("Register");
+	public JButton bLogin = new JButton("Login");
+	public JButton bGuest = new JButton("Guest");
+	public JButton bRegister = new JButton("Register");
 	enum Action {
 		LOGIN,
 		REGISTER,
 		GUEST
 	}
 
-	public LoginForm(Verifier v) {
+	public LoginForm() {
 		initComponents();
-		l = new LoginListener(inputName, inputPhrase, bLogin, 10, v);
 	}
 
 	private void initComponents() {
@@ -77,20 +75,21 @@ public class LoginForm extends JPanel {
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0));
 		bGuest.setActionCommand("" + Action.GUEST);
-		bGuest.addActionListener(this.l);
 
 		// ---- button3 ----
 		bRegister.setFont(font);
 		add(bRegister, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 10, 10), 0, 0));
-		// JFormDesigner - End of component initialization //GEN-END:initComponents
 		bRegister.setActionCommand("" + Action.REGISTER);
-		bRegister.addActionListener(this.l);
 	}
 
-	// JFormDesigner - Variables declaration - DO NOT MODIFY //GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - Jean Carlo Molina San Juan
+	public User getUser() {
+		return new User(inputName.getText(), String.valueOf(inputPhrase.getPassword()));
+	}
 
-	// JFormDesigner - End of variables declaration //GEN-END:variables
+	public void clear() {
+		inputName.setText("");
+		inputPhrase.setText("");
+	}
 }
