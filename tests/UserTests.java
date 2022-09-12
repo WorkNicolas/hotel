@@ -4,8 +4,10 @@ import java.sql.SQLException;
 
 import org.junit.Test;
 
+import auth.Registrar;
 import auth.User;
 import auth.UserInfo;
+import auth.Verifier;
 
 public class UserTests {
     @Test

@@ -1,8 +1,8 @@
+package auth;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import auth.User;
-import auth.UserInfo;
+import db.Connector;
 
 /**
  * {@summary Handles database management for users}

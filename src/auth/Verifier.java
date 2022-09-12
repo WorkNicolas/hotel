@@ -1,9 +1,9 @@
+package auth;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Optional;
 
-import auth.AnAuthenticator;
-import auth.User;
+import db.Connector;
 
 /**
  * {@summary For user authentication}

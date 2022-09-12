@@ -11,6 +11,7 @@ import auth.LoginForm;
 import auth.LoginListener;
 import auth.LoginObserver;
 import auth.User;
+import auth.Verifier;
 
 /**
  * @author Jean Carlo Molina San Juan
