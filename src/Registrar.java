@@ -5,7 +5,7 @@ import auth.User;
 import auth.UserInfo;
 
 /**
- * {@summary} Handles database management for users}
+ * {@summary Handles database management for users}
  * @see Verifier
  */
 public class Registrar extends Connector {
