@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,25 +30,22 @@ public class App extends JFrame implements Subscriber<State> {
 	private JMenuItem rCancel = new JMenuItem("Cancel");
 	private JMenu menuRoomService = new JMenu("Room Service");
 	private Verifier verifier = new Verifier();
-	private JPanel active;
-	private LoginForm loginForm;
+	private LoginForm loginForm = new LoginForm();
 	private HashMap<State, JPanel> panels = new HashMap<>();
+	private JPanel active;
 	private Subscription subscription;
+	
 	public App() {
 		setTitle("Hotel El San Juan");
-		initMenu();
-		initComponents();
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		pack();
-		setLocationRelativeTo(getOwner());
-		activate(loginForm);
-		{	
-			//TODO: Add JPanels
-			panels.put(State.BOOKED, null);
-			panels.put(State.CHECKEDIN, null);
-			panels.put(State.BROWSE, new JPanel());
-			panels.put(State.auth, loginForm);
+		{ //MAINTAIN CALL ORDER
+			initMenu();
+			initComponents();
+			setExtendedState(JFrame.MAXIMIZED_BOTH); //MAXIMIZE
+			pack(); //FORCE RESIZE
+			setMinimumSize(new Dimension(getWidth(), getHeight())); //SAVE THE NEW DIMENSIONS
 		}
+		setLocationRelativeTo(getOwner());
+
 		Status.self.subscribe(this);
 	}
 
@@ -86,12 +84,11 @@ public class App extends JFrame implements Subscriber<State> {
 		});
 	}
 
-	private void initComponents() {
-		var o = new LoginObserver() {
-
+	private LoginObserver loginObserver = new LoginObserver() {
 			@Override
 			public void onSuccess(User u) {
 				Status.self.submit(State.BROWSE);
+				loginForm.clear();
 			}
 
 			@Override
@@ -117,19 +114,32 @@ public class App extends JFrame implements Subscriber<State> {
 			}
 			
 		};
-		loginForm = new LoginForm();
-		var l = new LoginListener(loginForm, 10, verifier, o);
+	private void initComponents() {
+		{	
+			//TODO: Add JPanels
+			panels.put(State.BOOKED, null);
+			panels.put(State.CHECKEDIN, null);
+			panels.put(State.BROWSE, null);
+			panels.put(State.auth, loginForm);
+		}
+		var l = new LoginListener(loginForm, 10, verifier, loginObserver);
 		add(loginForm);
+		activate(loginForm); //FIRST active
 	}
 
 	public void activate(JPanel a) {
 		if (a == null)
 			return;
-
-		if (active != null) 
+		
+		if (active != null) {
+			//Temporarily remove 'a' from the component hierarchy
 			active.setVisible(false);
+			remove(active);
+		}
 		active = a;
-		a.setVisible(true);
+		add(active);
+		active.setVisible(true);
+		pack();
 	}
 
 	@Override
