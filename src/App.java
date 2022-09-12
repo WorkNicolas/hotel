@@ -13,6 +13,7 @@ import auth.LoginListener;
 import auth.LoginObserver;
 import auth.User;
 import auth.Verifier;
+import room.RoomListing;
 
 /**
  * @author Jean Carlo Molina San Juan
@@ -31,6 +32,7 @@ public class App extends JFrame implements Subscriber<State> {
 	private JMenu menuRoomService = new JMenu("Room Service");
 	private Verifier verifier = new Verifier();
 	private LoginForm loginForm = new LoginForm();
+	private RoomListing roomListing = new RoomListing();
 	private HashMap<State, JPanel> panels = new HashMap<>();
 	private JPanel active;
 	private Subscription subscription;
@@ -119,7 +121,7 @@ public class App extends JFrame implements Subscriber<State> {
 			//TODO: Add JPanels
 			panels.put(State.BOOKED, null);
 			panels.put(State.CHECKEDIN, null);
-			panels.put(State.BROWSE, null);
+			panels.put(State.BROWSE, roomListing);
 			panels.put(State.auth, loginForm);
 		}
 		var l = new LoginListener(loginForm, 10, verifier, loginObserver);
