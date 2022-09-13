@@ -8,7 +8,7 @@ import javax.swing.*;
 
 /**
  * Creates an InputDialog with a listener attached.
- * @apiNote a callback `onSuccess` receives the account name.
+ * @apiNote A `consumer` receives the valid account name entered by the user.
  */
 public class PaymentComponent implements ActionListener {
     protected JFrame parent;
@@ -36,10 +36,7 @@ public class PaymentComponent implements ActionListener {
     public void setConsumer(Consumer<String> consumer) {
         this.consumer = consumer;
     }
-    /**
-     * @param parent
-     * @param consumer receives the valid account name entered by the user.
-     */
+
     public PaymentComponent(JFrame parent, Consumer<String> consumer) {
         this(parent, consumer, 0);
     }
