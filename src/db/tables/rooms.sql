@@ -1,4 +1,4 @@
-CREATE TABLE `rooms` (
+CREATE TABLE IF NOT EXISTS `rooms` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `size` int NOT NULL,
   `type` enum('BASIC','STANDARD','SUITE') NOT NULL,

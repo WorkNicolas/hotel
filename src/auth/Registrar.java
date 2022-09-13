@@ -12,12 +12,9 @@ public class Registrar extends Connector {
     public static final String TABLE_NAME = "users";
 
     public Registrar() throws SQLException {
-        Connection conn = connect();
-        var s =  conn.createStatement();
-        s.execute(
-            "CREATE TABLE IF NOT EXISTS `users` (`id` int NOT NULL AUTO_INCREMENT, `email` varchar(320) NOT NULL, `name` varchar(256) NOT NULL, `phrase` varchar(256) NOT NULL,PRIMARY KEY (`id`), UNIQUE KEY `email` (`email`))"
+        executeSQL(
+            "CREATE TABLE `users` (`id` int NOT NULL AUTO_INCREMENT,`email` varchar(255) NOT NULL, `name` varchar(255) NOT NULL, `phrase` varchar(255) NOT NULL,`address` varchar(255) NOT NULL, PRIMARY KEY (`id`)"
         );
-        conn.close();
     }
     /**
      * 
