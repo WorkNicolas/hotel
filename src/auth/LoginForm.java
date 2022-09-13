@@ -2,6 +2,7 @@ package auth;
 import java.awt.*;
 import javax.swing.*;
 
+
 /**
  * @author Jean Carlo Molina San Juan
  */
@@ -24,9 +25,6 @@ public class LoginForm extends JPanel {
 	}
 
 	private void initComponents() {
-		var d= new Dimension(1920, 1080);
-		setMaximumSize(d);
-		setPreferredSize(d);
 		setInheritsPopupMenu(true);
 		var font = new Font("Tahoma", Font.PLAIN, 24);
 		setFont(font);

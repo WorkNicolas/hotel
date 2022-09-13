@@ -44,7 +44,14 @@ public class App extends JFrame implements Subscriber<State> {
 			initComponents();
 			setExtendedState(JFrame.MAXIMIZED_BOTH); //MAXIMIZE
 			pack(); //FORCE RESIZE
-			setMinimumSize(new Dimension(getWidth(), getHeight())); //SAVE THE NEW DIMENSIONS
+			setVisible(true);
+			setMinimumSize(getSize()); //SAVE THE NEW DIMENSIONS
+			for (JPanel p:panels.values()) {
+				if (p != null) {
+					p.setPreferredSize(getSize());
+					p.setMinimumSize(getMinimumSize());
+				}
+			}
 		}
 		setLocationRelativeTo(getOwner());
 
@@ -76,7 +83,6 @@ public class App extends JFrame implements Subscriber<State> {
 			public void run() {
 				try {
 					App a = new App();
-					a.setVisible(true);
 					a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 				} catch (Exception e) {
