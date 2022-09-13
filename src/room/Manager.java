@@ -1,5 +1,6 @@
 package room;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -19,11 +20,14 @@ public class Manager extends Connector {
     public HashMap<String, Info> infos = new HashMap<>();
     protected int limit;
 
-    public Manager() {
+    public Manager() throws SQLException {
         limit = 100;
+        String creationCode = "CREATE TABLE IF NOT EXISTS `rooms` (`id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', `size` int NOT NULL, `type` enum('BASIC','STANDARD','SUITE') NOT NULL, `url` varchar(8000) NOT NULL,`available` tinyint(1) NOT NULL DEFAULT '1', PRIMARY KEY (`id`))";
+        executeSQL(creationCode);
     }
 
-    public Manager(int limit) {
+    public Manager(int limit) throws FileNotFoundException, SQLException {
+        this();
         this.limit = limit;
     }
 
@@ -82,7 +86,7 @@ public class Manager extends Connector {
                 new URL(urlStr));
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, FileNotFoundException {
         Manager r = new Manager();
         try {
             var in = r.fetchAvailable().values();
