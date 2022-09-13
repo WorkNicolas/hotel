@@ -1,4 +1,4 @@
-CREATE TABLE `reservations` (
+CREATE TABLE IF NOT EXISTS `reservations` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `startsAt` date NOT NULL,
   `length` tinyint DEFAULT NULL,

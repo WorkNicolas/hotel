@@ -1,4 +1,4 @@
-CREATE TABLE `amenities` (
+CREATE TABLE IF NOT EXISTS `amenities` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `price` double NOT NULL,
