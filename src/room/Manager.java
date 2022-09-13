@@ -6,6 +6,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
@@ -89,7 +90,7 @@ public class Manager extends Connector {
     public static void main(String[] args) throws SQLException, FileNotFoundException {
         Manager r = new Manager();
         try {
-            var in = r.fetchAvailable().values();
+            Collection<Info> in = r.fetchAvailable().values();
             in.forEach(new Consumer<Info>() {
 
                 @Override
