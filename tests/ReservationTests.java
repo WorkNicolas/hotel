@@ -11,8 +11,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.function.Consumer;
 
-import auth.ContactInfo;
-import payment.Hotelier;
+import reservation.ContactInfo;
+import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.Stay;
 import room.Info;

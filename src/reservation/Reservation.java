@@ -1,5 +1,4 @@
 package reservation;
-import auth.ContactInfo;
 import payment.Receipt;
 import room.Info;
 

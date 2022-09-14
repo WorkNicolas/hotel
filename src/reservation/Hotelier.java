@@ -1,13 +1,10 @@
-package payment;
+package reservation;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import auth.ContactInfo;
 import db.Connector;
-import reservation.Reservation;
-import reservation.Stay;
 import room.Info;
 
 public class Hotelier extends Connector{

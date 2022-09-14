@@ -1,4 +1,5 @@
-package auth;
+package reservation;
+
 public class ContactInfo {
     protected String name;
     protected String address;

@@ -1,4 +1,6 @@
 package auth;
+import reservation.ContactInfo;
+
 /**
  * Dataclass for creating new users
  */
