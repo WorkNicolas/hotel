@@ -70,6 +70,7 @@ public class Manager extends Connector {
         s.setString(1, info.type.toString());
         s.setInt(2, info.size);
         s.setString(3, info.url);
+        s.setInt(4, info.rate);
         return s.execute();
     }
 

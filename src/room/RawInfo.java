@@ -11,6 +11,15 @@ public class RawInfo {
     protected Type type;
     protected int size;
     protected String url;
+    protected int rate;
+    public int getRate() {
+        return rate;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
     public int getId() {
         return id;
     }
@@ -44,11 +53,12 @@ public class RawInfo {
     }
 
 
-    public RawInfo(int id, Type type, int size, String url) {
+    public RawInfo(int id, Type type, int size, String url, int rate) {
         this.id = id;
         this.type = type;
         this.size = size;
         this.url = url;
+        this.rate = rate;
     }
 
     public RawInfo(ResultSet r) throws SQLException {
@@ -56,7 +66,8 @@ public class RawInfo {
             r.getInt("id"), 
             Type.valueOf(r.getString("type")), 
             r.getInt("size"), 
-            r.getString("url")
+            r.getString("url"),
+            r.getInt("rate")
         );
     }
 }

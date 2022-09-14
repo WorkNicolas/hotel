@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `type` enum('BASIC','STANDARD','SUITE') NOT NULL,
   `url` varchar(8000) NOT NULL,
   `available` tinyint(1) NOT NULL DEFAULT '1',
+  `rate` int NOT NULL,
   PRIMARY KEY (`id`)
 )
