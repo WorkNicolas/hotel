@@ -49,12 +49,12 @@ public class Manager extends Connector {
             ResultSet r = s.executeQuery();
 
             while (r.next()) {
-                var id = r.getString("id");
-                if (infos.containsKey(id))
+                var id = r.getInt("id");
+                if (infos.containsKey("" + id))
                     continue;
 
                 String url = r.getString("url");
-                infos.put(id,
+                infos.put("" + id,
                     new Info(id,
                         Type.valueOf(r.getString("type")),
                         r.getInt("size"),

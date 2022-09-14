@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
  * @see Manager
  */
 public record Info(
-    String id, 
+    int id, 
     Type type, 
     int size,
     String url, 
