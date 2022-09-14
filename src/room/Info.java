@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.Color;
+
+import javax.naming.MalformedLinkException;
 import javax.swing.ImageIcon;
 
 /** 
@@ -24,6 +26,8 @@ public class Info extends RawInfo {
         try {
             this.preview = Helper.imageIconFromURL(url);
         } catch (IOException e) {
+            //PASS
+        } catch (MalformedLinkException e) {
             //PASS
         }
     }

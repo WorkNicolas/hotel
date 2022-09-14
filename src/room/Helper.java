@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.naming.MalformedLinkException;
 import javax.swing.ImageIcon;
 
 public class Helper {
@@ -16,7 +17,7 @@ public class Helper {
         return new ImageIcon(image);
     }
 
-    public static ImageIcon imageIconFromURL(String urlStr) throws IOException {
+    public static ImageIcon imageIconFromURL(String urlStr) throws IOException, MalformedLinkException {
         return new ImageIcon(
                 new URL(urlStr));
     }
