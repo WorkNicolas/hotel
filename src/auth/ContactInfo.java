@@ -1,6 +1,13 @@
 package auth;
 public class ContactInfo {
     protected String name;
+    protected String address;
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public String getName() {
         return name;
     }
@@ -14,8 +21,9 @@ public class ContactInfo {
         this.email = email;
     }
     protected String email;
-    public ContactInfo(String name, String email) {
+    public ContactInfo(String name, String email, String address) {
         this.name = name;
         this.email = email;
+        this.address = address;
     }
 }

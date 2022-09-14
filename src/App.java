@@ -1,10 +1,10 @@
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
+import java.util.function.Consumer;
 
 import javax.swing.*;
 
@@ -13,6 +13,7 @@ import auth.LoginListener;
 import auth.LoginObserver;
 import auth.User;
 import auth.Verifier;
+import payment.PaymentComponent;
 import room.RoomListing;
 
 /**
@@ -54,7 +55,6 @@ public class App extends JFrame implements Subscriber<State> {
 			}
 		}
 		setLocationRelativeTo(getOwner());
-
 		Status.self.subscribe(this);
 	}
 
@@ -130,9 +130,28 @@ public class App extends JFrame implements Subscriber<State> {
 			panels.put(State.BROWSE, roomListing);
 			panels.put(State.auth, loginForm);
 		}
-		var l = new LoginListener(loginForm, 10, verifier, loginObserver);
-		add(loginForm);
-		activate(loginForm); //FIRST active
+		{ //Setup loginForm
+			var l = new LoginListener(loginForm, 10, verifier, loginObserver);
+			add(loginForm);
+			activate(loginForm); //FIRST active
+		}
+		{//Setup roomListing
+			PaymentComponent  l = new PaymentComponent(this, new Consumer<String>() {
+				@Override
+				public void accept(String accountName) {
+					JOptionPane.showMessageDialog(App.this, accountName);
+				}
+			});
+			l.setPortalName("GCASH");
+			Consumer<JButton> c = new Consumer<JButton>() {
+
+				@Override
+				public void accept(JButton t) {
+					t.addActionListener(l);
+				}
+			};
+			roomListing.buttons.forEach(c);
+		}
 	}
 
 	public void activate(JPanel a) {

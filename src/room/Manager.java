@@ -1,8 +1,5 @@
 package room;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +7,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-import javax.swing.ImageIcon;
 import db.Connector;
 
 /**
@@ -18,7 +14,7 @@ import db.Connector;
  */
 public class Manager extends Connector {
     protected String TABLE_NAME = "rooms";
-    public HashMap<String, Info> infos = new HashMap<>();
+    public HashMap<String, RawInfo> infos = new HashMap<>();
     protected int limit;
 
     public Manager() throws SQLException {
@@ -27,7 +23,7 @@ public class Manager extends Connector {
         executeSQL(creationCode);
     }
 
-    public Manager(int limit) throws FileNotFoundException, SQLException {
+    public Manager(int limit) throws SQLException {
         this();
         this.limit = limit;
     }
@@ -40,10 +36,9 @@ public class Manager extends Connector {
         this.limit = limit;
     }
 
-    public HashMap<String, Info> fetchAvailable() {
-        Connection conn = null;
+    public HashMap<String, RawInfo> fetchAvailable() {
         try {
-            conn = connect();
+            Connection conn = connect();
             var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE available = 1 LIMIT ?;");
             s.setInt(1, limit);
             ResultSet r = s.executeQuery();
@@ -53,18 +48,14 @@ public class Manager extends Connector {
                 if (infos.containsKey("" + id))
                     continue;
 
-                String url = r.getString("url");
                 infos.put("" + id,
-                    new Info(id,
-                        Type.valueOf(r.getString("type")),
-                        r.getInt("size"),
-                        url,
-                        imageIconFromURL(url) //FETCH image
-                    )
+                    new RawInfo(r)
                 );
             }
+
+            conn.close();
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         return infos;
@@ -73,34 +64,29 @@ public class Manager extends Connector {
     /**
      * @implNote `preview` field is excluded as writing files to a DB is bad practice.
      */
-    public boolean add(Info info) throws SQLException {
+    public boolean add(RawInfo info) throws SQLException {
         var conn = connect();
         var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(type, size, url) VALUES(?, ?, ?)");
-        s.setString(1, info.type().toString());
-        s.setInt(2, info.size());
-        s.setString(3, info.url());
+        s.setString(1, info.type.toString());
+        s.setInt(2, info.size);
+        s.setString(3, info.url);
         return s.execute();
     }
 
-    public static ImageIcon imageIconFromURL(String urlStr) throws IOException {
-        return new ImageIcon(
-                new URL(urlStr));
-    }
-
-    public static void main(String[] args) throws SQLException, FileNotFoundException {
-        Manager r = new Manager();
+    public static void main(String[] args) throws SQLException {
+        Manager r = new Manager(10);
         try {
-            Collection<Info> in = r.fetchAvailable().values();
-            in.forEach(new Consumer<Info>() {
+            Collection<RawInfo> in = r.fetchAvailable().values();
+            in.forEach(new Consumer<RawInfo>() {
 
                 @Override
-                public void accept(Info t) {
-                    System.out.println(t.url());
+                public void accept(RawInfo t) {
+                    System.out.println(t.url);
                 }
                 
             });
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 }
