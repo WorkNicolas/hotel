@@ -172,6 +172,7 @@ public class App extends JFrame implements Subscriber<State> {
 
 	@Override
 	public void onComplete() {
+		JOptionPane.showMessageDialog(this, "App will now exit.", "Max login attempts", JOptionPane.WARNING_MESSAGE);
 		System.exit(0); //FORCE SHUTDOWN
 	}
 }
