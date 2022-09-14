@@ -9,8 +9,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 public class RoomListing extends JPanel {
+	public ArrayList<JButton> buttons = new ArrayList<>();
 	public RoomListing(){
 		prepareComponents();
 	}
@@ -53,7 +55,6 @@ public class RoomListing extends JPanel {
 		JPanel sixthPanel = preparePanel(sixthRoomImage, "Room 6");
 		add(sixthPanel);
 		
-		//Next Button
 	}
 	
 	//Panel Creator
@@ -82,7 +83,7 @@ public class RoomListing extends JPanel {
 		gbc.insets = new Insets(10,0,0,10);
 		
 		JButton button = new JButton(roomName);
-		
+		buttons.add(button);
 		panel.add(button, gbc);
 		
 		
@@ -96,10 +97,4 @@ public class RoomListing extends JPanel {
 		Image imageModified = image.getScaledInstance(200,200,java.awt.Image.SCALE_SMOOTH);
 		return imageIcon = new ImageIcon(imageModified);
 	}
-	
-	//Next Button
-	/* private JButton nextComponent() {
-		JButton nextButton = new nextButton("Next");
-		
-	} */
 }
