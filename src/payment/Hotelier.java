@@ -33,6 +33,7 @@ public class Hotelier extends Connector{
             s.setDate(2, r.getStay().getStart());
             s.setInt(3, r.getStay().getLength());
             s.setInt(4, tenant_id);
+            //TODO: Receipt
             var status = s.executeUpdate();
             if (status == 0)
                 return 0;
