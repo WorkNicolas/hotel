@@ -1,12 +1,11 @@
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import java.util.function.Consumer;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import auth.LoginForm;
 import auth.LoginListener;
@@ -15,6 +14,8 @@ import auth.User;
 import auth.Verifier;
 import payment.PaymentComponent;
 import room.RoomListing;
+import service.RoomServiceView;
+import service.Supplier;
 
 /**
  * @author Jean Carlo Molina San Juan
@@ -34,6 +35,7 @@ public class App extends JFrame implements Subscriber<State> {
 	private Verifier verifier = new Verifier();
 	private LoginForm loginForm = new LoginForm();
 	private RoomListing roomListing = new RoomListing();
+	private RoomServiceView roomService;
 	private HashMap<State, JPanel> panels = new HashMap<>();
 	private JPanel active;
 	private Subscription subscription;
@@ -59,11 +61,13 @@ public class App extends JFrame implements Subscriber<State> {
 	}
 
 	private void initMenu() {
-		uLogout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		uLogout.addActionListener(e -> {
 				Status.self.submit(State.auth);
-			}
+		});
+
+		var order = new JMenuItem("Order");
+		order.addActionListener(e -> {
+			Status.self.submit(State.CHECKEDIN);
 		});
 		menuUser.add(uLogin);
 		menuUser.add(uRegister);
@@ -73,6 +77,7 @@ public class App extends JFrame implements Subscriber<State> {
 		menuReservation.add(rNew);
 		menuReservation.add(rExtend);
 		menuReservation.add(rCancel);
+		menuRoomService.add(order);
 		navbar.add(menuReservation);
 		navbar.add(menuRoomService);
 		setJMenuBar(navbar);
@@ -125,8 +130,14 @@ public class App extends JFrame implements Subscriber<State> {
 	private void initComponents() {
 		{	
 			//TODO: Add JPanels
+			try {
+				roomService = new RoomServiceView(Supplier.fetchAvailable());
+				roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			panels.put(State.BOOKED, null);
-			panels.put(State.CHECKEDIN, null);
+			panels.put(State.CHECKEDIN, roomService);
 			panels.put(State.BROWSE, roomListing);
 			panels.put(State.auth, loginForm);
 		}
