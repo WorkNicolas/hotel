@@ -1,8 +1,5 @@
 import java.awt.EventQueue;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
@@ -21,7 +18,6 @@ import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.ReservationState;
 import reservation.ReservationTicketView;
-import reservation.Stay;
 import room.RoomListing;
 import service.RoomServiceView;
 import service.Supplier;
@@ -115,31 +111,22 @@ public class App extends JFrame implements Subscriber<State> {
 		 */
 		@Override
 		public void onSuccess(User u) {
-			ArrayList<Reservation> reservations = Hotelier.getReservations(u);
-			ReservationState rs = ReservationState.NONE;
-			if (reservations.size() == 0) {
-				Status.self.submit(State.BROWSE);
-				loginForm.clear();
-				return;
-			}
-			var now = Date.valueOf(LocalDate.now());
-			Reservation latest = reservations.get(0);
-
-			Stay stay = latest.getStay();
-			Calendar c = Calendar.getInstance();
-			c.setTime(stay.getStart());
-			c.add(Calendar.DATE, stay.getLength());
-			var end = c.getTime();
-			if (now.after(end)) {
-				rs = ReservationState.DONE;
-			} else if (stay.getStart().before(now)) {
-				rs = ReservationState.UPCOMING;
-				Status.self.submit(State.BOOKED);
-			} else {
-				rs = ReservationState.ONGOING;
-				Status.self.submit(State.CHECKEDIN);
-			}
 			loginForm.clear();
+			ArrayList<Reservation> reservations = Hotelier.getReservations(u);
+			ReservationState rs = Hotelier.getStatus(reservations);
+			//TODO make rs a reactive/global value
+			switch(rs) {
+				case DONE: case NONE:
+					Status.self.submit(State.BROWSE);
+					break;
+				case ONGOING:
+					Status.self.submit(State.CHECKEDIN);
+					break;
+				case UPCOMING:
+					Status.self.submit(State.BOOKED);
+				default:
+					break;
+			}
 		}
 
 		@Override
