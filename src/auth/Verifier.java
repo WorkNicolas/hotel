@@ -18,8 +18,8 @@ public class Verifier extends Connector implements AnAuthenticator<User> {
         try {
             conn = connect();
             PreparedStatement s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " where email = ? AND phrase = ?;");
-            s.setString(1, u.email());
-            s.setString(2, u.phrase());
+            s.setString(1, u.email);
+            s.setString(2, u.phrase);
             var r = s.executeQuery();
             return r.next();
         } catch (Exception e) {

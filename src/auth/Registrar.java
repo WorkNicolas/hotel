@@ -48,8 +48,8 @@ public class Registrar extends Connector {
         try {
             conn = connect();
             var p  = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " where email = ? AND phrase = ?;");
-            p.setString(1, u.email());
-            p.setString(2, u.phrase());
+            p.setString(1, u.email);
+            p.setString(2, u.phrase);
             status = p.executeUpdate();
             conn.close();
         } catch (SQLException e) {

@@ -1,5 +1,7 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 
@@ -8,6 +10,7 @@ import auth.Registrar;
 import auth.User;
 import auth.UserInfo;
 import auth.Verifier;
+import reservation.Hotelier;
 
 public class UserTests {
     @Test
@@ -29,5 +32,18 @@ public class UserTests {
             true, 
             r.delete(new User(u.getEmail(), u.getPhrase()))
         );
+    }
+
+    @Test
+    public void canGetContactInfo() {
+        assertNotNull(Hotelier.getContactInfo(new User("jc@sj", "jcsj")));
+    }
+
+    @Test
+    public void canGetReservations() {
+        assertNotNull(
+        Hotelier.getReservations(
+            new User("jc@sj", "jcsj")
+        ));
     }
 }

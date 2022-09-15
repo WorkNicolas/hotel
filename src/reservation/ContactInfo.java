@@ -3,6 +3,13 @@ package reservation;
 public class ContactInfo {
     protected String name;
     protected String address;
+    protected int id;
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getAddress() {
         return address;
     }
@@ -23,8 +30,12 @@ public class ContactInfo {
     }
     protected String email;
     public ContactInfo(String name, String email, String address) {
+        this(0, name, address, email);
+    }
+    public ContactInfo(int id, String name, String address, String email) {
         this.name = name;
-        this.email = email;
         this.address = address;
+        this.id = id;
+        this.email = email;
     }
 }

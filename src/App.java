@@ -1,4 +1,8 @@
 import java.awt.EventQueue;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
@@ -13,6 +17,11 @@ import auth.LoginObserver;
 import auth.User;
 import auth.Verifier;
 import payment.PaymentComponent;
+import reservation.Hotelier;
+import reservation.Reservation;
+import reservation.ReservationState;
+import reservation.ReservationTicketView;
+import reservation.Stay;
 import room.RoomListing;
 import service.RoomServiceView;
 import service.Supplier;
@@ -22,10 +31,10 @@ import service.Supplier;
  */
 public class App extends JFrame implements Subscriber<State> {
 	private JMenuBar navbar = new JMenuBar();
-	private JMenu menuUser  = new JMenu("User");
+	private JMenu menuUser = new JMenu("User");
 	private JMenuItem uLogin = new JMenuItem("Login");
 	private JMenuItem uRegister = new JMenuItem("Register");
-	private JMenuItem uLogout  = new JMenuItem("Logout");
+	private JMenuItem uLogout = new JMenuItem("Logout");
 	private JMenu menuReservation = new JMenu("Reservation");
 	private JMenuItem rInfo = new JMenuItem("Info");
 	private JMenuItem rNew = new JMenuItem("New");
@@ -39,17 +48,17 @@ public class App extends JFrame implements Subscriber<State> {
 	private HashMap<State, JPanel> panels = new HashMap<>();
 	private JPanel active;
 	private Subscription subscription;
-	
+
 	public App() {
 		setTitle("Hotel El San Juan");
-		{ //MAINTAIN CALL ORDER
+		{ // MAINTAIN CALL ORDER
 			initMenu();
 			initComponents();
-			setExtendedState(JFrame.MAXIMIZED_BOTH); //MAXIMIZE
-			pack(); //FORCE RESIZE
+			setExtendedState(JFrame.MAXIMIZED_BOTH); // MAXIMIZE
+			pack(); // FORCE RESIZE
 			setVisible(true);
-			setMinimumSize(getSize()); //SAVE THE NEW DIMENSIONS
-			for (JPanel p:panels.values()) {
+			setMinimumSize(getSize()); // SAVE THE NEW DIMENSIONS
+			for (JPanel p : panels.values()) {
 				if (p != null) {
 					p.setPreferredSize(getSize());
 					p.setMinimumSize(getMinimumSize());
@@ -62,7 +71,7 @@ public class App extends JFrame implements Subscriber<State> {
 
 	private void initMenu() {
 		uLogout.addActionListener(e -> {
-				Status.self.submit(State.auth);
+			Status.self.submit(State.auth);
 		});
 
 		var order = new JMenuItem("Order");
@@ -98,56 +107,88 @@ public class App extends JFrame implements Subscriber<State> {
 	}
 
 	private LoginObserver loginObserver = new LoginObserver() {
-			@Override
-			public void onSuccess(User u) {
+		/**
+		 * 0 - no reservations
+		 * 1 - upcoming
+		 * 2 - ongoing
+		 * 3 - has past reservations
+		 */
+		@Override
+		public void onSuccess(User u) {
+			ArrayList<Reservation> reservations = Hotelier.getReservations(u);
+			ReservationState rs = ReservationState.NONE;
+			if (reservations.size() == 0) {
 				Status.self.submit(State.BROWSE);
 				loginForm.clear();
+				return;
 			}
+			var now = Date.valueOf(LocalDate.now());
+			Reservation latest = reservations.get(0);
 
-			@Override
-			public void onFail() {
-				// TODO Auto-generated method stub
+			Stay stay = latest.getStay();
+			Calendar c = Calendar.getInstance();
+			c.setTime(stay.getStart());
+			c.add(Calendar.DATE, stay.getLength());
+			var end = c.getTime();
+			if (now.after(end)) {
+				rs = ReservationState.DONE;
+			} else if (stay.getStart().before(now)) {
+				rs = ReservationState.UPCOMING;
+				Status.self.submit(State.BOOKED);
+			} else {
+				rs = ReservationState.ONGOING;
+				Status.self.submit(State.CHECKEDIN);
 			}
+			loginForm.clear();
+		}
 
-			@Override
-			public void onMaxTries() {
-				Status.self.close();
-			}
+		@Override
+		public void onFail() {
+			// TODO Auto-generated method stub
+		}
 
-			@Override
-			public void onRegister() {
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void onMaxTries() {
+			Status.self.close();
+		}
 
-			@Override
-			public void onGuest() {
-				// TODO Auto-generated method stub
-				
-			}
+		@Override
+		public void onRegister() {
+			// TODO Auto-generated method stub
 			
-		};
+		}
+
+		@Override
+		public void onGuest() {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+
 	private void initComponents() {
-		{	
-			//TODO: Add JPanels
+		{
+			// TODO: Add JPanels
 			try {
 				roomService = new RoomServiceView(Supplier.fetchAvailable());
 				roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			panels.put(State.BOOKED, null);
+
+			var ticket = new ReservationTicketView();
+			ticket.setBorder(new EmptyBorder(5, 5, 5, 5));
+			panels.put(State.BOOKED, ticket);
 			panels.put(State.CHECKEDIN, roomService);
 			panels.put(State.BROWSE, roomListing);
 			panels.put(State.auth, loginForm);
 		}
-		{ //Setup loginForm
+		{ // Setup loginForm
 			var l = new LoginListener(loginForm, 10, verifier, loginObserver);
 			add(loginForm);
-			activate(loginForm); //FIRST active
+			activate(loginForm); // FIRST active
 		}
-		{//Setup roomListing
-			PaymentComponent  l = new PaymentComponent(this, new Consumer<String>() {
+		{// Setup roomListing
+			PaymentComponent l = new PaymentComponent(this, new Consumer<String>() {
 				@Override
 				public void accept(String accountName) {
 					JOptionPane.showMessageDialog(App.this, accountName);
@@ -168,9 +209,9 @@ public class App extends JFrame implements Subscriber<State> {
 	public void activate(JPanel a) {
 		if (a == null)
 			return;
-		
+
 		if (active != null) {
-			//Temporarily remove 'a' from the component hierarchy
+			// Temporarily remove 'a' from the component hierarchy
 			active.setVisible(false);
 			remove(active);
 		}
@@ -189,20 +230,19 @@ public class App extends JFrame implements Subscriber<State> {
 	@Override
 	public void onNext(State item) {
 		activate(
-			panels.get(item)
-		);
+				panels.get(item));
 		this.subscription.request(1);
 	}
 
 	@Override
 	public void onError(Throwable throwable) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onComplete() {
 		JOptionPane.showMessageDialog(this, "App will now exit.", "Max login attempts", JOptionPane.WARNING_MESSAGE);
-		System.exit(0); //FORCE SHUTDOWN
+		System.exit(0); // FORCE SHUTDOWN
 	}
 }

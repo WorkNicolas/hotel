@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import auth.Registrar;
+import auth.User;
 import db.Connector;
 import room.Info;
 
@@ -51,23 +53,42 @@ public class Hotelier extends Connector{
         return status == 1;
     }
 
+    public static ContactInfo getContactInfo(User u) throws IllegalArgumentException{
+        ContactInfo c = null;
+        try {
+            var conn = connect();
+            var tenantQuery = conn.prepareStatement("SELECT * FROM " + Registrar.TABLE_NAME + " WHERE email = ?");
+            tenantQuery.setString(1, u.getEmail());
+            var tenantResult = tenantQuery.executeQuery();
+            if (tenantResult.next()) {
+                c = new ContactInfo(
+                    tenantResult.getInt("id"),
+                    tenantResult.getString("name"),
+                    tenantResult.getString("email"),
+                    tenantResult.getString("address")
+                );
+            } 
+            conn.close();
+        } catch (SQLException e) {
+            //PASS
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (c == null) {
+            throw new IllegalArgumentException("Unknown user:" + u.getEmail());
+        }
+        
+        return c;
+    }
+
+    /**
+     * @apiNote If size > 0, head is the latest reservation.
+     */
     public static ArrayList<Reservation> getReservations(ContactInfo c) throws SQLException {
         var conn = connect();
         ArrayList<Reservation> reservations = new ArrayList<>();
-        int tenant_id;
-        {
-            var tenantQuery = conn.prepareStatement("SELECT id FROM users WHERE ? email = ? LIMIT 1");
-            tenantQuery.setString(1, c.getEmail());
-            var tenantResult = tenantQuery.executeQuery();
-            if (tenantResult.next()) {
-                tenant_id = tenantResult.getInt("id");
-            } else {
-                return reservations;
-            }
-        }
- 
-        var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE tenant_id = ?");
-        s.setInt(1, tenant_id);
+        var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE tenant_id = ? ORDER BY startsAt DESC");
+        s.setInt(1, c.getId());
         var r = s.executeQuery();
         while (r.next()) {
             int room_id = r.getInt("room_id");
@@ -92,5 +113,18 @@ public class Hotelier extends Connector{
         }
 
         return reservations;
+    }
+
+    public static ArrayList<Reservation> getReservations(User u) {
+        try {
+            var c = getContactInfo(u);
+            return getReservations(c);
+        } catch (IllegalArgumentException e) {
+            //PASS
+        } catch (SQLException e) {
+            //PASS
+        }
+
+        return new ArrayList<>();
     }
 }
