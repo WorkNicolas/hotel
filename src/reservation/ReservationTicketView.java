@@ -27,9 +27,9 @@ public class ReservationTicketView extends JPanel {
 		panel.setPreferredSize(new Dimension(50, 180));
 		add(panel, BorderLayout.SOUTH);
 		
-		JLabel lblNewLabel_2 = new JLabel(" Important Hotel Information and Check-in");
-		panel.add(lblNewLabel_2);
-		lblNewLabel_2.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		JLabel lblExtraInfo = new JLabel(" Important Hotel Information and Check-in");
+		panel.add(lblExtraInfo);
+		lblExtraInfo.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		
 		JLabel lblNewLabel_4 = new JLabel("● Although Hotel San Juan does not charge a fee to change, or cancel your booking, El San Juan Hotel may still charge a fee in accordance with its own rules and regulation");
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 15));
@@ -58,43 +58,45 @@ public class ReservationTicketView extends JPanel {
 		btnNewButton.setFont(new Font("Arial Narrow", Font.BOLD, 15));
 		panel.add(btnNewButton);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setPreferredSize(new Dimension(10, 60));
-		add(panel_1, BorderLayout.NORTH);
+		JPanel northPanel = new JPanel();
+		northPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		northPanel.setPreferredSize(new Dimension(10, 60));
+		add(northPanel, BorderLayout.NORTH);
 		
-		JLabel lblNewLabel = new JLabel("RESERVATION TICKET");
-		lblNewLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		lblNewLabel.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel.setFont(new Font("Arial Black", Font.PLAIN, 20));
-		panel_1.add(lblNewLabel);
+		JLabel lblTicket = new JLabel("RESERVATION TICKET");
+		lblTicket.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		lblTicket.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblTicket.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTicket.setFont(new Font("Arial Black", Font.PLAIN, 20));
+		northPanel.add(lblTicket);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setPreferredSize(new Dimension(450, 50));
-		add(panel_2, BorderLayout.WEST);
+		JPanel infoPanel = new JPanel();
+		infoPanel.setBackground(Color.BLACK);
+		infoPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		infoPanel.setPreferredSize(new Dimension(450, 50));
+		add(infoPanel, BorderLayout.WEST);
 		
-		JLabel lblNewLabel_1 = new JLabel("INFORMATION:");
-		panel_2.add(lblNewLabel_1);
-		lblNewLabel_1.setVerticalTextPosition(SwingConstants.TOP);
-		lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_1.setHorizontalTextPosition(SwingConstants.LEFT);
-		lblNewLabel_1.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		lblNewLabel_1.setLocation(new Point(5, 10));
-		lblNewLabel_1.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+		JLabel lblInfo = new JLabel("INFORMATION:");
+		infoPanel.add(lblInfo);
+		lblInfo.setVerticalTextPosition(SwingConstants.TOP);
+		lblInfo.setVerticalAlignment(SwingConstants.TOP);
+		lblInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		lblInfo.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblInfo.setFont(new Font("Arial Black", Font.PLAIN, 15));
+		lblInfo.setLocation(new Point(5, 10));
+		lblInfo.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_3.setPreferredSize(new Dimension(450, 45));
-		add(panel_3, BorderLayout.CENTER);
+		JPanel roomPanel = new JPanel();
+		roomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		roomPanel.setPreferredSize(new Dimension(450, 45));
+		add(roomPanel, BorderLayout.CENTER);
 		
-		JLabel lblNewLabel_3 = new JLabel("ROOM ");
-		panel_3.add(lblNewLabel_3);
-		lblNewLabel_3.setFont(new Font("Arial Black", Font.PLAIN, 15));
-		viewComponents();
+		JLabel lblRoom = new JLabel("ROOM ");
+		roomPanel.add(lblRoom);
+		lblRoom.setFont(new Font("Arial Black", Font.PLAIN, 15));
 	}
-	private void viewComponents(){
-}
+
+	public void setInfo(Reservation r) {
+		//TODO: Use a receipt View
+	}
 }
