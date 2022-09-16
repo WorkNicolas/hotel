@@ -1,14 +1,90 @@
 package payment;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 
 import service.Amenity;
-
+/**
+* {@link https://www.dti.gov.ph/archives/news-archives/dti-urges-e-commerce-platforms-to-adopt-online-discount-guidelines/} 
+ */
 public class Receipt {
-    protected ArrayList<Amenity> amenities = new ArrayList<>();
-    protected static final String[] modes = {"PAY ON ARRIVAL", "GCASH", "MAYA", "PHIL NATIONAL BANK", "UNION BANK OF THE PHILS", "CITIBANK", "BANK OF THE PHIL ISLANDS", "BPI", "METROBANK", "HSBC",  "CHINABANK", "Bank OF AMERICA"};
+    public static final String[] modes = {"PAY ON ARRIVAL", "GCASH", "MAYA", "PHIL NATIONAL BANK", "UNION BANK OF THE PHILS", "CITIBANK", "BANK OF THE PHIL ISLANDS", "BPI", "METROBANK", "HSBC",  "CHINABANK", "Bank OF AMERICA"};
+    protected String discountKey;
+    protected static float DEFAULT_DISCOUNT = 0f;
+    public String getDiscountKey() {
+        return discountKey;
+    }
 
-    public static String[] getModes() {
-        return modes;
+    public void setDiscountKey(String discountKey) {
+        this.discountKey = discountKey;
+    }
+
+    public static final HashMap<String, Float> discountMap = new HashMap<String, Float>();
+    {
+        //TODO: if there's time: move these to a table
+        discountMap.put("MEMBER", 0.1f);
+        discountMap.put("SENIOR CITIZEN", 0.2f);
+        discountMap.put("PERSON WITH DISABILITY", 0.2f);
+    }
+    protected HashMap<String, Amenity> amenities = new HashMap<String, Amenity>();
+    public Receipt() {
+        this("");
+    }
+
+    public Receipt(String discountKey) {
+        this.discountKey = discountKey;
+    }
+
+    public float getTotal() {
+        float total = 0;
+        for (var a:amenities.values()) {
+            total += a.getPrice() * a.getAmount();
+        }
+        return total;
+    }
+
+    /**
+     * Discount = Total(T) * Percentage (P)
+     * where P is taken from dscountMap
+     * @implNote P should already be in its decimal form (E.g - P should be 0.1 for a 10% discount)
+     * @return discounted total
+     */
+    public float getDiscountedTotal() {
+        float percentage = Optional
+            .ofNullable(discountMap.get(discountKey))
+            .orElse(DEFAULT_DISCOUNT);
+            
+        return getTotal() * percentage;
+    }
+
+    /**
+     * @implNote a's supply is reduced.
+     * @param a
+     * @return whether a was added.
+     */
+    public boolean put(Amenity a) {
+        if (a.reduce(a.getAmount())) {
+            amenities.put(a.getName(), a);
+            return true;
+        } 
+
+        return false;
+    }
+
+    /**
+     * @implNote removed's amount is added to the supply field.
+     * @return whether it was removed
+     */
+    public boolean remove(String key) {
+        var removed = amenities.remove(key);
+        if (removed != null) {
+            return removed.resupply(removed.getAmount());
+        }
+
+        return false;
+    }
+
+    public boolean remove(Amenity a)  {
+        return remove(a.getName());
     }
 }
