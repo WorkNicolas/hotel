@@ -19,8 +19,8 @@ public class Info extends RawInfo {
     public static void setFavicon(ImageIcon favicon) {
         Info.favicon = favicon;
     }
-    public Info(int id, room.Type type, int length, String url, int rate) {
-        super(id, type, length, url, rate);
+    public Info(int id, room.Type type, int length, String url, int rate, String name) {
+        super(id, type, length, url, rate, name);
         this.preview = favicon;
         try {
             this.preview = Helper.imageIconFromURL(url);
@@ -30,7 +30,7 @@ public class Info extends RawInfo {
     }
 
     public Info(RawInfo r) {
-        this(r.id, r.type, r.size, r.url, r.rate);
+        this(r.id, r.type, r.size, r.url, r.rate, r.name);
     }
 
     public Info(ResultSet r) throws SQLException {

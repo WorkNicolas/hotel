@@ -1,4 +1,5 @@
 import java.awt.EventQueue;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Flow.Subscriber;
@@ -18,6 +19,7 @@ import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.ReservationState;
 import reservation.ReservationTicketView;
+import room.Manager;
 import room.RoomListing;
 import service.RoomServiceView;
 import service.Supplier;
@@ -45,11 +47,13 @@ public class App extends JFrame implements Subscriber<State> {
 	private ReservationTicketView ticket;
 	private JPanel active;
 	private Subscription subscription;
+	private Manager manager;
 
-	public App() {
+	public App() throws SQLException {
 		setTitle("Hotel El San Juan");
 		{ // MAINTAIN CALL ORDER
 			initMenu();
+			manager = new Manager();
 			initComponents();
 			setExtendedState(JFrame.MAXIMIZED_BOTH); // MAXIMIZE
 			pack(); // FORCE RESIZE
@@ -62,6 +66,7 @@ public class App extends JFrame implements Subscriber<State> {
 				}
 			}
 		}
+
 		setLocationRelativeTo(getOwner());
 		Status.self.subscribe(this);
 	}
@@ -179,7 +184,13 @@ public class App extends JFrame implements Subscriber<State> {
 			ReservationState rs = Hotelier.getStatus(reservations);
 			switch(rs) {
 				case DONE: case NONE:
+					roomListing.updateEntries(
+						new ArrayList<>(
+							manager.fetchAvailable().values()
+						)
+					);
 					Status.self.submit(State.BROWSE);
+
 					break;
 				case ONGOING:
 					Status.self.submit(State.CHECKEDIN);

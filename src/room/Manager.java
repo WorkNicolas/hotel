@@ -66,11 +66,12 @@ public class Manager extends Connector {
      */
     public boolean add(RawInfo info) throws SQLException {
         var conn = connect();
-        var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(type, size, url) VALUES(?, ?, ?)");
+        var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(type, size, url, name) VALUES(?, ?, ?)");
         s.setString(1, info.type.toString());
         s.setInt(2, info.size);
         s.setString(3, info.url);
         s.setInt(4, info.rate);
+        s.setString(5, info.name);
         return s.execute();
     }
 

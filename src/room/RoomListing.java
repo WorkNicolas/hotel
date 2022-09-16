@@ -1,5 +1,4 @@
 package room;
-import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -9,32 +8,33 @@ import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Random;
 import java.util.ArrayList;
-import java.util.Collection;
 
-public class RoomListing {
-	RoomListing(){
-		prepareFrame();
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-	}
-	
-	private JFrame frame = new JFrame();
-	
+public class RoomListing  extends JPanel{
+	public ArrayList<JButton> buttons;
 	//Change this value.
-
 	int number = 25;
+	ArrayList<RawInfo> data;
+	public RoomListing(){
+		data = new ArrayList<>();
+		prepareFrame();
+	}
+
 	
-	ArrayList<RawInfo> mockData = mockCollection(number);
-	
+	public void updateEntries(ArrayList<RawInfo> entries) {
+		data = entries;
+		prepareFrame();
+	}
 	private void prepareFrame() {
+		{ // For updating room entries
+			removeAll();
+			buttons = new ArrayList<>();
+		}
+
 		//frame Properties
-		frame.setVisible(true);
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		GridBagLayout fgbl = new GridBagLayout();
-		frame.setLayout(fgbl);
+		setLayout(fgbl);
 		GridBagConstraints fgbc = new GridBagConstraints();
 		fgbc.weightx = 3;
 		fgbc.weighty = 7;
@@ -42,10 +42,7 @@ public class RoomListing {
 		
 		//Main Panel
 		
-		JPanel mainPanel = panelAdder(number);
-		
-		//Collection
-		Collection<RawInfo> rawInfo = mockCollection(number);
+		JPanel mainPanel = panelAdder(data);
 		
 		//Scroll Pane
 		JScrollPane scrollPane = new JScrollPane(mainPanel);
@@ -67,7 +64,7 @@ public class RoomListing {
 		
 		//frame: adding panels
 		
-		frame.add(scrollPane);
+		add(scrollPane);
 	}
 	
 	public void setNumber(int number) {
@@ -79,10 +76,10 @@ public class RoomListing {
 	}
 	
 	//Panel adder
-	private JPanel panelAdder(int count) {
+	private JPanel panelAdder(ArrayList<RawInfo> data) {
 		//Main Panel Properties
 		JPanel mainPanel = new JPanel();
-		
+		int count = data.size();
 		GridBagLayout gbl = new GridBagLayout();
 		mainPanel.setLayout(gbl);
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -92,17 +89,10 @@ public class RoomListing {
 		
 		//Panel Properties
 		
-		JPanel panel[] = new JPanel[count];
-		ImageIcon imageIcon[] = new ImageIcon[count];
-		
+		JPanel[] panels = new JPanel[count];
 		for (int i = 0; i < count; i++) {
-			//URL url = new URL(mockData.get(i).getUrl());
-			//Image image = ImageIO.read(url);
-			//imageIcon[i] = new ImageIcon(image);
-			imageIcon[i] = new ImageIcon(mockData.get(i).getUrl());
-			
-			panel[i] = preparePanel(imageIcon[i], "Room " + (i+1), i);
-			
+			Info upgraded = new Info(data.get(i));
+			panels[i] = preparePanel(upgraded);
 		}
 		
 		int panelNumber = 0;
@@ -122,7 +112,7 @@ public class RoomListing {
 				//bottom and top margins: 50, 0
 				gbc.insets = new Insets(50,0,0,0);
 					
-				gbl.setConstraints(panel[panelNumber], gbc);
+				gbl.setConstraints(panels[panelNumber], gbc);
 				
 				panelNumber++;
 				
@@ -144,7 +134,7 @@ public class RoomListing {
 				//bottom and top margins: 50, 0
 				gbc.insets = new Insets(50,0,0,0);
 					
-				gbl.setConstraints(panel[panelNumber], gbc);
+				gbl.setConstraints(panels[panelNumber], gbc);
 				
 				panelNumber++;
 				
@@ -162,7 +152,7 @@ public class RoomListing {
 				//bottom and top margins: 50, 0
 				gbc.insets = new Insets(50,0,0,0);
 					
-				gbl.setConstraints(panel[panelNumber], gbc);
+				gbl.setConstraints(panels[panelNumber], gbc);
 				
 				panelNumber++;
 			}
@@ -180,7 +170,7 @@ public class RoomListing {
 				//bottom and top margins: 50, 0
 				gbc.insets = new Insets(50,0,0,0);
 					
-				gbl.setConstraints(panel[panelNumber], gbc);
+				gbl.setConstraints(panels[panelNumber], gbc);
 				
 				panelNumber++;
 				
@@ -191,14 +181,14 @@ public class RoomListing {
 		
 		//Adding all panels
 		for(int i = 0; i < count; i++ ) {
-			mainPanel.add(panel[i]);
+			mainPanel.add(panels[i]);
 		}
 		
 		return mainPanel;
 	}
 	
 	//Panel Creator
-	private JPanel preparePanel(ImageIcon roomImage, String roomName, int id) {
+	private JPanel preparePanel(Info room) {
 		JPanel panel = new JPanel();
 		JPanel panelLeft = new JPanel();
 		JPanel panelRight = new JPanel();
@@ -218,7 +208,7 @@ public class RoomListing {
 		
 		//image properties
 		JLabel imageLabel = new JLabel();
-		imageLabel.setIcon(imageComponent(roomImage));
+		imageLabel.setIcon(imageComponent(room.preview));
 		
 		panelLeft.add(imageLabel);
 		
@@ -233,10 +223,10 @@ public class RoomListing {
 		
 		//displayLabel Properties
 		JLabel displayLabel = new JLabel();
-		displayLabel.setText("<html>" + roomName + "<br/>"
-				+ "Type: " + mockData.get(id).getType() + "<br/>"
-				+ "Capacity: " + mockData.get(id).getSize() + "<br/>"
-				+ "Rate: Php " + mockData.get(id).getRate() + ".00</html>"
+		displayLabel.setText("<html>" + room.name + "<br/>"
+				+ "Type: " + room.getType() + "<br/>"
+				+ "Capacity: " + room.getSize() + "<br/>"
+				+ "Rate: Php " + room.getRate()  + ".00</html>"
 				);
 		
 		panelRight.add(displayLabel);
@@ -249,7 +239,7 @@ public class RoomListing {
 		//bottom and top margins: 10, 10
 		gbc.insets = new Insets(10,0,0,10);
 		
-		JButton button = new JButton(roomName);
+		JButton button = new JButton(room.getName());
 		
 		panel.add(button, gbc);
 		
@@ -272,40 +262,10 @@ public class RoomListing {
 		JButton button = new JButton("next");
 		button.setVisible(true);
 		button.setBounds(1150,25,100,30);
+		buttons.add(button);
 		panel.add(button);
 		
 		return panel;
-	}
-	
-	//Mock Data
-	private ArrayList<RawInfo> mockCollection(int count) {
-		//int id, Type type, int size, String url, int rate
-		Type t[] = {Type.BASIC, Type.STANDARD, Type.SUITE};
-		/*String url[] = {"https://drive.google.com/file/d/16-kejBnDr8gOxJnQroy9GpaisiAQqW4e/view",
-				"https://drive.google.com/file/d/10GvHEGB7peEzEkJEFJL6agxGXmc07RMF/view",
-				"https://drive.google.com/file/d/1XShAmYgy1yP2J_pd_SzyMBFGHvQ-KnOw/view",
-				"https://drive.google.com/file/d/1BWGtFsBQhwMq35oad9rnbEzDCEnt1vC5/view",
-				"https://drive.google.com/file/d/1BWGtFsBQhwMq35oad9rnbEzDCEnt1vC5/view",
-				"https://drive.google.com/file/d/1BWGtFsBQhwMq35oad9rnbEzDCEnt1vC5/view",
-				};*/
-		String url[] = {"room1.jpg","room2.jpg","room3.jpg","room4.jpg","room5.jpg","room6.jpg"};
-		ArrayList<RawInfo> mockData = new ArrayList<>();		
-		for (int i = 0; i < count; i++) {
-			mockData.add(new RawInfo(i, //id
-					t[new Random().nextInt(t.length)], //type 
-					(int) (Math.random() * (5 - 1)) + 1, //size max: 5, min: 1
-					url[new Random().nextInt(url.length)], //url
-					(int) (Math.random() * (6000 - 680)) + 680)); //rate
-		}
-		
-		return mockData;
-	}
-	
-	//toString
-	private String getRawInfo(int count) {
-		Collection<RawInfo> rawInfo = mockCollection(count);
-		//TODO: toString
-		return null;
 	}
 	
 	public static void main(String[] args) {
