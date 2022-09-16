@@ -2,11 +2,11 @@ package room;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.naming.MalformedLinkException;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Helper {
     public static ImageIcon createImageIcon(Color color, int width, int height) {
@@ -17,8 +17,13 @@ public class Helper {
         return new ImageIcon(image);
     }
 
-    public static ImageIcon imageIconFromURL(String urlStr) throws IOException, MalformedLinkException {
+    public static ImageIcon imageIconFromURL(String urlStr) throws MalformedURLException {
         return new ImageIcon(
                 new URL(urlStr));
+    }
+
+    public static void main(String[] args) throws MalformedURLException {
+        var a = Helper.imageIconFromURL("https://tip.edu.ph/assets/headerfooter/tip-logo.png");
+        JOptionPane.showMessageDialog(null, "Hello, world!", "Image test", JOptionPane.INFORMATION_MESSAGE, a);
     }
 }
