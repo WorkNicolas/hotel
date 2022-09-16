@@ -63,10 +63,24 @@ public class Amenity {
         this.supply = supply;
     }
 
+    /**
+     * @return whether the suply changed.
+     */
     public boolean reduce(int amount) {
         if ((supply - amount) < 0)
             return false;
         supply -= amount;
+        return true;
+    }
+
+    /**
+     * @return whether the suply changed.
+     */
+    public boolean resupply(int amount) {
+        if (amount <0) {
+            return false;
+        }
+        supply += amount;
         return true;
     }
 
