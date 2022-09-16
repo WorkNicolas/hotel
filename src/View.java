@@ -6,7 +6,7 @@ import javax.swing.border.EmptyBorder;
 import auth.LoginForm;
 import reservation.ReservationTicketView;
 import room.RoomListing;
-import service.RoomServiceView;
+import service.RoomServicePanel;
 import service.Supplier;
 
 /**
@@ -27,7 +27,7 @@ public class View extends JFrame {
 	protected LoginForm loginForm = new LoginForm();
 	protected RoomListing roomListingView = new RoomListing();
 	protected JMenuItem order = new JMenuItem("Order");
-	protected RoomServiceView roomService;
+	protected RoomServicePanel roomService;
 	protected HashMap<State, JPanel> panels = new HashMap<>();
 	protected ReservationTicketView ticketView;
 	protected JPanel active;
@@ -73,7 +73,7 @@ public class View extends JFrame {
 	private void initComponents() {
 		{
 			try {
-				roomService = new RoomServiceView(Supplier.fetchAvailable());
+				roomService = new RoomServicePanel(Supplier.fetchAvailable());
 				//TODO: defer RoomServiceView setting items.
 				roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
 			} catch (Exception e) {

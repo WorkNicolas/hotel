@@ -12,7 +12,7 @@ import room.Info;
 public class Hotelier extends Connector{
     protected static final String TABLE_NAME = "reservations";
     public Hotelier() throws SQLException {
-        Connector.executeSQL("CREATE TABLE IF NOT EXISTS `reservations` ( `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', `startsAt` date NOT NULL, `length` tinyint NOT NULL, `room_id` int NOT NULL, `tenant_id` int NOT NULL, PRIMARY KEY (`id`), KEY `room_id` (`room_id`), KEY `tenant_id` (`tenant_id`), CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`), CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`) )");
+        Connector.executeSQL("CREATE TABLE IF NOT EXISTS `reservations` ( `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', `start` date NOT NULL, `room_id` int NOT NULL, `tenant_id` int NOT NULL, `end` date NOT NULL, PRIMARY KEY (`id`), KEY `room_id` (`room_id`), KEY `tenant_id` (`tenant_id`), CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`), CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`) )");
     }
     /**
      * @return n > 0 it is the newly created record's id. Otherwise it failed
@@ -27,10 +27,10 @@ public class Hotelier extends Connector{
         int new_id = 0;
         {
             var tenant_id = resultSet.getInt("id");
-            var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(room_id, startsAt, length, tenant_id) VALUES(?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
+            var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(room_id, start, end, tenant_id) VALUES(?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
             s.setInt(1, r.getRoom().getId());
             s.setDate(2, r.getStay().getStart());
-            s.setInt(3, r.getStay().getLength());
+            s.setDate(3, r.getStay().getEnd());
             s.setInt(4, tenant_id);
             //TODO: Receipt
             var status = s.executeUpdate();
@@ -87,7 +87,7 @@ public class Hotelier extends Connector{
     public static ArrayList<Reservation> getReservations(ContactInfo c) throws SQLException {
         var conn = connect();
         ArrayList<Reservation> reservations = new ArrayList<>();
-        var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE tenant_id = ? ORDER BY startsAt DESC");
+        var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE tenant_id = ? ORDER BY start DESC");
         s.setInt(1, c.getId());
         var r = s.executeQuery();
         while (r.next()) {
@@ -119,12 +119,9 @@ public class Hotelier extends Connector{
         try {
             var c = getContactInfo(u);
             return getReservations(c);
-        } catch (IllegalArgumentException e) {
-            //PASS
-        } catch (SQLException e) {
-            //PASS
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
         return new ArrayList<>();
     }
 

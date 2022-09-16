@@ -39,16 +39,12 @@ public class App extends View implements Subscriber<State> {
             });
     
             order.addActionListener(e -> {
-                /* if (Status.self.value == State.auth) {
-                    Status.self.submit(State.CHECKEDIN);
-                } */
     			activate(roomService);
             });
             rInfo.addActionListener(e -> {
                 activate(ticketView);
                 //DO NOT CHANGE Status
             });
-
            
         }
         {// Setup roomListing
@@ -62,6 +58,8 @@ public class App extends View implements Subscriber<State> {
             });
         }
         {//Login related
+            //TODO allow changing of default button per panel.
+            getRootPane().setDefaultButton(loginForm.bLogin);
             var p = new RegistrationPanel();
             uRegister.addActionListener(e -> {
                 activate(p);
