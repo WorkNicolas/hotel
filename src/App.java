@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
-import java.util.function.Consumer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -48,6 +47,62 @@ public class App extends JFrame implements Subscriber<State> {
 	private JPanel active;
 	private Subscription subscription;
 	private Manager manager;
+	private LoginObserver loginObserver = new LoginObserver() {
+
+		/**
+		 * Determines where the user is redirected after login.
+		 */
+		@Override
+		public void onSuccess(User u) {
+			loginForm.clear();
+			ArrayList<Reservation> reservations = Hotelier.getReservations(u);
+			ReservationState rs = Hotelier.getStatus(reservations);
+			switch(rs) {
+				case DONE: case NONE:
+					roomListing.updateEntries(
+						new ArrayList<>(
+							manager.fetchAvailable().values()
+						)
+					);
+					Status.self.submit(State.BROWSE);
+
+					break;
+				case ONGOING:
+					Status.self.submit(State.CHECKEDIN);
+					break;
+				case UPCOMING:
+					Status.self.submit(State.BOOKED);
+					break;
+				default:
+					break;
+			}
+			ReservationStatus.self.submit(rs);
+		}
+
+		@Override
+		public void onFail() {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onMaxTries() {
+			Status.self.close();
+		}
+
+		@Override
+		public void onRegister() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onGuest() {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+
+	private LoginListener loginListener = new LoginListener(loginForm, 10, verifier, loginObserver);
 
 	public App() throws SQLException {
 		setTitle("Hotel El San Juan");
@@ -172,64 +227,8 @@ public class App extends JFrame implements Subscriber<State> {
 		});
 	}
 
-	private LoginObserver loginObserver = new LoginObserver() {
-
-		/**
-		 * Determines where the user is redirected after login.
-		 */
-		@Override
-		public void onSuccess(User u) {
-			loginForm.clear();
-			ArrayList<Reservation> reservations = Hotelier.getReservations(u);
-			ReservationState rs = Hotelier.getStatus(reservations);
-			switch(rs) {
-				case DONE: case NONE:
-					roomListing.updateEntries(
-						new ArrayList<>(
-							manager.fetchAvailable().values()
-						)
-					);
-					Status.self.submit(State.BROWSE);
-
-					break;
-				case ONGOING:
-					Status.self.submit(State.CHECKEDIN);
-					break;
-				case UPCOMING:
-					Status.self.submit(State.BOOKED);
-					break;
-				default:
-					break;
-			}
-			ReservationStatus.self.submit(rs);
-		}
-
-		@Override
-		public void onFail() {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void onMaxTries() {
-			Status.self.close();
-		}
-
-		@Override
-		public void onRegister() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onGuest() {
-			// TODO Auto-generated method stub
-			
-		}
-	};
-
 	private void initComponents() {
 		{
-			// TODO: Add JPanels
 			try {
 				roomService = new RoomServiceView(Supplier.fetchAvailable());
 				roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -245,26 +244,17 @@ public class App extends JFrame implements Subscriber<State> {
 			panels.put(State.auth, loginForm);
 		}
 		{ // Setup loginForm
-			var l = new LoginListener(loginForm, 10, verifier, loginObserver);
 			add(loginForm);
 			activate(loginForm); // FIRST active
 		}
 		{// Setup roomListing
-			PaymentComponent l = new PaymentComponent(this, new Consumer<String>() {
-				@Override
-				public void accept(String accountName) {
+			PaymentComponent l = new PaymentComponent(this, accountName -> {
 					JOptionPane.showMessageDialog(App.this, accountName);
-				}
 			});
 			l.setPortalName("GCASH");
-			Consumer<JButton> c = new Consumer<JButton>() {
-
-				@Override
-				public void accept(JButton t) {
-					t.addActionListener(l);
-				}
-			};
-			roomListing.buttons.forEach(c);
+			roomListing.buttons.forEach(jButton -> {
+				jButton.addActionListener(l);
+			});
 		}
 	}
 

@@ -54,8 +54,7 @@ public class PaymentComponent implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        Optional<String> maybeAccountName = Optional.ofNullable(null);
-            maybeAccountName = Optional.ofNullable(
+        Optional<String> maybeAccountName = Optional.ofNullable(
             JOptionPane.showInputDialog(
                 parent, 
                 "Amount: TODO\nEnter account:", 

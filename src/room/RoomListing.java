@@ -55,16 +55,10 @@ public class RoomListing  extends JPanel{
 				
 		fgbl.setConstraints(scrollPane, fgbc);
 		
-		//Next Button
-		JPanel nextButtonPanel = nextComponent();
-		
 		fgbc.gridx = 0;
 		fgbc.gridy = 1;
 		fgbc.weightx = 1;
 		fgbc.weighty = 1;
-		fgbl.setConstraints(nextButtonPanel, fgbc);
-		
-		//frame: adding panels
 		
 		add(scrollPane);
 	}
@@ -243,22 +237,8 @@ public class RoomListing  extends JPanel{
 		gbc.insets = new Insets(10,0,0,10);
 		
 		JButton button = new JButton(room.getName());
-		
-		panel.add(button, gbc);
-		
-		return panel;
-	}
-	
-	//Next Button Panel
-	private JPanel nextComponent() {
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		
-		JButton button = new JButton("next");
-		button.setVisible(true);
-		button.setBounds(1150,25,100,30);
 		buttons.add(button);
-		panel.add(button);
+		panel.add(button, gbc);
 		
 		return panel;
 	}
