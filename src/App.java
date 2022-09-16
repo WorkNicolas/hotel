@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 
 import auth.LoginListener;
 import auth.LoginObserver;
+import auth.RegistrationPanel;
 import auth.User;
+import auth.UserInfo;
 import auth.Verifier;
 import payment.PaymentComponent;
 import reservation.Hotelier;
@@ -46,6 +48,8 @@ public class App extends View implements Subscriber<State> {
                 activate(ticketView);
                 //DO NOT CHANGE Status
             });
+
+           
         }
         {// Setup roomListing
             roomManager = new Manager();
@@ -58,6 +62,20 @@ public class App extends View implements Subscriber<State> {
             });
         }
         {//Login related
+            var p = new RegistrationPanel();
+            uRegister.addActionListener(e -> {
+                activate(p);
+            });
+
+            loginForm.bRegister.addActionListener(uRegister.getActionListeners()[0]);
+
+            p.buttonLogin.addActionListener( e -> {
+                activate(loginForm);
+            });
+            p.buttonRegister.addActionListener(e -> {
+                UserInfo u = p.getUser();
+                //TODO: Create account
+            });
            loginObserver = new LoginObserver() {
                 /**
                  * Determines where the user is redirected after login.
