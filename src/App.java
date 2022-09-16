@@ -42,6 +42,7 @@ public class App extends JFrame implements Subscriber<State> {
 	private RoomListing roomListing = new RoomListing();
 	private RoomServiceView roomService;
 	private HashMap<State, JPanel> panels = new HashMap<>();
+	private ReservationTicketView ticket;
 	private JPanel active;
 	private Subscription subscription;
 
@@ -68,11 +69,20 @@ public class App extends JFrame implements Subscriber<State> {
 	private void initMenu() {
 		uLogout.addActionListener(e -> {
 			Status.self.submit(State.auth);
+			ReservationStatus.self.submit(ReservationState.NONE);
 		});
 
 		var order = new JMenuItem("Order");
 		order.addActionListener(e -> {
 			Status.self.submit(State.CHECKEDIN);
+		});
+		rInfo.addActionListener(e -> {
+			activate(ticket);
+			//DO NOT CHANGE Status
+		});
+
+		order.addActionListener(e -> {
+			activate(roomService);
 		});
 		menuUser.add(uLogin);
 		menuUser.add(uRegister);
@@ -86,6 +96,61 @@ public class App extends JFrame implements Subscriber<State> {
 		navbar.add(menuReservation);
 		navbar.add(menuRoomService);
 		setJMenuBar(navbar);
+
+		Subscriber<ReservationState> reservationStatusObserver = new Subscriber<ReservationState>() {
+			private Subscription subscription;
+			@Override
+			public void onSubscribe(Subscription subscription) {
+				this.subscription = subscription;	
+				this.subscription.request(1);
+			}
+
+			@Override
+			public void onNext(ReservationState item) {
+				System.out.println("Item:" + item);
+				switch (item) {
+					case NONE: case DONE:
+						//TODO: For case DONE: Allow viewing past tickets.
+						rNew.setEnabled(true);
+						rInfo.setEnabled(false);
+						rExtend.setEnabled(false);
+						rCancel.setEnabled(false);
+						order.setEnabled(false);
+						break;
+					case ONGOING:
+						rNew.setEnabled(false);
+						rExtend.setEnabled(true);
+						rCancel.setEnabled(true);
+						order.setEnabled(true);
+						rInfo.setEnabled(true);
+						break;
+					case UPCOMING:
+						rNew.setEnabled(false);
+						rCancel.setEnabled(true);
+						order.setEnabled(false);
+						rInfo.setEnabled(true);
+						break;
+					default:
+						//PASS
+						break;
+				}
+				this.subscription.request(1);
+			}
+
+			@Override
+			public void onError(Throwable throwable) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onComplete() {
+				// TODO Auto-generated method stub
+			}
+			
+		};
+		ReservationStatus.self.subscribe(reservationStatusObserver);
+		ReservationStatus.self.submit(ReservationState.NONE);
 	}
 
 	public static void main(String[] args) {
@@ -103,18 +168,15 @@ public class App extends JFrame implements Subscriber<State> {
 	}
 
 	private LoginObserver loginObserver = new LoginObserver() {
+
 		/**
-		 * 0 - no reservations
-		 * 1 - upcoming
-		 * 2 - ongoing
-		 * 3 - has past reservations
+		 * Determines where the user is redirected after login.
 		 */
 		@Override
 		public void onSuccess(User u) {
 			loginForm.clear();
 			ArrayList<Reservation> reservations = Hotelier.getReservations(u);
 			ReservationState rs = Hotelier.getStatus(reservations);
-			//TODO make rs a reactive/global value
 			switch(rs) {
 				case DONE: case NONE:
 					Status.self.submit(State.BROWSE);
@@ -124,9 +186,11 @@ public class App extends JFrame implements Subscriber<State> {
 					break;
 				case UPCOMING:
 					Status.self.submit(State.BOOKED);
+					break;
 				default:
 					break;
 			}
+			ReservationStatus.self.submit(rs);
 		}
 
 		@Override
@@ -159,10 +223,10 @@ public class App extends JFrame implements Subscriber<State> {
 				roomService = new RoomServiceView(Supplier.fetchAvailable());
 				roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 
-			var ticket = new ReservationTicketView();
+			ticket = new ReservationTicketView();
 			ticket.setBorder(new EmptyBorder(5, 5, 5, 5));
 			panels.put(State.BOOKED, ticket);
 			panels.put(State.CHECKEDIN, roomService);

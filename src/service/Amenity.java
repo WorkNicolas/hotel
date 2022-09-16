@@ -29,7 +29,7 @@ public class Amenity {
             rs.getInt("id"),
             rs.getString("name"),
             Type.valueOf(rs.getString("type")),
-            Optional.ofNullable(rs.getInt("amount")).orElse(0),
+            0,
             rs.getInt("price"),
             rs.getInt("supply"));
     }
