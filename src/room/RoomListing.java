@@ -3,8 +3,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ImageIcon;
-import java.awt.Image;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -15,9 +14,12 @@ public class RoomListing  extends JPanel{
 	//Change this value.
 	int number = 25;
 	ArrayList<RawInfo> data;
+	int width = 200;
+	int height = 200;
 	public RoomListing(){
 		data = new ArrayList<>();
 		prepareFrame();
+		Info.setFavicon(Helper.createImageIcon(Color.BLUE, width, height));
 	}
 
 	
@@ -91,8 +93,7 @@ public class RoomListing  extends JPanel{
 		
 		JPanel[] panels = new JPanel[count];
 		for (int i = 0; i < count; i++) {
-			Info upgraded = new Info(data.get(i));
-			panels[i] = preparePanel(upgraded);
+			panels[i] = preparePanel(data.get(i));
 		}
 		
 		int panelNumber = 0;
@@ -187,8 +188,9 @@ public class RoomListing  extends JPanel{
 		return mainPanel;
 	}
 	
+
 	//Panel Creator
-	private JPanel preparePanel(Info room) {
+	private JPanel preparePanel(RawInfo room) {
 		JPanel panel = new JPanel();
 		JPanel panelLeft = new JPanel();
 		JPanel panelRight = new JPanel();
@@ -208,8 +210,9 @@ public class RoomListing  extends JPanel{
 		
 		//image properties
 		JLabel imageLabel = new JLabel();
-		imageLabel.setIcon(imageComponent(room.preview));
-		
+		imageLabel.setIcon(Info.favicon);
+		var loader = new LazyLoader(imageLabel, room, width, height);
+		loader.start();
 		panelLeft.add(imageLabel);
 		
 		panel.add(panelLeft, gbc);
@@ -244,14 +247,6 @@ public class RoomListing  extends JPanel{
 		panel.add(button, gbc);
 		
 		return panel;
-	}
-	
-	//Resize Image
-	private ImageIcon imageComponent(ImageIcon imageIcon) {
-		Image image = imageIcon.getImage();
-		//Current Image Size: 200x200
-		Image imageModified = image.getScaledInstance(200,200,java.awt.Image.SCALE_SMOOTH);
-		return imageIcon = new ImageIcon(imageModified);
 	}
 	
 	//Next Button Panel
