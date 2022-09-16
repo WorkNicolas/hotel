@@ -1,11 +1,11 @@
 package room;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.Color;
 
-import javax.naming.MalformedLinkException;
 import javax.swing.ImageIcon;
 
 /** 
@@ -25,14 +25,12 @@ public class Info extends RawInfo {
         this.preview = favicon;
         try {
             this.preview = Helper.imageIconFromURL(url);
-        } catch (IOException e) {
-            //PASS
-        } catch (MalformedLinkException e) {
+        } catch (MalformedURLException e) {
             //PASS
         }
     }
 
-    public Info(RawInfo r) throws IOException {
+    public Info(RawInfo r) {
         this(r.id, r.type, r.size, r.url, r.rate);
     }
 
