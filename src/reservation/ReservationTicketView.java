@@ -71,7 +71,6 @@ public class ReservationTicketView extends JPanel {
 		northPanel.add(lblTicket);
 		
 		JPanel infoPanel = new JPanel();
-		infoPanel.setBackground(Color.BLACK);
 		infoPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		infoPanel.setPreferredSize(new Dimension(450, 50));
 		add(infoPanel, BorderLayout.WEST);
