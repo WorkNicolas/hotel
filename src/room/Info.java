@@ -1,6 +1,5 @@
 package room;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;

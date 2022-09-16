@@ -1,5 +1,3 @@
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
@@ -11,8 +9,9 @@ import service.Type;
 public class SupplierTests {
     
     @Test
-    public void shouldAdd() throws SQLException {
-        Supplier.add(new Amenity(0, "test", 0f, 1, Type.THING));
+    public void shouldInsertAndDelete() throws SQLException {
+        var id = Supplier.add(new Amenity(0, "test", 0f, 1, Type.THING));
+        Supplier.remove(id);
     }
 
     @Test

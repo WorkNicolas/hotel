@@ -42,6 +42,13 @@ public class Supplier extends Connector {
         return new_id;
     }
 
+    public static void remove(int id) throws SQLException {
+        var conn = connect();
+        var s = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
+        s.setInt(1, id);
+        s.executeUpdate();
+        conn.close();
+    }
     public static int alterSupply(Amenity a) throws SQLException {
         var conn = connect();
         var s = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET supply = ? WHERE id = ?");

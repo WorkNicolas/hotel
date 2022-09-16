@@ -2,7 +2,6 @@ package service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Optional;
 
 public class Amenity {
     protected final int id;
