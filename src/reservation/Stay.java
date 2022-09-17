@@ -41,4 +41,9 @@ public class Stay {
 
         return ReservationState.ONGOING;
     }
+
+    @Override
+    public String toString() {
+        return start.toString() + " --- " + end.toString();
+    }
 }
