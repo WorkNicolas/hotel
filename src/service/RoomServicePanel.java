@@ -11,15 +11,20 @@ import java.util.ArrayList;
 public class RoomServicePanel extends JPanel {
 	private JTextField txtNumOrder;
 	protected ArrayList<Amenity> content;
-	
+	protected JButton addOrder;
+	protected JButton commitOrder;
+	protected JButton btnReturn;
+	protected ArrayList<JList<Amenity>> lists = new ArrayList<>();
 	/**
 	 * Create the panel.
 	 */
 	public RoomServicePanel() {
+		content = new ArrayList<>();
 		RoomServiceComponents();
 	}
 	
-	private void RoomServiceComponents() {
+	protected void RoomServiceComponents() {
+		removeAll();
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel titlePanel = new JPanel();
@@ -114,19 +119,17 @@ public class RoomServicePanel extends JPanel {
 		lblOrder.setBounds(130, 23, 310, 20); //adjusted
 		orderPanel.add(lblOrder);
 		
-		JButton btnReturn = new JButton("Return");
+		btnReturn = new JButton("Return");
 		btnReturn.setBounds(1224, 195, 116, 44);
 		orderPanel.add(btnReturn);
 		
-		JButton btnOrder = new JButton("Order");
-		btnOrder.setBounds(1098, 195, 116, 44);
-		orderPanel.add(btnOrder);
+		commitOrder = new JButton("Order");
+		commitOrder.setBounds(1098, 195, 116, 44);
+		orderPanel.add(commitOrder);
 		
 		lblItems.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblItems.setBounds(558, 67, 239, 44);
 		orderPanel.add(lblItems);
-		
-		
 		
 		// new added -----------------------------------------------------
 		
@@ -134,31 +137,30 @@ public class RoomServicePanel extends JPanel {
 		DefaultListModel<Amenity> orderListModel = new DefaultListModel<>();
 		orderList.setBorder(new LineBorder(Color.BLACK, 2));
 		orderList.setBounds(130, 54, 359, 141); //adjusted
+		orderList.setVisibleRowCount(5);
 		orderPanel.add(orderList);
 		
-		JButton btnAddOrder = new JButton("Add Order");
-		btnAddOrder.setBounds(558, 162, 95, 33);
-		orderPanel.add(btnAddOrder);
+		addOrder = new JButton("Add Order");
+		addOrder.setBounds(558, 162, 95, 33);
+		orderPanel.add(addOrder);
 		
 		//add selected items from other list to order list
-		
-		btnAddOrder.addActionListener(new ActionListener() {
+		lists.add(breakfastList);
+		lists.add(dessertList);
+		lists.add(lunchDinnerList);
+		lists.add(beveragesList);
+		lists.add(hotelNecessitiesList);
+		//DONT INCLUDE orderList
+		addOrder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				
-				//ignore some of this, since it will get remove 
-				breakfastList.getSelectedIndex();
-				orderListModel.addElement(breakfastList.getSelectedValue());
-				dessertList.getSelectedIndex();
-				orderListModel.addElement(dessertList.getSelectedValue());
-				lunchDinnerList.getSelectedIndex();
-				orderListModel.addElement(lunchDinnerList.getSelectedValue());
-				beveragesList.getSelectedIndex();
-				orderListModel.addElement(beveragesList.getSelectedValue());
-				hotelNecessitiesList.getSelectedIndex();
-				orderListModel.addElement(hotelNecessitiesList.getSelectedValue());
+				for (var list: lists) {
+					orderListModel
+					.addElement(list.getSelectedValue());
+					list.clearSelection();
+				}
 				orderList.setModel(orderListModel);
 			}
-			});
+		});
 		
 		//text field for the number of a selected item
 		
@@ -183,7 +185,7 @@ public class RoomServicePanel extends JPanel {
 				int i = orderList.getSelectedIndex();
 				orderListModel.removeElementAt(i);
 			}
-			});
+		});
 		
 		JLabel lblTotal = new JLabel("Total: ");
 		lblTotal.setFont(new Font("Tahoma", Font.BOLD, 13));
