@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
@@ -15,7 +16,9 @@ import java.awt.Point;
 import javax.swing.border.LineBorder;
 
 public class ReservationTicketView extends JPanel {
-
+	public JButton btnProceed;
+	public JPanel infoPanel;
+	public JPanel roomPanel;
 	/**
 	 * Create the panel.
 	 */
@@ -31,16 +34,9 @@ public class ReservationTicketView extends JPanel {
 		panel.add(lblExtraTitle);
 		lblExtraTitle.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		
-		JLabel lblExtraInfo = new JLabel("<html><ul><li>Although Hotel San Juan does not charge a fee to change, or cancel your booking, El San Juan Hotel may still charge a fee in accordance with its own rules and regulation </li><li>Cancellations, or changes made after 11:59 PM (PHT) on June 19, 2022 or no-show are subjects to a hotel fee equal to the first night&#39;s rate plus taxes, and fee.</li><li>View your online interary for additional rules and restrictions.</li><li>Check-in time starts at 8 AM.</li><li>If a late check-in is planned, contact this hotel directly for their late check-in policy.</li></ul><html>");
+		JLabel lblExtraInfo = new JLabel("<html><ul><li>Although Hotel San Juan does not charge a fee to change, or cancel your booking, El San Juan Hotel may still charge a fee in accordance with its own rules and regulation </li><li>Cancellations, or changes made after 11:59 PM (PHT) on June 19, 2022 or no-show are subjects to a hotel fee equal to the first night&#39;s rate plus taxes, and fee.</li><li>View your online itinerary for additional rules and restrictions.</li><li>Check-in time starts at 8 AM.</li><li>If a late check-in is planned, contact us for the late check-in policy.</li></ul><html>");
 		lblExtraInfo.setFont(new Font("Arial", Font.BOLD, 15));
 		panel.add(lblExtraInfo);
-		
-		JButton btnNewButton = new JButton("Continue");
-		btnNewButton.addActionListener(e-> {
-			//TODO
-		});
-		btnNewButton.setFont(new Font("Arial Narrow", Font.BOLD, 15));
-		panel.add(btnNewButton);
 		
 		JPanel northPanel = new JPanel();
 		northPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -54,7 +50,7 @@ public class ReservationTicketView extends JPanel {
 		lblTicket.setFont(new Font("Arial Black", Font.PLAIN, 20));
 		northPanel.add(lblTicket);
 		
-		JPanel infoPanel = new JPanel();
+		infoPanel = new JPanel();
 		infoPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		infoPanel.setPreferredSize(new Dimension(450, 50));
 		add(infoPanel, BorderLayout.WEST);
@@ -69,17 +65,13 @@ public class ReservationTicketView extends JPanel {
 		lblInfo.setLocation(new Point(5, 10));
 		lblInfo.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		
-		JPanel roomPanel = new JPanel();
+		roomPanel = new JPanel();
+		roomPanel.setLayout(new BoxLayout(roomPanel, BoxLayout.Y_AXIS));
 		roomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		roomPanel.setPreferredSize(new Dimension(450, 45));
 		add(roomPanel, BorderLayout.CENTER);
-		
 		JLabel lblRoom = new JLabel("ROOM ");
 		roomPanel.add(lblRoom);
 		lblRoom.setFont(new Font("Arial Black", Font.PLAIN, 15));
-	}
-
-	public void setInfo(Reservation r) {
-		//TODO: Use a receipt View
 	}
 }
