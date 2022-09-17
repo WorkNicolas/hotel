@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class RoomServicePanel extends JPanel {
@@ -151,15 +149,13 @@ public class RoomServicePanel extends JPanel {
 		lists.add(beveragesList);
 		lists.add(hotelNecessitiesList);
 		//DONT INCLUDE orderList
-		addOrder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				for (var list: lists) {
-					orderListModel
-					.addElement(list.getSelectedValue());
-					list.clearSelection();
-				}
-				orderList.setModel(orderListModel);
+		addOrder.addActionListener(e-> {
+			for (var list: lists) {
+				orderListModel
+				.addElement(list.getSelectedValue());
+				list.clearSelection();
 			}
+			orderList.setModel(orderListModel);
 		});
 		
 		//text field for the number of a selected item
@@ -180,11 +176,9 @@ public class RoomServicePanel extends JPanel {
 		
 		//removing selected order from the order list
 		
-		btnRemoveOrder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
+		btnRemoveOrder.addActionListener(e -> {
 				int i = orderList.getSelectedIndex();
 				orderListModel.removeElementAt(i);
-			}
 		});
 		
 		JLabel lblTotal = new JLabel("Total: ");
