@@ -1,6 +1,5 @@
 package room;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.Color;
@@ -85,9 +84,10 @@ public class RoomListing  extends JPanel{
 		
 		//Panel Properties
 		
-		JPanel[] panels = new JPanel[count];
+		RoomPanel[] panels = new RoomPanel[count];
 		for (int i = 0; i < count; i++) {
-			panels[i] = preparePanel(data.get(i));
+			panels[i] = new RoomPanel(data.get(i), width, height);
+			buttons.add(panels[i].button);
 		}
 		
 		int panelNumber = 0;
@@ -182,66 +182,6 @@ public class RoomListing  extends JPanel{
 		return mainPanel;
 	}
 	
-
-	//Panel Creator
-	private JPanel preparePanel(RawInfo room) {
-		JPanel panel = new JPanel();
-		JPanel panelLeft = new JPanel();
-		JPanel panelRight = new JPanel();
-		
-		//panel properties
-		panel.setVisible(true);
-		panel.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		
-		//panelLeft properties
-		panelLeft.setVisible(true);
-		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		//bottom and top margins: 20, 20
-		gbc.insets = new Insets(20,0,0,20);
-		
-		//image properties
-		JLabel imageLabel = new JLabel();
-		imageLabel.setIcon(Info.favicon);
-		var loader = new LazyLoader(imageLabel, room, width, height);
-		loader.start();
-		panelLeft.add(imageLabel);
-		
-		panel.add(panelLeft, gbc);
-		
-		//rightPanel properties
-		panelRight.setVisible(true);
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		//bottom, left and top margins: 20, 10, 20
-		gbc.insets = new Insets(20,10,0,20);
-		
-		//displayLabel Properties
-		JLabel displayLabel = new JLabel();
-		displayLabel.setText("<html>" + room.name + "<br/>"
-				+ "Type: " + room.getType() + "<br/>"
-				+ "Capacity: " + room.getSize() + "<br/>"
-				+ "Rate: Php " + room.getRate()  + ".00</html>"
-				);
-		
-		panelRight.add(displayLabel);
-		
-		panel.add(panelRight,gbc);
-				
-		//button properties
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		//bottom and top margins: 10, 10
-		gbc.insets = new Insets(10,0,0,10);
-		
-		JButton button = new JButton(room.getName());
-		buttons.add(button);
-		panel.add(button, gbc);
-		
-		return panel;
-	}
 	
 	public static void main(String[] args) {
 		new RoomListing();
