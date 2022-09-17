@@ -1,5 +1,6 @@
 package payment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -29,6 +30,11 @@ public class Receipt {
     protected HashMap<String, Amenity> amenities = new HashMap<String, Amenity>();
     public Receipt() {
         this("");
+    }
+
+    public Receipt(ArrayList<Amenity> items) {
+        this();
+        items.forEach(n -> put(n));
     }
 
     public Receipt(String discountKey) {
