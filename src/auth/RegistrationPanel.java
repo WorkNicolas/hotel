@@ -22,7 +22,7 @@ public class RegistrationPanel extends JPanel  {
 		initComponents();
 	}
 	
-	private void initComponents() {
+	protected void initComponents() {
 		Font font = new Font("Tahoma", Font.PLAIN, 24);
 		
 		//Labels
@@ -160,20 +160,20 @@ public class RegistrationPanel extends JPanel  {
 		//panel.setFont(font);
 	}
 	
-	private JTextField prepareTextField() {
+	protected JTextField prepareTextField() {
 		JTextField textField = new JTextField();
 		textField.setPreferredSize(new Dimension(300,35));
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		return textField;
 	}
 	
-	private JLabel prepareLabel(String name) {
+	protected JLabel prepareLabel(String name) {
 		JLabel label = new JLabel(name, SwingConstants.RIGHT);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		return label;
 	}
 	
-	private JButton prepareButton(String name) {
+	protected JButton prepareButton(String name) {
 		JButton button = new JButton(name);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		return button;
@@ -187,6 +187,7 @@ public class RegistrationPanel extends JPanel  {
 			String.valueOf(fieldPhrase.getPassword())
 		);
 	}
+
 	public static void main(String[] args) {
 		new RegistrationPanel();
 	}

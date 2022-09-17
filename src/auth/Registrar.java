@@ -11,13 +11,25 @@ import db.Connector;
  */
 public class Registrar extends Connector {
     public static final String TABLE_NAME = "users";
-
+    private static Registrar registrar;
     public Registrar() throws SQLException {
         executeSQL("CREATE TABLE IF NOT EXISTS users (id int NOT NULL AUTO_INCREMENT, email varchar(255) NOT NULL, name varchar(255) NOT NULL, phrase varchar(255) NOT NULL,address varchar(255) NOT NULL,PRIMARY KEY (id))");
+        registrar = new Registrar();
+    }
+
+    /**
+     * Gets the registrar singleton
+     */
+    public static Registrar getRegistrar() throws SQLException {
+        if (registrar == null) {
+            return new Registrar();
+        }
+        
+        return registrar;
     }
     /**
      * 
-     * @return new record's id.
+     * @return new record's id or failure if 0.
      */
     public int register(UserInfo u) {
         Connection conn = null;
