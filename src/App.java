@@ -47,17 +47,6 @@ public class App extends View implements Subscriber<State> {
             });
            
         }
-        {// Setup roomListing
-            roomManager = new Manager();
-			paymentComponent = new PaymentComponent(this, accountName -> {
-                JOptionPane.showMessageDialog(this, accountName);
-                paymentComponent.setPortalName("GCASH");
-               /*  TODO: handle payment
-               roomListingView.buttons.forEach(jButton -> {
-                    jButton.addActionListener(paymentComponent);
-                }); */
-            });
-        }
         {//Login related
             //TODO allow changing of default button per panel.
             getRootPane().setDefaultButton(loginForm.bLogin);
