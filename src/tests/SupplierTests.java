@@ -1,3 +1,4 @@
+package tests;
 import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;

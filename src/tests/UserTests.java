@@ -1,3 +1,4 @@
+package tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,7 +26,13 @@ public class UserTests {
     @Test 
     public void canRegisterAndDelete() throws SQLException {
         var r = new Registrar();
-        UserInfo u = new UserInfo("Tempest", "temporary@account", "Test", "Temporary account");
+        UserInfo u = new UserInfo(
+            "Tempest", 
+            "temporary@account", 
+            "1234 Example", 
+            "00000000000",
+            "Temporary account"
+        );
         assertNotEquals(0, r.register(u));
 
         assertEquals(

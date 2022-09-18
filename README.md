@@ -9,9 +9,10 @@ Welcome to the VS Code Java world. Here is a guideline to help you get started t
 
 The workspace contains two folders by default, where:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-- `test`: the folder for code testing
+- `src`: the folder to maintain sources.
+- `lib`: the folder to maintain dependencies.
+- `src/test`: package for code testing.
+- `src/samples`: package containing runnable frames of each component without DB access.
 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
