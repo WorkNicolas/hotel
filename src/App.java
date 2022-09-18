@@ -9,11 +9,9 @@ import javax.swing.JOptionPane;
 
 import auth.LoginListener;
 import auth.LoginObserver;
-import auth.RegistrationPanel;
+import auth.RegistrationForm;
 import auth.User;
-import auth.UserInfo;
 import auth.Verifier;
-import payment.PaymentComponent;
 import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.ReservationState;
@@ -26,7 +24,6 @@ public class App extends View implements Subscriber<State> {
     Subscription subscription;
 	private Verifier verifier = new Verifier();
     private Manager roomManager;
-    private PaymentComponent paymentComponent;
 	private LoginListener loginListener;
     private LoginObserver loginObserver;
     private Subscriber<ReservationState> reservationObserver;
@@ -50,19 +47,14 @@ public class App extends View implements Subscriber<State> {
         {//Login related
             //TODO allow changing of default button per panel.
             getRootPane().setDefaultButton(loginForm.bLogin);
-            var p = new RegistrationPanel();
+            RegistrationForm p = new RegistrationForm();
             uRegister.addActionListener(e -> {
                 activate(p);
             });
-
             loginForm.bRegister.addActionListener(uRegister.getActionListeners()[0]);
 
-            p.buttonLogin.addActionListener( e -> {
+            p.buttonReturn.addActionListener(e -> {
                 activate(loginForm);
-            });
-            p.buttonRegister.addActionListener(e -> {
-                UserInfo u = p.getUser();
-                //TODO: Create account
             });
            loginObserver = new LoginObserver() {
                 /**
