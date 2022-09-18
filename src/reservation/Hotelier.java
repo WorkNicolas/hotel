@@ -61,12 +61,7 @@ public class Hotelier extends Connector{
             tenantQuery.setString(1, u.getEmail());
             var tenantResult = tenantQuery.executeQuery();
             if (tenantResult.next()) {
-                c = new ContactInfo(
-                    tenantResult.getInt("id"),
-                    tenantResult.getString("name"),
-                    tenantResult.getString("email"),
-                    tenantResult.getString("address")
-                );
+                c = new ContactInfo(tenantResult);
             } 
             conn.close();
         } catch (SQLException e) {

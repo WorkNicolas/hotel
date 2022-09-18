@@ -1,9 +1,43 @@
 package reservation;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class ContactInfo {
     protected String name;
     protected String address;
     protected int id;
+    public ContactInfo(String name, String address, int id, String contact, String email) {
+        this.name = name;
+        this.address = address;
+        this.id = id;
+        this.contact = contact;
+        this.email = email;
+    }
+
+    /**
+     * @apiNote For registration
+     */
+    public ContactInfo(String name, String address, String contact, String email) {
+        this(name, address, 0, contact, email);
+    }
+
+    public ContactInfo(ResultSet r) throws SQLException {
+        this(
+            r.getString("name"), 
+            r.getString("address"), 
+            r.getInt("id"), 
+            r.getString("contact"), 
+            r.getString("email"));
+    }
+
+    protected String contact;
+    public String getContact() {
+        return contact;
+    }
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
     public int getId() {
         return id;
     }
@@ -29,13 +63,5 @@ public class ContactInfo {
         this.email = email;
     }
     protected String email;
-    public ContactInfo(String name, String email, String address) {
-        this(0, name, address, email);
-    }
-    public ContactInfo(int id, String name, String address, String email) {
-        this.name = name;
-        this.address = address;
-        this.id = id;
-        this.email = email;
-    }
+ 
 }

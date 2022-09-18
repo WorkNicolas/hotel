@@ -1,4 +1,5 @@
 package auth;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -12,46 +13,49 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class RegistrationPanel extends JPanel  {
+public class RegistrationPanel extends JPanel {
 	//User Information
-	protected JTextField fieldName, fieldEmail, fieldAddress;
-	JPasswordField fieldPhrase;
-	public JButton buttonRegister;
-	public JButton buttonLogin;
+	String name, email, address, phrase;
 	public RegistrationPanel() {
 		initComponents();
 	}
 	
-	protected void initComponents() {
+	protected JTextField fieldName;
+	protected JTextField fieldEmail;
+	protected JTextField fieldAddress;
+	protected JTextField fieldContact;
+	protected JPasswordField fieldPhrase;
+	
+	public JButton buttonReturn;
+	public JButton buttonRegister;
+	
+	private void initComponents() {
+		//Panel
+		JPanel panel = new JPanel();
+		
 		Font font = new Font("Tahoma", Font.PLAIN, 24);
 		
 		//Labels
 		JLabel labelName = prepareLabel("Name:");
 		JLabel labelEmail = prepareLabel("Email:");
 		JLabel labelAddress = prepareLabel("Address:");
+		JLabel labelContact = prepareLabel("Contact #:");
 		JLabel labelPhrase = prepareLabel("Passphrase:");
 		
-		//TextFields
-		fieldName = new JTextField();
-		fieldEmail = new JTextField();
-		fieldAddress = new JTextField();
-		fieldPhrase = new JPasswordField();
-		
 		//Buttons
-		buttonLogin = prepareButton("Return");
+		buttonReturn = prepareButton("Return");
 		buttonRegister = prepareButton("Register");
 		
 		//frame properties
 		GridBagLayout gbl = new GridBagLayout();
 		GridBagConstraints fgbc = new GridBagConstraints();
 		setLayout(gbl);
-		setVisible(true);
 		
 		//panel properties
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
-		setLayout(new GridBagLayout());
-		setFont(font);
+		panel.setLayout(new GridBagLayout());
+		panel.setFont(font);
 		gbc.insets = new Insets(5,5,5,0);
 		
 		//labelName
@@ -62,7 +66,7 @@ public class RegistrationPanel extends JPanel  {
 		
 		gbl.setConstraints(labelName, gbc);
 		
-		add(labelName, gbc);
+		panel.add(labelName, gbc);
 		//fieldName
 		fieldName = prepareTextField();
 		
@@ -72,7 +76,7 @@ public class RegistrationPanel extends JPanel  {
 		gbc.gridy = 0;
 		
 		gbl.setConstraints(fieldName, gbc);
-		add(fieldName, gbc);
+		panel.add(fieldName, gbc);
 		
 		//labelEmail
 		gbc.gridx = 0;
@@ -81,7 +85,7 @@ public class RegistrationPanel extends JPanel  {
 		gbc.gridwidth = 1;
 		
 		gbl.setConstraints(labelEmail, gbc);
-		add(labelEmail, gbc);
+		panel.add(labelEmail, gbc);
 		//fieldEmail
 		fieldEmail = prepareTextField();
 		
@@ -91,7 +95,7 @@ public class RegistrationPanel extends JPanel  {
 		gbc.gridwidth = 2;
 		
 		gbl.setConstraints(fieldEmail, gbc);
-		add(fieldEmail, gbc);
+		panel.add(fieldEmail, gbc);
 		
 		//labelAddress
 		gbc.gridx = 0;
@@ -100,7 +104,7 @@ public class RegistrationPanel extends JPanel  {
 		gbc.gridwidth = 1;
 		
 		gbl.setConstraints(labelAddress, gbc);
-		add(labelAddress, gbc);
+		panel.add(labelAddress, gbc);
 		//fieldAddress
 		fieldAddress = prepareTextField();
 		
@@ -110,85 +114,92 @@ public class RegistrationPanel extends JPanel  {
 		gbc.gridwidth = 2;
 		
 		gbl.setConstraints(fieldAddress, gbc);
-		add(fieldAddress, gbc);
+		panel.add(fieldAddress, gbc);
 		
-		//labelPhrase
+		//labelContact
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		
 		gbc.gridwidth = 1;
 		
-		gbl.setConstraints(labelPhrase, gbc);
-		add(labelPhrase, gbc);
-		//fieldPhrase
-		fieldPhrase.setMaximumSize(new Dimension(300,40));
-		fieldPhrase.setFont(font);
-		
+		gbl.setConstraints(labelContact, gbc);
+		panel.add(labelContact, gbc);
+		//fieldContact
+		fieldContact = prepareTextField();
 		gbc.gridx = 1;
 		gbc.gridy = 3;
 		
 		gbc.gridwidth = 2;
 		
+		gbl.setConstraints(fieldContact, gbc);
+		panel.add(fieldContact,gbc);
+		//labelPhrase
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		
+		gbc.gridwidth = 1;
+		
+		gbl.setConstraints(labelPhrase, gbc);
+		panel.add(labelPhrase, gbc);
+		//fieldPhrase
+		fieldPhrase = new JPasswordField();
+		fieldPhrase.setMaximumSize(new Dimension(300,40));
+		fieldPhrase.setFont(font);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		
+		gbc.gridwidth = 2;
+		
 		gbl.setConstraints(fieldPhrase, gbc);
-		add(fieldPhrase, gbc);
+		panel.add(fieldPhrase, gbc);
 		
 		//buttonReturn
 		gbc.insets = new Insets(5,5,5,0);	
 		
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		
 		gbc.gridwidth = 1;
 		
-		gbl.setConstraints(buttonLogin, gbc);
-		add(buttonLogin, gbc);
+		gbl.setConstraints(buttonReturn, gbc);
+		panel.add(buttonReturn, gbc);
 		//buttonRegister
 		gbc.gridx = 1;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 
 		gbc.gridwidth = 2;
 		
 		gbl.setConstraints(buttonRegister, gbc);
-		add(buttonRegister, gbc);
+		panel.add(buttonRegister, gbc);
 		
 		//frame: adding panels
 		//panel
 		fgbc.gridx = 0;
 		fgbc.gridy = 0;
-		gbl.setConstraints(this, fgbc);
+		gbl.setConstraints(panel, fgbc);
 		
 		//panel.setFont(font);
+		add(panel, fgbc);
+		
 	}
 	
-	protected JTextField prepareTextField() {
+	private JTextField prepareTextField() {
 		JTextField textField = new JTextField();
 		textField.setPreferredSize(new Dimension(300,35));
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		return textField;
 	}
 	
-	protected JLabel prepareLabel(String name) {
+	private JLabel prepareLabel(String name) {
 		JLabel label = new JLabel(name, SwingConstants.RIGHT);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		return label;
 	}
 	
-	protected JButton prepareButton(String name) {
+	private JButton prepareButton(String name) {
 		JButton button = new JButton(name);
 		button.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		return button;
-	}
-	
-	public UserInfo getUser() {
-		return new UserInfo(
-			fieldName.getText(), 
-			fieldEmail.getText(), 
-			fieldAddress.getText(), 
-			String.valueOf(fieldPhrase.getPassword())
-		);
-	}
-
-	public static void main(String[] args) {
-		new RegistrationPanel();
 	}
 }
