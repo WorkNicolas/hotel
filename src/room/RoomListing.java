@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class RoomListing  extends JPanel{
 	public ArrayList<JButton> buttons;
 	//Change this value.
-	int number = 25;
 	ArrayList<RawInfo> data;
 	int width = 200;
 	int height = 200;
@@ -61,15 +60,7 @@ public class RoomListing  extends JPanel{
 		
 		add(scrollPane);
 	}
-	
-	public void setNumber(int number) {
-		this.number = number;
-	}
-	
-	public int getNumber() {
-		return number;
-	}
-	
+
 	//Panel adder
 	private JPanel panelAdder(ArrayList<RawInfo> data) {
 		//Main Panel Properties
@@ -182,9 +173,6 @@ public class RoomListing  extends JPanel{
 		return mainPanel;
 	}
 	
-	
-	public static void main(String[] args) {
-		new RoomListing();
-	}
+
 	
 }
