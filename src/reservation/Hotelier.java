@@ -15,7 +15,7 @@ public class Hotelier extends Connector{
         Connector.executeSQL("CREATE TABLE IF NOT EXISTS `reservations` ( `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', `start` date NOT NULL, `room_id` int NOT NULL, `tenant_id` int NOT NULL, `end` date NOT NULL, PRIMARY KEY (`id`), KEY `room_id` (`room_id`), KEY `tenant_id` (`tenant_id`), CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`), CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`) )");
     }
 
-    public static int getIDbyEmail(String email) throws SQLException {
+    public static int getIDByEmail(String email) throws SQLException {
         var conn = connect();
         var s = conn.prepareStatement("SELECT id FROM users WHERE email = ?;");
         s.setString(1, email);
@@ -32,7 +32,7 @@ public class Hotelier extends Connector{
      */
     public static int commit(Reservation r) throws SQLException {
         var conn = connect();
-        var tenant_id = getIDbyEmail(r.getTenant().getEmail());
+        var tenant_id = getIDByEmail(r.getTenant().getEmail());
         int new_id = 0;
         if (tenant_id == 0)  {
             return 0;
