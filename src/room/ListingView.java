@@ -19,6 +19,7 @@ public class ListingView  extends JPanel{
 	int height = 200;
 	public ListingView(){
 		data = new ArrayList<>();
+		buttons = new ArrayList<>();
 		Info.setFavicon(Helper.createImageIcon(Color.BLUE, width, height));
 	}
 
