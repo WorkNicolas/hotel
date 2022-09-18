@@ -47,7 +47,11 @@ public class App extends View implements Subscriber<State> {
         {//Login related
             //TODO allow changing of default button per panel.
             getRootPane().setDefaultButton(loginForm.bLogin);
-            RegistrationForm p = new RegistrationForm();
+            RegistrationForm p = new RegistrationForm(created -> {
+                loginListener.tryLogin(
+                    new User(created)
+                );
+            });
             uRegister.addActionListener(e -> {
                 activate(p);
             });
@@ -83,24 +87,12 @@ public class App extends View implements Subscriber<State> {
         
                 @Override
                 public void onFail() {
-                    // TODO Auto-generated method stub
+                    JOptionPane.showMessageDialog(App.this, "Incorrect username or passphrase.\nAttempts left: " + loginListener.getAttemptsLeft(), "Login failed", JOptionPane.INFORMATION_MESSAGE);
                 }
         
                 @Override
                 public void onMaxTries() {
                     Status.self.close();
-                }
-        
-                @Override
-                public void onRegister() {
-                    // TODO Auto-generated method stub
-                    
-                }
-        
-                @Override
-                public void onGuest() {
-                    // TODO Auto-generated method stub
-                    
                 }
             };
             loginListener = new LoginListener(loginForm, 10, verifier, loginObserver);

@@ -3,9 +3,12 @@ package auth;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.function.Consumer;
+
 import javax.swing.JOptionPane;
 
 /**
+ * Controls the Registration via inheritance
  * @author Mendoza, Carl Nicolas
  * @author San Juan, Jean Carlo
  */
@@ -14,9 +17,11 @@ public class RegistrationForm extends RegistrationPanel implements ActionListene
 	protected int EXACT_CONTACT_LENGTH = 11;
 	protected final String SIMPLE_EMAIL_CHECK = ".+@.+";
 	protected final String SIMPLE_CONTACT_CHECK = "\\d{11}";
-	public RegistrationForm() {
+	private Consumer<UserInfo> consumer;
+	public RegistrationForm(Consumer<UserInfo> consumer) {
 		super();
 		buttonRegister.addActionListener(this);
+		this.consumer = consumer;
 	}
 	
 	public void errorPane(String emptyPhrase) {
@@ -60,7 +65,6 @@ public class RegistrationForm extends RegistrationPanel implements ActionListene
 	}
 	/**
 	 * @implNote Creates a UserInfo regardless of the validity.
-	 * @return
 	 */
 	public UserInfo getUser() {
 		return new UserInfo(
@@ -72,18 +76,24 @@ public class RegistrationForm extends RegistrationPanel implements ActionListene
 		);
 	}
 
+	/**
+	 * Prompts the Registrar to create a new account.
+	 */
 	public void try_register() {
-		int id = 0;
 		try {
 			var u = getUser();
-			id = Registrar.getRegistrar().register(u);
+			int id = Registrar.getRegistrar().register(u);
+			if (id == 0) {
+				errorPane("email is taken");
+				return;
+			}
+			u.setId(id);
+			clear();
+			successPane();
+			consumer.accept(u);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		if (id == 0) {
 			errorPane("Server couldn't handle your request. Please try again later.");
-			return;
 		}
-		successPane();
 	}
 }

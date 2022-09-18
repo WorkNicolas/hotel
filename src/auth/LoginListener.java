@@ -12,11 +12,6 @@ public class LoginListener implements ActionListener {
     protected AnAuthenticator<User> authenticator;
     protected LoginForm form;
     private LoginObserver o;
-    public enum Action {
-		LOGIN,
-		REGISTER,
-		GUEST
-	}
 
     public LoginListener(LoginForm form, int MAX_ATTEMPTS, AnAuthenticator<User> authenticator, LoginObserver o) {
         this.MAX_ATTEMPTS = MAX_ATTEMPTS;
@@ -24,34 +19,30 @@ public class LoginListener implements ActionListener {
         this.authenticator = authenticator;
         this.o = o;
         form.bLogin.addActionListener(this);
-        form.bLogin.setActionCommand("" + Action.LOGIN);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
-        switch (Action.valueOf(e.getActionCommand())) {
-            case LOGIN:
-                var u = form.getUser();
+        var u = form.getUser();
+        tryLogin(u);
+    }
 
-                if (authenticator.login(u))
-                {
-                    o.onSuccess(u);
-                } else {
-                    if (++attempt >= MAX_ATTEMPTS) {
-                        o.onMaxTries();
-                    } else
-                        o.onFail();
-                }
-                break;
-            case REGISTER:
-                o.onRegister();
-                break;
-            case GUEST:
-                o.onGuest();
-                break;
-            default:
-                System.out.println("Unkown action event: " + e.getActionCommand());
+    public int getAttempts() {
+        return attempt;
+    }
+
+    public int getAttemptsLeft() {
+        return MAX_ATTEMPTS - attempt;
+    }
+    public void tryLogin(User u) {
+        if (authenticator.login(u))
+        {
+            o.onSuccess(u);
+        } else {
+            if (++attempt >= MAX_ATTEMPTS) {
+                o.onMaxTries();
+            } else
+                o.onFail();
         }
     }
 }
