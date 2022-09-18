@@ -29,4 +29,10 @@ public class User {
         this.phrase = phrase;
         this.id = 0;
     }
+
+    public User(UserInfo u) {
+        this.email = u.getEmail();
+        this.phrase = u.phrase;
+        this.id = 0;
+    }
 }
