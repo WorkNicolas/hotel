@@ -13,7 +13,7 @@ public class Registrar extends Connector {
     public static final String TABLE_NAME = "users";
     private static Registrar registrar;
     public Registrar() throws SQLException {
-        executeSQL("CREATE TABLE " + TABLE_NAME + " (id int NOT NULL AUTO_INCREMENT, email varchar(255) NOT NULL, name varchar(255) NOT NULL, phrase varchar(255) NOT NULL, address varchar(255) NOT NULL, contact varchar(11) NOT NULL, PRIMARY KEY (id))");
+        executeSQL("CREATE TABLE " + TABLE_NAME + " (id int NOT NULL AUTO_INCREMENT, email varchar(255) NOT NULL UNIQUE, name varchar(255) NOT NULL, phrase varchar(255) NOT NULL, address varchar(255) NOT NULL, contact varchar(11) NOT NULL, PRIMARY KEY (id))");
         registrar = this;
     }
 
