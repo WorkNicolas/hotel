@@ -37,15 +37,20 @@ public class Manager extends Connector {
         this.limit = limit;
     }
 
+    public ArrayList<RawInfo> fetchAvailable(Stay stay, int limit) {
+        setLimit(limit);
+        return fetchAvailable(stay);
+    }
     public ArrayList<RawInfo> fetchAvailable(Stay stay) {
         ArrayList<RawInfo> rooms = new ArrayList<>();
         try {
             Connection conn = connect();
-            var s = conn.prepareStatement("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM reservations WHERE (start BETWEEN ? AND ?) OR (end BETWEEN ? AND ?))");
+            var s = conn.prepareStatement("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM reservations WHERE (start BETWEEN ? AND ?) OR (end BETWEEN ? AND ?)) LIMIT ?");
             s.setDate(1, stay.getStart());
             s.setDate(2, stay.getEnd());
             s.setDate(3, stay.getStart());
             s.setDate(4, stay.getEnd());
+            s.setInt(5, limit);
             ResultSet r = s.executeQuery();
 
             while (r.next()) {
