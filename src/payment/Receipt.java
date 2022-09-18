@@ -27,7 +27,7 @@ public class Receipt {
         discountMap.put("SENIOR CITIZEN", 0.2f);
         discountMap.put("PERSON WITH DISABILITY", 0.2f);
     }
-    protected HashMap<String, Amenity> amenities = new HashMap<String, Amenity>();
+    public HashMap<String, Amenity> amenities = new HashMap<String, Amenity>();
     public Receipt() {
         this("");
     }
