@@ -14,32 +14,41 @@ public class Hotelier extends Connector{
     public Hotelier() throws SQLException {
         Connector.executeSQL("CREATE TABLE IF NOT EXISTS `reservations` ( `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', `start` date NOT NULL, `room_id` int NOT NULL, `tenant_id` int NOT NULL, `end` date NOT NULL, PRIMARY KEY (`id`), KEY `room_id` (`room_id`), KEY `tenant_id` (`tenant_id`), CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`), CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`) )");
     }
+
+    public static int getIDbyEmail(String email) throws SQLException {
+        var conn = connect();
+        var s = conn.prepareStatement("SELECT id FROM users WHERE email = ?;");
+        s.setString(1, email);
+        var result = s.executeQuery();
+        var id = 0;
+        if (result.next()) {
+            id = result.getInt("id");
+        } 
+        conn.close();
+        return id;
+    }
     /**
-     * @return n > 0 it is the newly created record's id. Otherwise it failed
+     * @return newly created record's id if n > 0. Otherwise it failed.
      */
     public static int commit(Reservation r) throws SQLException {
         var conn = connect();
-        var ss = conn.prepareStatement("SELECT id FROM users WHERE email = ?;");
-        ss.setString(1, r.getTenant().getEmail());
-        var resultSet = ss.executeQuery();
-        if (!resultSet.next())
-            return 0;
+        var tenant_id = getIDbyEmail(r.getTenant().getEmail());
         int new_id = 0;
-        {
-            var tenant_id = resultSet.getInt("id");
-            var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(room_id, start, end, tenant_id) VALUES(?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
-            s.setInt(1, r.getRoom().getId());
-            s.setDate(2, r.getStay().getStart());
-            s.setDate(3, r.getStay().getEnd());
-            s.setInt(4, tenant_id);
-            //TODO: Receipt
-            var status = s.executeUpdate();
-            if (status == 0)
-                return 0;
-            var rs = s.getGeneratedKeys();
-            if (rs.next()) {
-                new_id = rs.getInt(1);
-            }
+        if (tenant_id == 0)  {
+            return 0;
+        }
+        var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(room_id, start, end, tenant_id) VALUES(?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
+        s.setInt(1, r.getRoom().getId());
+        s.setDate(2, r.getStay().getStart());
+        s.setDate(3, r.getStay().getEnd());
+        s.setInt(4, tenant_id);
+        //TODO: Receipt
+        var status = s.executeUpdate();
+        if (status == 0)
+            return 0;
+        var rs = s.getGeneratedKeys();
+        if (rs.next()) {
+            new_id = rs.getInt(1);
         }
         conn.close();
         return new_id;
