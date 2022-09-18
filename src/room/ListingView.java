@@ -8,22 +8,32 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
 
-public class RoomListing  extends JPanel{
+/**
+ * {@summary A view for the available rooms}
+ */
+public class ListingView  extends JPanel{
 	public ArrayList<JButton> buttons;
 	//Change this value.
 	ArrayList<RawInfo> data;
 	int width = 200;
 	int height = 200;
-	public RoomListing(){
+	public ListingView(){
 		data = new ArrayList<>();
 		Info.setFavicon(Helper.createImageIcon(Color.BLUE, width, height));
 	}
 
+	/**
+	 * Rerenders with new data
+	 */
 	public void updateEntries(ArrayList<RawInfo> entries) {
 		data = entries;
-		preparePanel(data);
+		populate(data);
 	}
-	private void preparePanel(ArrayList<RawInfo> d) {
+
+	/**
+	 * {@summary Populates the JPanel with the rooms}
+	 */
+	private void populate(ArrayList<RawInfo> data) {
 		{ // For updating room entries
 			removeAll();
 			buttons = new ArrayList<>();
@@ -39,7 +49,7 @@ public class RoomListing  extends JPanel{
 		fgbc.fill = GridBagConstraints.BOTH;
 	
 		//Main Panel
-		JPanel mainPanel = panelAdder(d);
+		JPanel mainPanel = panelAdder(data);
 		
 		//Scroll Pane
 		JScrollPane scrollPane = new JScrollPane(mainPanel);
