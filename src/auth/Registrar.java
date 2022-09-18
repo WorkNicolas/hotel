@@ -13,8 +13,8 @@ public class Registrar extends Connector {
     public static final String TABLE_NAME = "users";
     private static Registrar registrar;
     public Registrar() throws SQLException {
-        executeSQL("CREATE TABLE IF NOT EXISTS users (id int NOT NULL AUTO_INCREMENT, email varchar(255) NOT NULL, name varchar(255) NOT NULL, phrase varchar(255) NOT NULL,address varchar(255) NOT NULL,PRIMARY KEY (id))");
-        registrar = new Registrar();
+        executeSQL("CREATE TABLE " + TABLE_NAME + " (id int NOT NULL AUTO_INCREMENT, email varchar(255) NOT NULL, name varchar(255) NOT NULL, phrase varchar(255) NOT NULL, address varchar(255) NOT NULL, contact varchar(11) NOT NULL, PRIMARY KEY (id))");
+        registrar = this;
     }
 
     /**
@@ -36,11 +36,12 @@ public class Registrar extends Connector {
         int new_id = 0;
         try {
             conn = connect();
-            var p = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(name, phrase, email, address) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            var p = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(name, phrase, email, address, contact) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             p.setString(1, u.getName());
             p.setString(2, u.getPhrase());
             p.setString(3, u.getEmail());
             p.setString(4, u.getAddress());
+            p.setString(5, u.getContact());
             p.executeUpdate();
             var rs = p.getGeneratedKeys();
             if (rs.next()) {
