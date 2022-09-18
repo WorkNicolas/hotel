@@ -16,16 +16,14 @@ public class RoomListing  extends JPanel{
 	int height = 200;
 	public RoomListing(){
 		data = new ArrayList<>();
-		prepareFrame();
 		Info.setFavicon(Helper.createImageIcon(Color.BLUE, width, height));
 	}
 
-	
 	public void updateEntries(ArrayList<RawInfo> entries) {
 		data = entries;
-		prepareFrame();
+		preparePanel(data);
 	}
-	private void prepareFrame() {
+	private void preparePanel(ArrayList<RawInfo> d) {
 		{ // For updating room entries
 			removeAll();
 			buttons = new ArrayList<>();
@@ -39,10 +37,9 @@ public class RoomListing  extends JPanel{
 		fgbc.weightx = 3;
 		fgbc.weighty = 7;
 		fgbc.fill = GridBagConstraints.BOTH;
-		
+	
 		//Main Panel
-		
-		JPanel mainPanel = panelAdder(data);
+		JPanel mainPanel = panelAdder(d);
 		
 		//Scroll Pane
 		JScrollPane scrollPane = new JScrollPane(mainPanel);
@@ -64,15 +61,14 @@ public class RoomListing  extends JPanel{
 	//Panel adder
 	private JPanel panelAdder(ArrayList<RawInfo> data) {
 		//Main Panel Properties
-		JPanel mainPanel = new JPanel();
+		JPanel panel = new JPanel();
 		int count = data.size();
 		GridBagLayout gbl = new GridBagLayout();
-		mainPanel.setLayout(gbl);
+		panel.setLayout(gbl);
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH;
-		
 		//Panel Properties
 		
 		RoomPanel[] panels = new RoomPanel[count];
@@ -167,12 +163,8 @@ public class RoomListing  extends JPanel{
 		
 		//Adding all panels
 		for(int i = 0; i < count; i++ ) {
-			mainPanel.add(panels[i]);
+			panel.add(panels[i]);
 		}
-		
-		return mainPanel;
+		return panel;
 	}
-	
-
-	
 }

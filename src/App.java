@@ -52,9 +52,10 @@ public class App extends View implements Subscriber<State> {
 			paymentComponent = new PaymentComponent(this, accountName -> {
                 JOptionPane.showMessageDialog(this, accountName);
                 paymentComponent.setPortalName("GCASH");
-                roomListingView.buttons.forEach(jButton -> {
+               /*  TODO: handle payment
+               roomListingView.buttons.forEach(jButton -> {
                     jButton.addActionListener(paymentComponent);
-                });
+                }); */
             });
         }
         {//Login related
@@ -85,11 +86,6 @@ public class App extends View implements Subscriber<State> {
                     ReservationState rs = Hotelier.getStatus(reservations);
                     switch(rs) {
                         case DONE: case NONE:
-                            roomListingView.updateEntries(
-                                new ArrayList<>(
-                                    roomManager.fetchAvailable().values()
-                                )
-                            );
                             Status.self.submit(State.BROWSE);
                             break;
                         case ONGOING:

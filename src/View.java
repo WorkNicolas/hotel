@@ -5,7 +5,7 @@ import javax.swing.border.EmptyBorder;
 
 import auth.LoginForm;
 import reservation.ReservationTicketView;
-import room.RoomListing;
+import room.ListingForm;
 import service.RoomServicePanel;
 import service.Supplier;
 
@@ -25,7 +25,7 @@ public class View extends JFrame {
 	protected JMenuItem rCancel = new JMenuItem("Cancel");
 	protected JMenu menuRoomService = new JMenu("Room Service");
 	protected LoginForm loginForm = new LoginForm();
-	protected RoomListing roomListingView = new RoomListing();
+	protected ListingForm listingForm;
 	protected JMenuItem order = new JMenuItem("Order");
 	protected RoomServicePanel roomService;
 	protected HashMap<State, JPanel> panels = new HashMap<>();
@@ -76,6 +76,7 @@ public class View extends JFrame {
 				roomService = new RoomServicePanel(Supplier.fetchAvailable());
 				//TODO: defer RoomServiceView setting items.
 				roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
+				listingForm = new ListingForm();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -84,7 +85,7 @@ public class View extends JFrame {
 			ticketView.setBorder(new EmptyBorder(5, 5, 5, 5));
 			panels.put(State.BOOKED, ticketView);
 			panels.put(State.CHECKEDIN, roomService);
-			panels.put(State.BROWSE, roomListingView);
+			panels.put(State.BROWSE, listingForm);
 			panels.put(State.auth, loginForm);
 		}
 		{ // Setup loginForm
