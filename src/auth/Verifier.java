@@ -14,14 +14,19 @@ public class Verifier extends Connector implements AnAuthenticator<User> {
     protected Optional<User> user = Optional.ofNullable(null);
     @Override
     public boolean login(User u) {
-        Connection conn = null;
         try {
-            conn = connect();
+            var conn = connect();
             PreparedStatement s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " where email = ? AND phrase = ?;");
             s.setString(1, u.email);
             s.setString(2, u.phrase);
             var r = s.executeQuery();
-            return r.next();
+            var correct = r.next();
+            if (correct) {
+                user= Optional.of(u);
+            }
+
+            conn.close();
+            return correct;
         } catch (Exception e) {
             e.printStackTrace();
         }
