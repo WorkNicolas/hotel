@@ -1,5 +1,5 @@
 package room;
-
+import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -56,7 +56,7 @@ public class RoomPanel extends JPanel {
 		
 		//displayLabel Properties
 		displayLabel = new JLabel();
-
+		displayLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
 		panelRight.add(displayLabel);
 		
 		add(panelRight,gbc);
