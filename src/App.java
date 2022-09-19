@@ -44,8 +44,8 @@ public class App extends View implements Subscriber<State> {
             });
            
             rCancel.addActionListener(e -> {
-                verifier.getUser().ifPresent(u -> {
-                    var reservations = Hotelier.getReservations(u);
+                verifier.getUser().ifPresent(user -> {
+                    var reservations = Hotelier.getReservations(user);
                     if (reservations.size()== 0)
                         return;
 
@@ -57,9 +57,9 @@ public class App extends View implements Subscriber<State> {
                         default:
                             break;
                     }
-                    String input = JOptionPane.showInputDialog(this, "To confirm cancellation, type your email: " +  u.getEmail(), "Cancel reservation", JOptionPane.WARNING_MESSAGE);
+                    String input = JOptionPane.showInputDialog(this, "To confirm cancellation, type your email: " +  user.getEmail(), "Cancel reservation", JOptionPane.WARNING_MESSAGE);
 
-                    if ((!u.getEmail().equals(input)))
+                    if ((!user.getEmail().equals(input)))
                             return;
                     try {
                         Hotelier.cancel(r.getId());
@@ -68,8 +68,8 @@ public class App extends View implements Subscriber<State> {
                         return;
                     }
                     JOptionPane.showMessageDialog(this, "You have cancelled your booking. Please await your refund.");
-                    Status.self.submit(State.BROWSE); //Redirect to listing
-                    return;
+                    Status.self.submit(State.auth);
+                    loginListener.tryLogin(user);
                 });
             });
         }
@@ -180,6 +180,25 @@ public class App extends View implements Subscriber<State> {
                 
             };
         }
+        {//Payment 
+            listingForm.setConsumer(r -> {
+                try {
+                    Hotelier.commit(r);
+                    listingForm.
+                    dialog.setVisible(false);
+                    listingForm.remove(listingForm.dialog);
+                    listingForm.onSuccess();
+                    verifier.getUser().ifPresent(user -> {
+                        Status.self.submit(State.auth);
+                        loginListener.tryLogin(user);
+                    });
+                    return;
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+                listingForm.onFail();
+            });
+        }
         {//SUBSCRIPTIONS
             ReservationStatus.self.subscribe(reservationObserver);
             ReservationStatus.self.submit(ReservationState.NONE);
@@ -194,6 +213,17 @@ public class App extends View implements Subscriber<State> {
 
 	@Override
 	public void onNext(State s) {
+        switch(s) {
+            case BOOKED:
+            case BROWSE:
+            case CHECKEDIN:
+                verifier.getUser().ifPresent(user -> {
+                    listingForm.setTenant(Hotelier.getContactInfo(user));
+                });
+                break;
+            default:
+                break;
+        }
 		activate(s);
 		subscription.request(1);
 	}
