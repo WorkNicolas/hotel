@@ -12,6 +12,7 @@ public class  DateComponent extends SpinnerDateModel {
         ui.setFont(new Font("Consolas", Font.PLAIN, 24));
         var e = new JSpinner.DateEditor(ui,pattern);
         ui.setEditor(e);
+        ui.setToolTipText(pattern);
     }
 
     /**
