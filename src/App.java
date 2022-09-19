@@ -60,7 +60,7 @@ public class App extends View implements Subscriber<State> {
                         return;
                     }
 
-                    JOptionPane.showMessageDialog(this, "You have cancelled your booking.");
+                    JOptionPane.showMessageDialog(this, "You have cancelled your booking. Please await your refund.");
                     Status.self.submit(State.BROWSE); //Redirect to listing
                 });
             });
