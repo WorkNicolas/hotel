@@ -21,6 +21,8 @@ public class QueryBar extends JPanel {
         var lblEnd = new JLabel(" until ");
         start = new DateComponent();
         end = new DateComponent();
+        lblStart.setFont(start.ui.getFont());
+        lblEnd.setFont(start.ui.getFont());
         add(lblStart);
         add(start.ui);
         add(lblEnd);

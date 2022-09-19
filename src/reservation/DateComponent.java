@@ -9,7 +9,7 @@ public class  DateComponent extends SpinnerDateModel {
     private final String pattern = "yyyy-MM-dd";
     public DateComponent() {
         ui = new JSpinner(this);
-        ui.setFont(new Font("Consolas", Font.PLAIN, 24));
+        ui.setFont(new Font("Consolas", Font.PLAIN, 28));
         var e = new JSpinner.DateEditor(ui,pattern);
         ui.setEditor(e);
         ui.setToolTipText(pattern);
