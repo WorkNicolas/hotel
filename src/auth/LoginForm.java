@@ -12,7 +12,6 @@ public class LoginForm extends JPanel {
 	private JTextField inputName = new JTextField();
 	private JPasswordField inputPhrase = new JPasswordField();
 	public JButton bLogin = new JButton("Login");
-	public JButton bGuest = new JButton("Guest");
 	public JButton bRegister = new JButton("Register");
 	enum Action {
 		LOGIN,
@@ -25,8 +24,7 @@ public class LoginForm extends JPanel {
 	}
 
 	private void initComponents() {
-		setInheritsPopupMenu(true);
-		var font = new Font("Tahoma", Font.PLAIN, 24);
+		var font = new Font("Tahoma", Font.PLAIN, 30);
 		setFont(font);
 		setLayout(new GridBagLayout());
 		// ---- lName ----
@@ -66,13 +64,6 @@ public class LoginForm extends JPanel {
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 10, 0), 0, 0));
 		//bLogin's action command is set by LoginListener
-
-		// ---- bGuest ----
-		bGuest.setFont(font);
-		add(bGuest, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				new Insets(0, 0, 0, 0), 0, 0));
-		bGuest.setActionCommand("" + Action.GUEST);
 
 		// ---- button3 ----
 		bRegister.setFont(font);
