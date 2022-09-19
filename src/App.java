@@ -43,6 +43,27 @@ public class App extends View implements Subscriber<State> {
                 //DO NOT CHANGE Status
             });
            
+            rCancel.addActionListener(e -> {
+                verifier.getUser().ifPresent(u -> {
+                    String input = JOptionPane.showInputDialog(this, "To confirm cancellation, type your email: " +  u.getEmail(), "Cancel reservation", JOptionPane.WARNING_MESSAGE);
+
+                    if ((!u.getEmail().equals(input)))
+                            return;
+
+                    var reservations = Hotelier.getReservations(u);
+                    if (reservations.size()== 0)
+                        return;
+                    try {
+                        Hotelier.cancel(reservations.get(0).getId());
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                        return;
+                    }
+
+                    JOptionPane.showMessageDialog(this, "You have cancelled your booking.");
+                    Status.self.submit(State.BROWSE); //Redirect to listing
+                });
+            });
         }
         {//Login related
             //TODO allow changing of default button per panel.
