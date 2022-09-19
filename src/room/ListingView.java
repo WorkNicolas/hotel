@@ -85,6 +85,7 @@ public class ListingView  extends JPanel{
 		RoomPanel[] panels = new RoomPanel[count];
 		for (int i = 0; i < count; i++) {
 			panels[i] = new RoomPanel(data.get(i), width, height);
+			panels[i].button.setActionCommand("" + i); //Index
 			buttons.add(panels[i].button);
 		}
 		
