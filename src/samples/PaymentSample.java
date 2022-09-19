@@ -7,7 +7,7 @@ import payment.PaymentPanel;
 public class PaymentSample {
     public static void main(String[] args) {
         try {
-            var p = new PaymentPanel<String>(
+            var p = new PaymentPanel(
                 100f,
                 new String[] {
                     "Test", 

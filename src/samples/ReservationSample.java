@@ -7,6 +7,7 @@ import java.time.Month;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
+import payment.Payment;
 import reservation.ContactInfo;
 import reservation.Reservation;
 import reservation.ReservationTicketView;
@@ -42,16 +43,24 @@ public class ReservationSample extends JFrame {
 			"TEST room"
 		);
 	}
+	public static Payment genPayment() {
+		return new Payment(100f, "SAMPLE METHOD", "00000", 0.2f);
+	}
 
+	public static Reservation genReservation() {
+		return new Reservation(0,
+		genContactInfo(),
+		genInfo(),
+		genStay(),
+		genPayment()
+	);
+	}
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			var r = new Reservation(0,
-				genContactInfo(),
-				genInfo(),
-				genStay());
+			var r = genReservation();
 			ReservationSample frame = new ReservationSample();
 			TicketController t = new TicketController(frame.panel);
 			t.setInfo(r);

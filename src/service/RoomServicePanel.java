@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class RoomServicePanel extends JPanel {
 	private JTextField txtNumOrder;
-	protected ArrayList<Amenity> content;
+	public ArrayList<Amenity> content;
 	protected JButton addOrder;
 	protected JButton commitOrder;
 	protected JButton btnReturn;
@@ -21,7 +21,7 @@ public class RoomServicePanel extends JPanel {
 		RoomServiceComponents();
 	}
 	
-	protected void RoomServiceComponents() {
+	public void RoomServiceComponents() {
 		removeAll();
 		setLayout(new BorderLayout(0, 0));
 		
@@ -177,8 +177,8 @@ public class RoomServicePanel extends JPanel {
 		//removing selected order from the order list
 		
 		btnRemoveOrder.addActionListener(e -> {
-				int i = orderList.getSelectedIndex();
-				orderListModel.removeElementAt(i);
+			int i = orderList.getSelectedIndex();
+			orderListModel.removeElementAt(i);
 		});
 		
 		JLabel lblTotal = new JLabel("Total: ");

@@ -1,10 +1,13 @@
-package service;
+package samples;
 import java.awt.EventQueue;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 
-public class RoomServiceFrame extends JFrame {
+import service.RoomServicePanel;
+import service.Supplier;
+
+public class RoomServiceSample extends JFrame {
 
 	/**
 	 * Launch the application.
@@ -13,7 +16,7 @@ public class RoomServiceFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RoomServiceFrame frame = new RoomServiceFrame();
+					RoomServiceSample frame = new RoomServiceSample();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -26,7 +29,7 @@ public class RoomServiceFrame extends JFrame {
 	 * Create the frame.
 	 * @throws SQLException
 	 */
-	public RoomServiceFrame() throws SQLException {
+	public RoomServiceSample() throws SQLException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 772, 397);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
