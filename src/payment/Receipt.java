@@ -63,18 +63,8 @@ public class Receipt {
         return getTotal() * percentage;
     }
 
-    /**
-     * @implNote a's supply is reduced.
-     * @param a
-     * @return whether a was added.
-     */
-    public boolean put(Amenity a) {
-        if (a.reduce(a.getAmount())) {
-            amenities.put(a.getName(), a);
-            return true;
-        } 
-
-        return false;
+    public void put(Amenity a) {
+        amenities.put(a.getName(), a);
     }
 
     /**
