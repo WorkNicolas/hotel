@@ -133,10 +133,12 @@ public class RoomServicePanel extends JPanel {
 		
 		JList<Amenity> orderList = new JList<>();
 		DefaultListModel<Amenity> orderListModel = new DefaultListModel<>();
-		orderList.setBorder(new LineBorder(Color.BLACK, 2));
-		orderList.setBounds(130, 54, 359, 141); //adjusted
+		JScrollPane orderListScrollPane = new JScrollPane(orderList);
+		orderListScrollPane.setBorder(new LineBorder(Color.BLACK, 2));
+		orderListScrollPane.setBounds(130, 54, 359, 141); //adjusted
 		orderList.setVisibleRowCount(5);
-		orderPanel.add(orderList);
+		
+		orderPanel.add(orderListScrollPane);
 		
 		addOrder = new JButton("Add Order");
 		addOrder.setBounds(558, 162, 95, 33);
@@ -177,8 +179,8 @@ public class RoomServicePanel extends JPanel {
 		//removing selected order from the order list
 		
 		btnRemoveOrder.addActionListener(e -> {
-			int i = orderList.getSelectedIndex();
-			orderListModel.removeElementAt(i);
+				int i = orderList.getSelectedIndex();
+				orderListModel.removeElementAt(i);
 		});
 		
 		JLabel lblTotal = new JLabel("Total: ");
