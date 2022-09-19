@@ -63,21 +63,40 @@ public class Receipt {
         return getTotal() * percentage;
     }
 
-    public void put(Amenity a) {
+    public boolean put(Amenity a) {
+        if (amenities.containsValue(a)) {
+            return false;
+        } 
         amenities.put(a.getName(), a);
+        return true;
     }
 
+    public boolean putOrAddAmount(Amenity a, int n) {
+        put(a);
+        return a.reduce(n);
+    }
+    public boolean reduceOrRemove(Amenity a, int n) {
+        if (amenities.containsValue(a)) {
+            return a.resupply(n);
+        }
+
+        if (a.getAmount() <= 0) {
+            amenities.remove(a.getName());
+        }
+
+        return false;
+    }
     /**
      * @implNote removed's amount is added to the supply field.
      * @return whether it was removed
      */
     public boolean remove(String key) {
-        var removed = amenities.remove(key);
-        if (removed != null) {
-            return removed.resupply(removed.getAmount());
-        }
+        if (!amenities.containsKey(key))
+            return false;
 
-        return false;
+        var removed = amenities.remove(key);
+        removed.resupply(removed.getAmount());
+        return true;
     }
 
     public boolean remove(Amenity a)  {

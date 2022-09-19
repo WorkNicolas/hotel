@@ -7,8 +7,6 @@ import auth.LoginForm;
 import reservation.ReservationTicketView;
 import room.ListingForm;
 import service.RoomServicePanel;
-import service.Supplier;
-
 /**
  * @author Jean Carlo Molina San Juan
  */
@@ -72,15 +70,9 @@ public class View extends JFrame {
 	 */
 	private void initComponents() {
 		{
-			try {
-				roomService = new RoomServicePanel(Supplier.fetchAvailable());
-				//TODO: defer RoomServiceView setting items.
-				roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
-				listingForm = new ListingForm();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
+			roomService = new RoomServicePanel();
+			roomService.setBorder(new EmptyBorder(5, 5, 5, 5));
+			listingForm = new ListingForm();
 			ticketView = new ReservationTicketView();
 			ticketView.setBorder(new EmptyBorder(5, 5, 5, 5));
 			panels.put(State.BOOKED, ticketView);

@@ -12,10 +12,14 @@ import auth.LoginObserver;
 import auth.RegistrationForm;
 import auth.User;
 import auth.Verifier;
+import payment.Payment;
+import payment.Receipt;
 import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.ReservationState;
 import room.Manager;
+import service.ServiceController;
+import service.Waiter;
 
 /**
  * @author Jean Carlo Molina San Juan
@@ -27,6 +31,8 @@ public class App extends View implements Subscriber<State> {
 	private LoginListener loginListener;
     private LoginObserver loginObserver;
     private Subscriber<ReservationState> reservationObserver;
+    private ArrayList<Reservation> reservations;
+    private ServiceController serviceController;
     public App() throws SQLException {
         super();
         {//MENU
@@ -45,15 +51,18 @@ public class App extends View implements Subscriber<State> {
            
             rCancel.addActionListener(e -> {
                 verifier.getUser().ifPresent(user -> {
-                    var reservations = Hotelier.getReservations(user);
+                    reservations = Hotelier.getReservations(user);
                     if (reservations.size()== 0)
                         return;
 
-                    var r = reservations.get(0);
-                    var status = r.getStay().getStatus();
+                    Reservation latest = reservations.get(0);
+                    var status = latest.getStay().getStatus();
                     switch(status) {
                         case DONE: case NONE:
                             JOptionPane.showMessageDialog(this, "You have no upcoming or ongoing reservations.");
+                        case ONGOING:
+                     
+                            break;
                         default:
                             break;
                     }
@@ -62,7 +71,7 @@ public class App extends View implements Subscriber<State> {
                     if ((!user.getEmail().equals(input)))
                             return;
                     try {
-                        Hotelier.cancel(r.getId());
+                        Hotelier.cancel(latest.getId());
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                         return;
@@ -96,7 +105,7 @@ public class App extends View implements Subscriber<State> {
                 @Override
                 public void onSuccess(User u) {
                     loginForm.clear();
-                    ArrayList<Reservation> reservations = Hotelier.getReservations(u);
+                    reservations = Hotelier.getReservations(u);
                     ReservationState rs = Hotelier.getStatus(reservations);
                     switch(rs) {
                         case DONE: case NONE:
@@ -180,6 +189,7 @@ public class App extends View implements Subscriber<State> {
                 
             };
         }
+      
         {//Payment 
             listingForm.setConsumer(r -> {
                 try {
@@ -219,6 +229,20 @@ public class App extends View implements Subscriber<State> {
             case CHECKEDIN:
                 verifier.getUser().ifPresent(user -> {
                     listingForm.setTenant(Hotelier.getContactInfo(user));
+                     //ROOM SERVICE
+
+                     Hotelier.getLatest(reservations).ifPresent(r -> {
+                        try {
+                            roomService.setContent(service.Supplier.fetchAvailable());
+                            this.serviceController = new ServiceController(
+                                roomService, 
+                                (Receipt receipt, Payment p) -> {
+                                    Waiter.order(p, receipt, r.getId());
+                            });
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    });
                 });
                 break;
             default:

@@ -177,6 +177,12 @@ public class Hotelier extends Connector{
         return new ArrayList<>();
     }
 
+    public static Optional<Reservation> getLatest(ArrayList<Reservation> reservations) {
+        if (reservations.size()== 0)
+            return Optional.ofNullable(null);
+
+        return Optional.of(reservations.get(0));
+    }
     public static ReservationState getStatus(ArrayList<Reservation> reservations) {
         if (reservations.size() == 0) {
             return ReservationState.NONE;
