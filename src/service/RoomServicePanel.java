@@ -16,6 +16,7 @@ public class RoomServicePanel extends JPanel {
 	public JList<Amenity> orderList;
 	public JButton btnRemoveOrder;
 	public JLabel lblTotal;
+	public JButton btnClear;
 	/**
 	 * Create the panel.
 	 */
@@ -143,7 +144,7 @@ public class RoomServicePanel extends JPanel {
 		orderPanel.add(orderListScrollPane);
 		
 		addOrder = new JButton("Add Order");
-		addOrder.setBounds(558, 162, 95, 33);
+		addOrder.setBounds(520, 60, 95, 33);
 		orderPanel.add(addOrder);
 		
 		//add selected items from other list to order list
@@ -155,9 +156,12 @@ public class RoomServicePanel extends JPanel {
 		//text field for the number of a selected item
 		
 		btnRemoveOrder = new JButton("Remove Order");
-		btnRemoveOrder.setBounds(681, 162, 116, 33);
+		btnRemoveOrder.setBounds(520, 110, 116, 33);
 		orderPanel.add(btnRemoveOrder);
 		
+		btnClear = new JButton("Clear");
+		btnClear.setBounds(520, 160, 116, 33);
+		orderPanel.add(btnClear);
 		//removing selected order from the order list
 		
 		lblTotal = new JLabel("Total: ");

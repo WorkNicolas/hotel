@@ -49,13 +49,28 @@ public class ServiceController {
             showTotal();
         });
         ui.commitOrder.addActionListener(e -> {
-            Payment p = dialog.prompt(receipt.getTotal());
+            float total = receipt.getTotal();
+            if (total <= 0) {
+                return;
+            }
+            Payment p = dialog.prompt(total);
             if (p == null)
                 return;
             this.consumer.accept(receipt, p);
         });
+
+        ui.btnClear.addActionListener(e -> {
+            clear();
+        });
     }
     public void showTotal() {
         ui.lblTotal.setText("Total: " + receipt.getTotal());
+    }
+
+    public void clear() {
+        this.receipt = new Receipt();
+        latest = null;
+        ui.orderListModel.clear();
+        showTotal();
     }
 }
