@@ -239,7 +239,7 @@ public class App extends View implements Subscriber<State> {
                                 (Receipt receipt, Payment p) -> {
                                     Waiter.order(p, receipt, r.getId());
                                     JOptionPane.showMessageDialog(this, "Your order is being processed.", "Acknowledgement", JOptionPane.INFORMATION_MESSAGE);
-                                    serviceController.clear();
+                                    Status.self.submit(State.CHECKEDIN); //FORCE REQUIRY 
                             });
                         } catch (SQLException e) {
                             e.printStackTrace();
