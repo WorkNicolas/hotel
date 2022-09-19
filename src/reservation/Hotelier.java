@@ -109,7 +109,7 @@ public class Hotelier extends Connector{
 
             reservations.add(
                 new Reservation(
-                    r.getInt("room_id"), 
+                    r.getInt("id"), 
                     c,
                     info,
                     new Stay(r)
