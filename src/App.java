@@ -45,23 +45,31 @@ public class App extends View implements Subscriber<State> {
            
             rCancel.addActionListener(e -> {
                 verifier.getUser().ifPresent(u -> {
+                    var reservations = Hotelier.getReservations(u);
+                    if (reservations.size()== 0)
+                        return;
+
+                    var r = reservations.get(0);
+                    var status = r.getStay().getStatus();
+                    switch(status) {
+                        case DONE: case NONE:
+                            JOptionPane.showMessageDialog(this, "You have no upcoming or ongoing reservations.");
+                        default:
+                            break;
+                    }
                     String input = JOptionPane.showInputDialog(this, "To confirm cancellation, type your email: " +  u.getEmail(), "Cancel reservation", JOptionPane.WARNING_MESSAGE);
 
                     if ((!u.getEmail().equals(input)))
                             return;
-
-                    var reservations = Hotelier.getReservations(u);
-                    if (reservations.size()== 0)
-                        return;
                     try {
-                        Hotelier.cancel(reservations.get(0).getId());
+                        Hotelier.cancel(r.getId());
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                         return;
                     }
-
                     JOptionPane.showMessageDialog(this, "You have cancelled your booking. Please await your refund.");
                     Status.self.submit(State.BROWSE); //Redirect to listing
+                    return;
                 });
             });
         }
