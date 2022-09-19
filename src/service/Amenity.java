@@ -65,10 +65,11 @@ public class Amenity {
     /**
      * @return whether the suply changed.
      */
-    public boolean reduce(int amount) {
-        if ((supply - amount) < 0)
+    public boolean reduce(int n) {
+        if ((supply - n) < 0)
             return false;
-        supply -= amount;
+        supply -= n;
+        amount += n;
         return true;
     }
 
