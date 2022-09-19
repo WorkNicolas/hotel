@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import db.Connector;
 
 public class Supplier extends Connector { 
@@ -14,13 +13,26 @@ public class Supplier extends Connector {
         ArrayList<Amenity> a = new ArrayList<>();
         var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE supply > 0");
         ResultSet rs = s.executeQuery();
-        while(rs.next()) {
-            a.add(new Amenity(rs));
+        var items = asAmenities(rs);
+        conn.close();
+        return items;
+    }
+
+    /**
+     * Helper for creating Amenities from the records
+     */
+    public static ArrayList<Amenity> asAmenities(ResultSet rs) {
+        ArrayList<Amenity> a = new ArrayList<>();
+        try {
+            while(rs.next()) {
+                a.add(new Amenity(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return a;
     }
-
     /**
      * @return the new record's id
      */
