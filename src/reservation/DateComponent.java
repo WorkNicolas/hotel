@@ -4,10 +4,17 @@ import javax.swing.SpinnerDateModel;
 import java.awt.Font;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
 public class  DateComponent extends SpinnerDateModel {
     public JSpinner ui;
     private final String pattern = "yyyy-MM-dd";
     public DateComponent() {
+        super(
+            Date.valueOf(LocalDate.now()), 
+            Date.valueOf(LocalDate.now()),
+            null, 
+            Calendar.DATE);
         ui = new JSpinner(this);
         ui.setFont(new Font("Consolas", Font.PLAIN, 28));
         var e = new JSpinner.DateEditor(ui,pattern);
