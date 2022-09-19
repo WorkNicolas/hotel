@@ -1,0 +1,1 @@
+SELECT * FROM amenities WHERE id IN (SELECT item_id FROM orders WHERE reservation_id = 4);
