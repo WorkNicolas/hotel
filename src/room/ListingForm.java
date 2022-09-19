@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import payment.Discount;
+import payment.PaymentDialog;
 import payment.PaymentPanel;
 import payment.Receipt;
 import reservation.ContactInfo;
@@ -31,7 +32,7 @@ import java.awt.event.ActionListener;
 public class ListingForm extends JPanel implements ActionListener {
     public ListingView ui;
     private QueryBar queryBar;
-    public Dialog dialog;
+    public PaymentDialog dialog;
     private PaymentPanel paymentPanel;
     private Consumer<Reservation> consumer;
     public void setConsumer(Consumer<Reservation> consumer) {
@@ -53,7 +54,10 @@ public class ListingForm extends JPanel implements ActionListener {
         add(queryBar);
         ui = new ListingView();
         add(ui);
-        dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Payment portal");
+        dialog = new PaymentDialog(
+            (JFrame) SwingUtilities.getWindowAncestor(this), 
+            "Payment portal", 
+            discounts);
   
         queryBar.checker.addActionListener(event -> {
             try {
@@ -85,33 +89,22 @@ public class ListingForm extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (paymentPanel !=null) {
-            dialog.remove(paymentPanel);
-       }
+        if (tenant == null)
+            return;
         RawInfo r = ui.data.get(Integer.valueOf(e.getActionCommand()));
         int span = Hotelier.count(last);
         span = span < 0 ? span * -1: span; //Prevent negative spans
         span = Math.max(1, span + 1); //Make dates inclusive
-        paymentPanel = new PaymentPanel(
-            r.getRate() * span,
-            Receipt.modes,
-            discounts);
-        paymentPanel.pay.addActionListener(ignore -> {
-            if (tenant == null)
-                return;
-            consumer.accept(
-                new Reservation(0, 
-                tenant, 
-                new Info(r), 
-                last,
-                paymentPanel.getPayment()
-                )
-            );
-           
-        });
-        dialog.add(paymentPanel);    
-        dialog.pack();
-        dialog.setVisible(true);
+        var payment = dialog.prompt(r.getRate() * span);
+        if (payment == null)
+            return;
+        consumer.accept(
+            new Reservation(0, 
+            tenant, 
+            new Info(r), 
+            last,
+            payment
+        ));
     }
 
     public void setTenant(ContactInfo tenant) {
