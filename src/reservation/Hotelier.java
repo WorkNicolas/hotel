@@ -3,16 +3,20 @@ package reservation;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import auth.Registrar;
 import auth.User;
 import db.Connector;
+import payment.Payment;
 import room.Info;
 
 public class Hotelier extends Connector{
     protected static final String TABLE_NAME = "reservations";
     public Hotelier() throws SQLException {
-        Connector.executeSQL("CREATE TABLE IF NOT EXISTS `reservations` ( `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key', `start` date NOT NULL, `room_id` int NOT NULL, `tenant_id` int NOT NULL, `end` date NOT NULL, PRIMARY KEY (`id`), KEY `room_id` (`room_id`), KEY `tenant_id` (`tenant_id`), CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`), CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`) )");
+        Connector.executeSQL("CREATE TABLE IF NOT EXISTS `reservations` ( `id` int PRIMARY KEY AUTO_INCREMENT, `start` date NOT NULL, `end` date NOT NULL, `room_id` int NOT NULL, `tenant_id` int NOT NULL, `payment_id` int NOT NULL, FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`), FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`), FOREIGN KEY (`payment_id`) REFERENCES `payments`(`id`) )");
+
+        Connector.executeSQL("CREATE TABLE IF NOT EXISTS `payments` ( `id` int PRIMARY KEY AUTO_INCREMENT, `amount` float NOT NULL, `method` varchar(64) NOT NULL, `account` varchar(128) NOT NULL, `discount` float NOT NULL)");
     }
 
     public static int getIDByEmail(String email) throws SQLException {
@@ -37,11 +41,13 @@ public class Hotelier extends Connector{
         if (tenant_id == 0)  {
             return 0;
         }
-        var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(room_id, start, end, tenant_id) VALUES(?,?,?, ?)", Statement.RETURN_GENERATED_KEYS);
+        var payment_id = pay(r.payment);
+        var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(room_id, start, end, tenant_id, payment_id) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
         s.setInt(1, r.getRoom().getId());
         s.setDate(2, r.getStay().getStart());
         s.setDate(3, r.getStay().getEnd());
         s.setInt(4, tenant_id);
+        s.setInt(5, payment_id);
         //TODO: Receipt
         var status = s.executeUpdate();
         if (status == 0)
@@ -54,6 +60,32 @@ public class Hotelier extends Connector{
         return new_id;
     }
 
+        /**
+     * @return newly created record's id if n > 0. Otherwise it failed.
+     */
+    public static int pay(Payment p) {
+        int new_id = 0;
+        try {
+            var conn = connect();
+            var s = conn.prepareStatement("INSERT INTO payments(amount, method, account, discount) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            s.setFloat(1, p.getAmount());
+            s.setString(2, p.getMethod());
+            s.setString(3, p.getAccount());
+            s.setFloat(4, p.getDiscount_rate());
+            int status = s.executeUpdate();
+            if (status == 1) {
+                var rs = s.getGeneratedKeys();
+                if (rs.next()) {
+                    new_id = rs.getInt(1);
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new_id;
+    }
     public static boolean cancel(int id) throws SQLException {
         var conn = connect();
         var s = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
@@ -106,19 +138,35 @@ public class Hotelier extends Connector{
             }
             if (info == null)
                 continue;
-
+            var p = getPay(r.getInt("payment_id"));
+            if (p.isEmpty()) {
+                continue;
+            }
             reservations.add(
                 new Reservation(
                     r.getInt("id"), 
                     c,
                     info,
-                    new Stay(r)
+                    new Stay(r),
+                    p.get()
             ));
         }
 
         return reservations;
     }
 
+    public static Optional<Payment> getPay(int id) throws SQLException {
+        var conn = connect();
+        Payment p = null;
+        var s = conn.prepareStatement("SELECT * FROM payments WHERE id = ?");
+        s.setInt(1, id);
+        var r = s.executeQuery();
+        if (r.next()) {
+            p = new Payment(r);
+        }
+
+        return Optional.ofNullable(p);
+    }
     public static ArrayList<Reservation> getReservations(User u) {
         try {
             var c = getContactInfo(u);

@@ -12,8 +12,6 @@ Result should contain all rooms except room 2
 */
 SELECT * FROM rooms WHERE id NOT IN 
 (SELECT room_id FROM reservations WHERE 
-    CURDATE() >= "2022-09-15" AND
-    CURDATE() >= "2022-09-16" AND
-    start <= "2022-09-15" AND 
-    end >= "2022-09-16"
-);
+    ("2022-09-23" BETWEEN
+    start AND end) OR ("2022-09-28" BETWEEN start AND end)
+) LIMIT 3;

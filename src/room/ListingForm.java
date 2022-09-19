@@ -1,6 +1,8 @@
 package room;
 
 import java.sql.SQLException;
+import java.util.function.Consumer;
+
 import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -11,7 +13,9 @@ import javax.swing.SwingUtilities;
 import payment.Discount;
 import payment.PaymentPanel;
 import payment.Receipt;
+import reservation.ContactInfo;
 import reservation.Hotelier;
+import reservation.Reservation;
 import reservation.Stay;
 
 import java.awt.Dialog;
@@ -27,8 +31,13 @@ import java.awt.event.ActionListener;
 public class ListingForm extends JPanel implements ActionListener {
     public ListingView ui;
     private QueryBar queryBar;
-    private Dialog dialog;
-    private PaymentPanel<String> paymentPanel;
+    public Dialog dialog;
+    private PaymentPanel paymentPanel;
+    private Consumer<Reservation> consumer;
+    public void setConsumer(Consumer<Reservation> consumer) {
+        this.consumer = consumer;
+    }
+
     private Discount[] discounts = new Discount[] {
         new Discount("NONE", 0f),
         new Discount("SENIOR CITIZEN", 0.2f),
@@ -36,6 +45,7 @@ public class ListingForm extends JPanel implements ActionListener {
         new Discount("5% off VOUCHER", 0.05f),
     };
     private Stay last;
+    private ContactInfo tenant;
 
     public ListingForm() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -59,14 +69,20 @@ public class ListingForm extends JPanel implements ActionListener {
                     b.addActionListener(this);
                 }
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(getRootPane(),
-                        "Server is unable to process your query. Please try again after some time.");
+                onFail();
                 e.printStackTrace();
             }
             revalidate();
         });
     }
+    public void onFail() {
+        JOptionPane.showMessageDialog(getRootPane(),
+        "Server is unable to process your query. Please try again after some time.");
+    }
 
+    public void onSuccess() {
+        JOptionPane.showMessageDialog(getRootPane(), "Reservation success!", "Reservation", JOptionPane.INFORMATION_MESSAGE);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (paymentPanel !=null) {
@@ -76,12 +92,29 @@ public class ListingForm extends JPanel implements ActionListener {
         int span = Hotelier.count(last);
         span = span < 0 ? span * -1: span; //Prevent negative spans
         span = Math.max(1, span + 1); //Make dates inclusive
-        paymentPanel = new PaymentPanel<>(
+        paymentPanel = new PaymentPanel(
             r.getRate() * span,
             Receipt.modes,
             discounts);
+        paymentPanel.pay.addActionListener(ignore -> {
+            if (tenant == null)
+                return;
+            consumer.accept(
+                new Reservation(0, 
+                tenant, 
+                new Info(r), 
+                last,
+                paymentPanel.getPayment()
+                )
+            );
+           
+        });
         dialog.add(paymentPanel);    
         dialog.pack();
         dialog.setVisible(true);
+    }
+
+    public void setTenant(ContactInfo tenant) {
+        this.tenant = tenant;
     }
 }

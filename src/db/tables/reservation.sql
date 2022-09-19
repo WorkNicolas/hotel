@@ -1,12 +1,11 @@
 CREATE TABLE IF NOT EXISTS `reservations` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `startsAt` date NOT NULL,
-  `length` tinyint NOT NULL,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `start` date NOT NULL,
+  `end` date NOT NULL,
   `room_id` int NOT NULL,
   `tenant_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `room_id` (`room_id`),
-  KEY `tenant_id` (`tenant_id`),
-  CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`),
-  CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`)
+  `payment_id` int NOT NULL,
+  FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`),
+  FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`),
+  FOREIGN KEY (`payment_id`) REFERENCES `payments`(`id`)
 )
