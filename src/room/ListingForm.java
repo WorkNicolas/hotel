@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,14 +11,11 @@ import javax.swing.SwingUtilities;
 
 import payment.Discount;
 import payment.PaymentDialog;
-import payment.PaymentPanel;
-import payment.Receipt;
 import reservation.ContactInfo;
 import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.Stay;
 
-import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -33,13 +29,12 @@ public class ListingForm extends JPanel implements ActionListener {
     public ListingView ui;
     private QueryBar queryBar;
     public PaymentDialog dialog;
-    private PaymentPanel paymentPanel;
     private Consumer<Reservation> consumer;
     public void setConsumer(Consumer<Reservation> consumer) {
         this.consumer = consumer;
     }
 
-    private Discount[] discounts = new Discount[] {
+    public static Discount[] discounts = new Discount[] {
         new Discount("NONE", 0f),
         new Discount("SENIOR CITIZEN", 0.2f),
         new Discount("PERSON WITH DISABILITY", 0.2f),

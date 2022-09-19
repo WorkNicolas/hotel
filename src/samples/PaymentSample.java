@@ -1,32 +1,22 @@
 package samples;
-import javax.swing.JDialog;
-
 import payment.Discount;
-import payment.PaymentPanel;
+import payment.Payment;
+import payment.PaymentDialog;
 
 public class PaymentSample {
     public static void main(String[] args) {
-        try {
-            var p = new PaymentPanel(
-                100f,
-                new String[] {
-                    "Test", 
-                    "Test 1"
-                }, 
-                new Discount[] {
-                    new Discount("NONE", 0f),
-                    new Discount("SENIOR CITIZEN", 0.2f),
-                    new Discount("PERSON WITH DISABILITY", 0.2f),
-                    new Discount("VOUCHER", 0.05f),
-                }
-            );
-            var d = new JDialog();
-            d.add(p);
-            d.pack();
-            d.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // TODO: handle exception
+        var j = new PaymentDialog(null, "Test",  new Discount[] {
+            new Discount("NONE", 0f),
+            new Discount("SENIOR CITIZEN", 0.2f),
+            new Discount("PERSON WITH DISABILITY", 0.2f),
+            new Discount("5% off VOUCHER", 0.05f),
+        });
+        Payment result = j.prompt(100f);
+
+        if (result == null) {
+            System.out.println("operation cancelled");
+        } else {
+            System.out.println("you paid " + result.getAmount());
         }
     }
 }

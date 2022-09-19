@@ -10,7 +10,6 @@ public class Supplier extends Connector {
     public final static String TABLE_NAME = "amenities";
     public static ArrayList<Amenity> fetchAvailable() throws SQLException {
         var conn = connect();
-        ArrayList<Amenity> a = new ArrayList<>();
         var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE supply > 0");
         ResultSet rs = s.executeQuery();
         var items = asAmenities(rs);
