@@ -17,9 +17,10 @@ import java.awt.BorderLayout;
 public class ListingView extends JPanel {
     public ArrayList<JButton> buttons;
 	//Change this value.
-	ArrayList<RawInfo> data;
-    int width = 230;
-	int height = 200;
+	private ArrayList<RawInfo> data;
+    public int width = 230;
+	public int height = 200;
+	private int columnCount = 3;
     public ListingView(){
 		data = new ArrayList<>();
 		buttons = new ArrayList<>();
@@ -49,7 +50,7 @@ public class ListingView extends JPanel {
         int i = 0;
         JPanel row = new JPanel();
         for (var d: data) {
-            if (i++%3 == 0) {
+            if (i++%columnCount == 0) {
                 panel.add(row);
                 row = new JPanel(new FlowLayout());
             }
@@ -60,5 +61,6 @@ public class ListingView extends JPanel {
         }
 		JScrollPane scrollPane = new JScrollPane(panel);
         add(scrollPane, BorderLayout.CENTER);
+		revalidate();
     }
 }

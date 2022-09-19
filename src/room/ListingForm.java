@@ -71,7 +71,6 @@ public class ListingForm extends JPanel implements ActionListener {
                 onFail();
                 e.printStackTrace();
             }
-            revalidate();
         });
     }
     public void onFail() {
