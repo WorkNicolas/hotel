@@ -137,4 +137,27 @@ public class Hotelier extends Connector{
 
         return latest.getStay().getStatus();
     }
+
+    /**
+     * Helper to calculate two dates.
+     * @throws SQLException
+     */
+    public static int count(Stay stay) {
+        try {
+            var conn = connect();
+            var s = conn.prepareStatement("SELECT DATEDIFF(?, ?)");
+            s.setDate(1,stay.end);
+            s.setDate(2,stay.start);
+            var r = s.executeQuery();
+            if (r.next()) {
+                int span = r.getInt(1);
+                conn.close();
+                return span;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 }
