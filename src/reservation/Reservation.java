@@ -1,5 +1,5 @@
 package reservation;
-import payment.Receipt;
+import payment.Payment;
 import room.Info;
 
 /**
@@ -8,20 +8,19 @@ import room.Info;
  * 1. a room_id for RoomInfo
  * 2. a tenant_id for ContactInfo
  */
-public class Reservation extends Receipt {
+public class Reservation {
     protected int id;
-    protected ContactInfo tenant;
-    protected Info room;
-    protected Stay stay;
+    public ContactInfo tenant;
+    public Info room;
+    public Stay stay;
+    public Payment payment;
     //TODO receipt
-    public Reservation() {
-        
-    }
-    public Reservation(int id, ContactInfo tenant, Info room, Stay stay) {
+    public Reservation(int id, ContactInfo tenant, Info room, Stay stay, Payment p) {
         this.id = id;
         this.tenant = tenant;
         this.room = room;
         this.stay = stay;
+        this.payment = p;
     }
     public int getId() {
         return id;
