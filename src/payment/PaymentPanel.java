@@ -26,24 +26,43 @@ import java.awt.Font;
  * <button>
  * </code>
  */
-public class PaymentPanel<E> extends Box {
-    private JComboBox<E> selectMode;
-    private JComboBox<Discount> selectDiscount;
+public class PaymentPanel extends Box {
+    public JComboBox<String> selectMode;
+    public JComboBox<Discount> selectDiscount;
     private Font font = new Font("Consolas", Font.PLAIN, 24);
-    public PaymentPanel(float amount, E[] modes, Discount[] discounts) {
+    public JButton pay;
+    private JTextField inputAccount;
+    private float amount;
+    public Discount discount;
+    private String method = "";
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public PaymentPanel(float amount, String[] modes, Discount[] discounts) {
         super(BoxLayout.Y_AXIS);
+        this.amount = amount;
         setBorder(new EmptyBorder(5, 5, 5, 5));
         JLabel lblAmount = new JLabel("Amount: " + amount);
         JLabel lblMethod = new JLabel("Payment method: ", JLabel.LEADING);
-        selectMode = new JComboBox<E>(modes);
+        selectMode = new JComboBox<String>(modes);
         JLabel lblAccount = new JLabel("Account ID: ", JLabel.LEADING);
-        JTextField inputAccount = new JTextField();
+        inputAccount = new JTextField();
         var lblDiscounts = new JLabel("Additional discounts: ", JLabel.LEADING);
         selectDiscount =  new JComboBox<Discount>(discounts);
-        var lblDiscount = new JLabel("Enter ID/CODE:");
+        var lblDiscount = new JLabel("Enter ID/CODE:"); //SKIP THIS
         var lblDiscountAmount = new JLabel("Discount: ");
         JTextField inputDiscount = new JTextField();
-        var pay = new JButton("Pay");
+        pay = new JButton("Pay");
         pay.setFont(font);
         var row = new JPanel();
         row.add(pay);
@@ -53,18 +72,26 @@ public class PaymentPanel<E> extends Box {
             add(Box.createRigidArea(new Dimension(0, 10)));
             add(child);
         }
+        
         selectMode.addItemListener(e-> {
-
+            method = e.getItem().toString();
+            System.out.println(method);
         }); 
 
+        if (discounts.length > 0) {
+            discount = discounts[0];
+        }
         selectDiscount.addItemListener(e -> {
-            Discount d = (Discount) e.getItem();
+            discount = (Discount) e.getItem();
             setLabel(lblAmount, "Amount: ", amount);
-            setLabel(lblDiscountAmount, "Discounted: ", d.deduct(amount));
+            setLabel(lblDiscountAmount, "Discounted: ", discount.deduct(amount));
         });
     }
-
     public void setLabel(JLabel l, String prefix, Object extra) {
         l.setText(prefix + extra);
+    }
+
+    public Payment getPayment() {
+        return new Payment(amount, method, inputAccount.getText(), discount.getRate());
     }
 }
