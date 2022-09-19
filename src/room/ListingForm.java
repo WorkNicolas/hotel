@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 import payment.Discount;
 import payment.PaymentPanel;
+import payment.Receipt;
 
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
@@ -35,16 +36,13 @@ public class ListingForm extends JPanel implements ActionListener {
         dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), "Payment portal");
         dialog.add(new PaymentPanel<>(
             100f, //TODO change amount
-            new String[] {
-                "Test", 
-                "Test 1"
-            }, 
+            Receipt.modes,
             new Discount[] {
                 new Discount("NONE", 0f),
                 new Discount("SENIOR CITIZEN", 0.2f),
                 new Discount("PERSON WITH DISABILITY", 0.2f),
-                new Discount("VOUCHER", 0.05f),
-        }));
+                new Discount("5% off VOUCHER", 0.05f),
+        }));    
         dialog.pack();
         queryBar.checker.addActionListener(event -> {
             try {
