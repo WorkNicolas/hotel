@@ -81,6 +81,7 @@ public class ListingForm extends JPanel implements ActionListener {
     }
 
     public void onSuccess() {
+        ui.updateEntries(new ArrayList<>());//Clear
         JOptionPane.showMessageDialog(getRootPane(), "Reservation success!", "Reservation", JOptionPane.INFORMATION_MESSAGE);
     }
     @Override

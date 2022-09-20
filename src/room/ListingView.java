@@ -57,6 +57,10 @@ public class ListingView extends JPanel {
 			buttons.add(p.button);
             row.add(p);
         }
+		//Case when entries aren't div by 3
+		if (i%columnCount !=0) {
+			panel.add(row);
+		}
 		JScrollPane scrollPane = new JScrollPane(panel);
         add(scrollPane, BorderLayout.CENTER);
 		revalidate();

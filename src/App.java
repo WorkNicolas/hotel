@@ -239,8 +239,7 @@ public class App extends View implements Subscriber<State> {
             listingForm.setConsumer(r -> {
                 try {
                     Hotelier.commit(r);
-                    listingForm.
-                    dialog.setVisible(false);
+                    listingForm.dialog.setVisible(false);
                     listingForm.remove(listingForm.dialog);
                     listingForm.onSuccess();
                     verifier.getUser().ifPresent(user -> {
