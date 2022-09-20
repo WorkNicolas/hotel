@@ -24,17 +24,18 @@ public class Waiter extends Connector {
             return results;
         try {
             var conn = connect();
-            var insert = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(amount, item_id, reservation_id) VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            var reduce = conn.prepareStatement("UPDATE " + Supplier.TABLE_NAME + " SET supply = ? WHERE id = ?");
+            var insert = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(amount, item_id, reservation_id, payment_id) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            var reduce = conn.prepareStatement("UPDATE " + Supplier.TABLE_NAME + " SET supply = supply - ? WHERE id = ?");
             for (var item:receipt.amenities.values()) {
                 if (item.amount <= 0)
                     continue;
                 insert.setFloat(1, item.amount);
                 insert.setInt(2, item.id);
                 insert.setInt(3, reservation_id);
+                insert.setInt(4, payment_id);
 
                 //UPDATE supply
-                reduce.setInt(1,item.supply);
+                reduce.setInt(1,item.amount);
                 reduce.setInt(2, item.id);
                 reduce.addBatch();
                 insert.addBatch();
@@ -56,14 +57,14 @@ public class Waiter extends Connector {
     public static Receipt fetchReceipt(int reservation_id) throws SQLException {
         var conn = connect();
         var s = conn.prepareStatement(
-            "SELECT amenities.*, orders.amount, payments.discount FROM orders JOIN payments ON orders.item_id = payments.id JOIN amenities ON orders.item_id = amenities.id");
+            "SELECT amenities.*, orders.amount, payments.discount FROM orders JOIN payments ON orders.payment_id = payments.id JOIN amenities ON orders.item_id = amenities.id WHERE orders.reservation_id = ?");
+            s.setInt(1, reservation_id);
         var r = s.executeQuery();
         var receipt = new Receipt();
         while(r.next()) {
             var a = new Amenity(r);
-            a.setAmount(r.getInt("amount"));
             a.setDiscount_rate(r.getFloat("discount"));
-            receipt.put(a);
+            receipt.putOrAddAmountWithoutReduce(a, r.getInt("amount"));
         }
         conn.close();
         return receipt;

@@ -27,6 +27,7 @@ public class Receipt {
         discountMap.put("SENIOR CITIZEN", 0.2f);
         discountMap.put("PERSON WITH DISABILITY", 0.2f);
     }
+
     public HashMap<String, Amenity> amenities = new HashMap<String, Amenity>();
     public Receipt() {
         this("");
@@ -65,10 +66,10 @@ public class Receipt {
     }
 
     public boolean put(Amenity a) {
-        if (amenities.containsValue(a)) {
+        if (amenities.containsKey(a.hash())) {
             return false;
         } 
-        amenities.put(a.getName(), a);
+        amenities.put(a.hash(), a);
         return true;
     }
 
@@ -76,8 +77,16 @@ public class Receipt {
         put(a);
         return a.reduce(n);
     }
+
+    public void putOrAddAmountWithoutReduce(Amenity a, int n) {
+        Amenity aa = a;
+        if (!put(a)) {
+            aa =  amenities.get(a.hash());
+        }
+        aa.setAmount(aa.getAmount() + n);
+    }
     public boolean reduceOrRemove(Amenity a, int n) {
-        if (amenities.containsValue(a)) {
+        if (amenities.containsKey(a.hash())) {
             return a.resupply(n);
         }
 
@@ -101,6 +110,6 @@ public class Receipt {
     }
 
     public boolean remove(Amenity a)  {
-        return remove(a.getName());
+        return remove(a.hash());
     }
 }

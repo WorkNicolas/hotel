@@ -106,5 +106,9 @@ public class Amenity {
     public String toString() {
         return name;
     }
+    
+    public String hash() {
+        return id + "" + getDiscount_rate();
+    }
 
 }
