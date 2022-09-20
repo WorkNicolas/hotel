@@ -48,12 +48,12 @@ public class ListingView extends JPanel {
         int i = 0;
         JPanel row = new JPanel();
         for (var d: data) {
-            if (i++%columnCount == 0) {
+            if (i%columnCount == 0) {
                 panel.add(row);
                 row = new JPanel(new FlowLayout());
             }
             var p = new RoomPanel(d, width, height);
-			p.button.setActionCommand("" + i); //Index
+			p.button.setActionCommand("" + i++); //Index
 			buttons.add(p.button);
             row.add(p);
         }
