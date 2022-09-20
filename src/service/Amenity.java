@@ -66,7 +66,7 @@ public class Amenity {
         this(id, name, type, 0, price, supply, 0);
     }
 
-    public Amenity(int id, String name, Type type, int amount, float price, int supply, int discount_rate) {
+    public Amenity(int id, String name, Type type, int amount, float price, int supply, float discount_rate) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -106,7 +106,7 @@ public class Amenity {
     public String toString() {
         return name;
     }
-    
+
     public String hash() {
         return id + "" + getDiscount_rate();
     }

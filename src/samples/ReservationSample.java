@@ -58,7 +58,8 @@ public class ReservationSample extends JFrame {
 				service.Type.THING, 
 				(int) (Math.random() * 100),
 				(float) (Math.random()* 100),
-				(int) (Math.random()* 100)
+				(int) (Math.random()* 100),
+				0f
 			));
 		}
 
