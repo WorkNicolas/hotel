@@ -122,10 +122,6 @@ public class RoomServicePanel extends JPanel {
 		lblOrder.setBounds(130, 23, 310, 20); //adjusted
 		orderPanel.add(lblOrder);
 		
-		btnReturn = new JButton("Return");
-		btnReturn.setBounds(1224, 195, 116, 44);
-		orderPanel.add(btnReturn);
-		
 		commitOrder = new JButton("Order");
 		commitOrder.setBounds(1098, 195, 116, 44);
 		orderPanel.add(commitOrder);
