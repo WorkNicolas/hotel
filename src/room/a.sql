@@ -1,0 +1,4 @@
+SELECT * FROM rooms WHERE id NOT IN 
+(SELECT room_id FROM reservations WHERE 
+    (start BETWEEN "2022-09-13" AND "2022-09-20") AND (end BETWEEN "2022-09-13" AND "2022-09-20")
+);
