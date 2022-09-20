@@ -2,6 +2,8 @@ package samples;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JFrame;
+
+import Style.Style;
 import news.CreateListener;
 import news.News;
 import news.NewsForm;
@@ -11,6 +13,7 @@ import news.NewsForm;
  */
 public class NewsSample  extends JFrame {
     public static void main(String[] args) {
+        Style.init();
         var frame = new NewsSample();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

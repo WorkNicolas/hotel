@@ -1,6 +1,8 @@
 package samples;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
+
+import Style.Style;
 import reservation.ReservationTicketView;
 import reservation.TicketController;
 /**
@@ -14,6 +16,7 @@ public class ReservationSample extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+        Style.init();
 		try {
 			ReservationSample frame = new ReservationSample();
 			TicketController t = new TicketController(frame.panel);

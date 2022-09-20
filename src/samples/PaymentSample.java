@@ -1,4 +1,5 @@
 package samples;
+import Style.Style;
 import payment.Discount;
 import payment.Payment;
 import payment.PaymentDialog;
@@ -7,6 +8,7 @@ import payment.PaymentDialog;
  */
 public class PaymentSample {
     public static void main(String[] args) {
+        Style.init();
         var j = new PaymentDialog(null, "Test",  new Discount[] {
             new Discount("NONE", 0f),
             new Discount("SENIOR CITIZEN", 0.2f),

@@ -1,6 +1,8 @@
 package samples;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+
+import Style.Style;
 import room.ListingForm;
 import room.RawInfo;
 
@@ -10,6 +12,7 @@ import room.RawInfo;
  */
 public class ListingSample {
     public static void main(String[] args) {
+        Style.init();
         JFrame j = new JFrame();
         var form = new ListingForm();
         form.setConsumer(e -> {

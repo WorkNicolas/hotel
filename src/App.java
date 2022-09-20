@@ -5,6 +5,8 @@ import java.util.concurrent.Flow.Subscription;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import Style.Style;
 import auth.LoginListener;
 import auth.LoginObserver;
 import auth.RegistrationForm;
@@ -296,6 +298,7 @@ public class App extends View implements Subscriber<State> {
 	}
 
     public static void main(String[] args) {
+        Style.init();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -3,6 +3,8 @@ import java.awt.EventQueue;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
+
+import Style.Style;
 import service.RoomServicePanel;
 import service.Supplier;
 /**
@@ -12,6 +14,7 @@ import service.Supplier;
 public class RoomServiceSample extends JFrame {
 
 	public static void main(String[] args) {
+        Style.init();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
