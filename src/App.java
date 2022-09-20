@@ -178,19 +178,20 @@ public class App extends View implements Subscriber<State> {
     
                 @Override
                 public void onError(Throwable throwable) {
-                    // TODO Auto-generated method stub
-                    
+                    //PASS
                 }
     
                 @Override
                 public void onComplete() {
-                    // TODO Auto-generated method stub
+                    //PASS
                 }
                 
             };
         }
       
         {//Payment 
+            roomManager = new Manager();
+            listingForm.setFetcher(roomManager);
             listingForm.setConsumer(r -> {
                 try {
                     Hotelier.commit(r);
@@ -203,8 +204,8 @@ public class App extends View implements Subscriber<State> {
                         loginListener.tryLogin(user);
                     });
                     return;
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
                 listingForm.onFail();
             });
@@ -256,7 +257,7 @@ public class App extends View implements Subscriber<State> {
 
 	@Override
 	public void onError(Throwable throwable) {
-		// TODO Auto-generated method stub
+		//PASS
 
 	}
 

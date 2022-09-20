@@ -15,9 +15,6 @@ public class TicketController implements PairConsumer<Receipt, Reservation>{
     private void paintRoom(Info room) {
         var p = new RoomPanel(room, 720, 480);
         p.button.setText("Return");
-        p.button.addActionListener(e -> {
-            //TODO: Signal app to navigate back
-        });
         ui.roomPanel.add(p);
     }
     private void paintReceipt(Receipt r) {

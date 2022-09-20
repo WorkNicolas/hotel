@@ -45,26 +45,6 @@ public class WaiterTests {
             
         } catch (Exception e) {
             e.printStackTrace();
-            // TODO: handle exception
         }
-        /* try {
-            var r = new Receipt(Supplier.fetchAvailable());
-            for (var item: r.amenities.values()) {
-                item.reduce(3);
-            }
-            var p = ReservationSample.genPayment();
-            p.setAmount(r.getTotal());
-            var results = Waiter.order(
-                p,
-                r,
-                4 //Existing reservation
-            );
-            for (var n:results) {
-                System.out.println(n);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    } */
     }
 }

@@ -14,7 +14,6 @@ public class Reservation {
     public Info room;
     public Stay stay;
     public Payment payment;
-    //TODO receipt
     public Reservation(int id, ContactInfo tenant, Info room, Stay stay, Payment p) {
         this.id = id;
         this.tenant = tenant;

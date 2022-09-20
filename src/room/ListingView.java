@@ -17,7 +17,7 @@ import java.awt.BorderLayout;
 public class ListingView extends JPanel {
     public ArrayList<JButton> buttons;
 	//Change this value.
-	private ArrayList<RawInfo> data;
+	public ArrayList<RawInfo> data;
     public int width = 230;
 	public int height = 200;
 	private int columnCount = 3;

@@ -24,7 +24,7 @@ public class ReservationTests {
     public void shouldCommitAndCanel() throws FileNotFoundException, SQLException {
         Manager m = new Manager(1);
         var stay = ReservationSample.genStay();
-        var rooms = m.fetchAvailable(stay);
+        var rooms = m.fetch(stay);
         assertEquals(1, rooms.size());
         var payment = ReservationSample.genPayment();
         rooms.forEach(new Consumer<RawInfo>() {
@@ -60,7 +60,6 @@ public class ReservationTests {
     @Test
     public void correctReceipt() {
         var r = ReservationSample.genReservation();
-        //TODO
     }
 
     @Test

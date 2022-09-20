@@ -10,7 +10,7 @@ import reservation.Stay;
 /**
  * Queries the db for available rooms
  */
-public class Manager extends Connector {
+public class Manager extends Connector implements Fetcher<Stay, ArrayList<RawInfo>>{
     protected String TABLE_NAME = "rooms";
     protected int limit;
     private static Manager instance;
@@ -37,11 +37,26 @@ public class Manager extends Connector {
         this.limit = limit;
     }
 
-    public ArrayList<RawInfo> fetchAvailable(Stay stay, int limit) {
+    public ArrayList<RawInfo> fetch(Stay stay, int limit) {
         setLimit(limit);
-        return fetchAvailable(stay);
+        return fetch(stay);
     }
-    public ArrayList<RawInfo> fetchAvailable(Stay stay) {
+
+    /**
+     * @implNote `preview` field is excluded as writing files to a DB is bad practice.
+     */
+    public boolean add(RawInfo info) throws SQLException {
+        var conn = connect();
+        var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(type, size, url, name) VALUES(?, ?, ?)");
+        s.setString(1, info.type.toString());
+        s.setInt(2, info.size);
+        s.setString(3, info.url);
+        s.setInt(4, info.rate);
+        s.setString(5, info.name);
+        return s.execute();
+    }
+    @Override
+    public ArrayList<RawInfo> fetch(Stay stay) {
         ArrayList<RawInfo> rooms = new ArrayList<>();
         try {
             Connection conn = connect();
@@ -65,19 +80,5 @@ public class Manager extends Connector {
         }
 
         return rooms;
-    }
-
-    /**
-     * @implNote `preview` field is excluded as writing files to a DB is bad practice.
-     */
-    public boolean add(RawInfo info) throws SQLException {
-        var conn = connect();
-        var s = conn.prepareStatement("INSERT INTO " + TABLE_NAME + "(type, size, url, name) VALUES(?, ?, ?)");
-        s.setString(1, info.type.toString());
-        s.setInt(2, info.size);
-        s.setString(3, info.url);
-        s.setInt(4, info.rate);
-        s.setString(5, info.name);
-        return s.execute();
     }
 }

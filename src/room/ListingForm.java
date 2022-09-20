@@ -1,6 +1,6 @@
 package room;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.function.Consumer;
 
 import javax.swing.BoxLayout;
@@ -30,10 +30,14 @@ public class ListingForm extends JPanel implements ActionListener {
     private QueryBar queryBar;
     public PaymentDialog dialog;
     private Consumer<Reservation> consumer;
+    private Fetcher<Stay, ArrayList<RawInfo>> fetcher;
     public void setConsumer(Consumer<Reservation> consumer) {
         this.consumer = consumer;
     }
 
+    public void setFetcher(Fetcher<Stay, ArrayList<RawInfo>> fetcher) {
+        this.fetcher = fetcher;
+    }
     public static Discount[] discounts = new Discount[] {
         new Discount("NONE", 0f),
         new Discount("SENIOR CITIZEN", 0.2f),
@@ -55,21 +59,18 @@ public class ListingForm extends JPanel implements ActionListener {
             discounts);
   
         queryBar.checker.addActionListener(event -> {
-            try {
-                last = queryBar.getStay();
-                var a = Manager.getManager().fetchAvailable(last);
-                if (a.size() == 0) {
-                    JOptionPane.showMessageDialog(getRootPane(),
-                            "There are no rooms available during your given dates.");
-                }
-          
-                ui.updateEntries(a);
-                for (var b : ui.buttons) {
-                    b.addActionListener(this);
-                }
-            } catch (SQLException e) {
-                onFail();
-                e.printStackTrace();
+            if (fetcher == null)
+                return;
+            last = queryBar.getStay();
+            var a = fetcher.fetch(last);
+            if (a.size() == 0) {
+                JOptionPane.showMessageDialog(getRootPane(),
+                        "There are no rooms available during your given dates.");
+            }
+        
+            ui.updateEntries(a);
+            for (var b : ui.buttons) {
+                b.addActionListener(this);
             }
         });
     }
