@@ -12,6 +12,7 @@ import auth.LoginObserver;
 import auth.RegistrationForm;
 import auth.User;
 import auth.Verifier;
+import news.NewsController;
 import payment.Payment;
 import payment.Receipt;
 import reservation.Hotelier;
@@ -43,7 +44,9 @@ public class App extends View implements Subscriber<State> {
                 Status.self.submit(State.AUTH);
                 ReservationStatus.self.submit(ReservationState.NONE);
             });
-    
+            rNew.addActionListener(e -> {
+                activate(listingForm);
+            });
             sOrder.addActionListener(e -> {
     			activate(roomService);
             });
@@ -51,10 +54,19 @@ public class App extends View implements Subscriber<State> {
                 activate(ticketView);
                 //DO NOT CHANGE Status
             });
-            
-            itemSeeNews.addActionListener(e -> {
-                activate(newsForm);
-            });
+            {//NEWS
+                var c = new NewsController();
+                itemSeeNews.addActionListener(e -> {
+                    var news = c.fetch(10);
+                    if (news.size() == 0) {
+			            JOptionPane.showMessageDialog(this, "No news at the moment.");
+                    } else {
+                        newsForm.createNewPanels(news);
+                        activate(newsForm);
+                    }
+                });
+            }
+         
             rCancel.addActionListener(e -> {
                 verifier.getUser().ifPresent(user -> {
                     reservations = Hotelier.getReservations(user);
@@ -155,18 +167,21 @@ public class App extends View implements Subscriber<State> {
                     switch (item) {
                         case NONE: case DONE:
                             //TODO: For case DONE: Allow viewing past tickets.
+                            rNew.setEnabled(true);
                             rInfo.setEnabled(false);
                             rExtend.setEnabled(false);
                             rCancel.setEnabled(false);
                             sOrder.setEnabled(false);
                             break;
                         case ONGOING:
+                            rNew.setEnabled(false);
                             rExtend.setEnabled(true);
                             rCancel.setEnabled(true);
                             sOrder.setEnabled(true);
                             rInfo.setEnabled(true);
                             break;
                         case UPCOMING:
+                            rNew.setEnabled(false);
                             rCancel.setEnabled(true);
                             sOrder.setEnabled(false);
                             rInfo.setEnabled(true);

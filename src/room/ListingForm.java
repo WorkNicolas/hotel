@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import db.Fetcher;
 import payment.Discount;
 import payment.PaymentDialog;
 import reservation.ContactInfo;
