@@ -2,8 +2,6 @@ package payment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
-
 import service.Amenity;
 /**
 * {@link https://www.dti.gov.ph/archives/news-archives/dti-urges-e-commerce-platforms-to-adopt-online-discount-guidelines/} 
@@ -22,7 +20,7 @@ public class Receipt {
 
     public static final HashMap<String, Float> discountMap = new HashMap<String, Float>();
     {
-        //TODO: if there's time: move these to a table
+        //FUTURE IDEA: Move these to a table
         discountMap.put("MEMBER", 0.1f);
         discountMap.put("SENIOR CITIZEN", 0.2f);
         discountMap.put("PERSON WITH DISABILITY", 0.2f);

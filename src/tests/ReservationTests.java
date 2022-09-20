@@ -16,17 +16,17 @@ import reservation.Reservation;
 import room.Info;
 import room.Manager;
 import room.RawInfo;
-import samples.ReservationSample;
+import samples.Generator;
 
 public class ReservationTests {
 
     @Test
     public void shouldCommitAndCanel() throws FileNotFoundException, SQLException {
         Manager m = new Manager(1);
-        var stay = ReservationSample.genStay();
+        var stay = Generator.genStay();
         var rooms = m.fetch(stay);
         assertEquals(1, rooms.size());
-        var payment = ReservationSample.genPayment();
+        var payment = Generator.genPayment();
         rooms.forEach(new Consumer<RawInfo>() {
 
             @Override
@@ -36,7 +36,7 @@ public class ReservationTests {
                 try {
                     r = new Reservation(
                             0,
-                            ReservationSample.genContactInfo(),
+                            Generator.genContactInfo(),
                             new Info(raw),
                             stay,
                             payment
@@ -55,11 +55,6 @@ public class ReservationTests {
                 }
             }
         });
-    }
-
-    @Test
-    public void correctReceipt() {
-        var r = ReservationSample.genReservation();
     }
 
     @Test

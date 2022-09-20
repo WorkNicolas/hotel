@@ -87,11 +87,6 @@ public class Hotelier extends Connector{
     }
     public static boolean cancel(int id) throws SQLException {
         var conn = connect();
-        try {
-            
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
         var s = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET CANCEL = CURDATE() WHERE id = ?");
         s.setInt(1, id);
         var status = s.executeUpdate();

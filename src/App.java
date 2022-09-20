@@ -59,7 +59,6 @@ public class App extends View implements Subscriber<State> {
                         Receipt a = Waiter.fetchReceipt(r.getId());
                         t.accept(a, r);
                     } catch (SQLException ex) {
-                        // TODO Auto-generated catch block
                         ex.printStackTrace();
                     }
                 });
@@ -178,7 +177,6 @@ public class App extends View implements Subscriber<State> {
                     System.out.println("Item:" + item);
                     switch (item) {
                         case NONE: case DONE:
-                            //TODO: For case DONE: Allow viewing past tickets.
                             rNew.setEnabled(true);
                             rInfo.setEnabled(false);
                             rCancel.setEnabled(false);

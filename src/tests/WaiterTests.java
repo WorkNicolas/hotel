@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 
 import payment.Receipt;
+import samples.Generator;
 import samples.ReservationSample;
 import service.Supplier;
 import service.Waiter;
@@ -23,7 +24,7 @@ public class WaiterTests {
             item.reduce(3);
         }
         assertTrue(r.getTotal() > 0);
-        var p = ReservationSample.genPayment();
+        var p = Generator.genPayment();
         p.setAmount(r.getTotal());
         assertTrue(p.getAmount() > 0);
         var results = Waiter.order(
@@ -38,13 +39,5 @@ public class WaiterTests {
     public void shouldGetReceipt() throws SQLException {
         var result = Waiter.fetchReceipt(4);
         assertEquals(33, result.amenities.size());
-    }
-    public static void main(String[] args) {
-        try {
-            var result = Waiter.fetchReceipt(4);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }
