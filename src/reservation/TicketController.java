@@ -4,25 +4,46 @@ import payment.PairConsumer;
 import payment.Receipt;
 import payment.ReceiptView;
 import room.Info;
+import room.QueryBar;
 import room.RoomPanel;
 public class TicketController implements PairConsumer<Receipt, Reservation>{
     ReservationTicketView ui;
+    RoomPanel rp;
+    ReceiptView infoPanel;
     public TicketController(ReservationTicketView ui) {
         this.ui = ui;
-      
     }
     
     private void paintRoom(Info room) {
-        var p = new RoomPanel(room, 720, 480);
-        p.button.setText("Return");
-        ui.roomPanel.add(p);
+        if (rp != null)
+            ui.roomPanel.remove(rp);
+
+        rp = new RoomPanel(room, 600, 360);
+        rp.button.setVisible(false);
+        ui.roomPanel.removeAll();
+        ui.roomPanel.add(rp);
+        ui.validate();
     }
     private void paintReceipt(Receipt r) {
-        ui.infoPanel.add(new ReceiptView(r));
+        if (infoPanel != null)
+            ui.infoPanel.remove(infoPanel);
+        infoPanel = new ReceiptView(r);
+        ui.infoPanel.add(infoPanel);
+        ui.validate();
     }
 
+    /**
+     * Reuses query bar but in a disabled state 
+     */
     private void paintStay(Stay r) {
-        //TODO ui.infoPanel.add()
+        var q = new QueryBar();
+        q.start.setValue(r.start);
+        q.start.ui.setEnabled(false);
+        q.end.setValue(r.end);
+        q.end.ui.setEnabled(false);
+        q.setEnabled(false);
+        q.checker.setVisible(false);
+        ui.roomPanel.add(q);
     }
 
     @Override

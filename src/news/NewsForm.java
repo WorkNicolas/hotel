@@ -29,13 +29,16 @@ public class NewsForm extends JPanel {
 	
 	//ArrayList of Panels
 	ArrayList<JPanel> panelContent = new ArrayList<>();
+
+	public JButton buttonCreate;
+	public JButton buttonDelete;
 	
 	public NewsForm(){
 		initComponents();
 	}
 
 	public NewsForm(boolean isCreator){
-		isCreator = true;
+		this.isCreator = isCreator;
 		initComponents();
 	}
 	public void setCreator(boolean isCreator) {
@@ -53,15 +56,33 @@ public class NewsForm extends JPanel {
 	//Related methods
 	public void addNewsContent(int id, String title, String text) {
 		newsContent.add(new News(id, title, text));
+		createNewPanels(newsContent);
+	}
+
+	private void whenCreator() {
+		//Adding: panelNews to frame
+		if (isCreator == false)
+			return;
+		JPanel panelControl = initPanelButton();
+		var gbc = new GridBagConstraints();
+		var gbl = new GridBagLayout();
+
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.weightx = 0;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.CENTER;
+		gbc.anchor = GridBagConstraints.NORTH;
+		gbl.setConstraints(panelControl, gbc);
+		add(panelControl, gbc);
 	}
 	//Error: Index Array Out of Bounds
 	public void createNewPanels(ArrayList<News> newsContent) {
 		removeAll();
 		this.newsContent = newsContent;
-		JPanel panel = panelAdder(newsContent.size());
+		JPanel panel = panelAdder();
 		JScrollPane panePanel = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		JPanel panelControl = initPanelButton();
 
 		//panePanel Properties
 		panePanel.setPreferredSize(new Dimension(300, 300));
@@ -80,27 +101,13 @@ public class NewsForm extends JPanel {
 		gbc.anchor = GridBagConstraints.WEST;
 		gbl.setConstraints(panePanel, gbc);
 		add(panePanel, gbc);
-		
-		//Adding: panelNews to frame
-		if(isCreator) {
-			gbc.gridx = 1;
-			gbc.gridy = 0;
-			gbc.weightx = 0;
-			gbc.weighty = 1;
-			gbc.fill = GridBagConstraints.CENTER;
-			gbc.anchor = GridBagConstraints.NORTH;
-			gbl.setConstraints(panelControl, gbc);
-			add(panelControl, gbc);
-		}
-
+		whenCreator();
 		repaint();
 		revalidate();
 	}
 	private void initComponents() {
-		panelNews = panelAdder(newsContent.size());
+		panelNews = panelAdder();
 		JScrollPane panePanel = new JScrollPane(panelNews, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		
-		JPanel panelControl = initPanelButton();
 		
 		//panePanel Properties
 		panePanel.setPreferredSize(new Dimension(300, 300));
@@ -119,18 +126,7 @@ public class NewsForm extends JPanel {
 		gbc.anchor = GridBagConstraints.WEST;
 		gbl.setConstraints(panePanel, gbc);
 		add(panePanel, gbc);
-		
-		//Adding: panelNews to frame
-		if(isCreator) {
-			gbc.gridx = 1;
-			gbc.gridy = 0;
-			gbc.weightx = 0;
-			gbc.weighty = 1;
-			gbc.fill = GridBagConstraints.CENTER;
-			gbc.anchor = GridBagConstraints.NORTH;
-			gbl.setConstraints(panelControl, gbc);
-			add(panelControl, gbc);
-		}
+		whenCreator();
 	}
 	//panelNews creator: for panelAdder
 	private JPanel panelNewsCreator(String title, String text) {
@@ -196,7 +192,7 @@ public class NewsForm extends JPanel {
 		return panel;
 	}
 	//panelAdder: for News()
-	private JPanel panelAdder(int count) {
+	private JPanel panelAdder() {
 		JPanel panel = new JPanel();
 		
 		var gbc = new GridBagConstraints();
@@ -210,26 +206,25 @@ public class NewsForm extends JPanel {
 		int panelNumber = 0;
 		
 		//panelAdder: latest to oldest
-		for(int i = count-1; i >= 0; i--) {
-			gbc.gridx = 0;
-			gbc.gridy = y;
-			gbc.gridwidth = 1;
-			gbc.gridheight = 1;
-			gbc.anchor = GridBagConstraints.WEST;					
-			gbc.insets = new Insets(5,5,5,5);
-			
-			//Create a panel with title and text
-			JPanel panelStore = panelNewsCreator(newsContent.get(y).getTitle(), newsContent.get(y).getText());
-			panelContent.add(panelStore);
-			
-			panelContent.get(panelNumber).setVisible(true);
-			
-			gbl.setConstraints(panelContent.get(panelNumber), gbc);
-			
-			panel.add(panelContent.get(panelNumber), gbc);
-			
-			panelNumber++;
-			y++;
+		for (var news: newsContent) {
+				gbc.gridx = 0;
+				gbc.gridy = y;
+				gbc.gridwidth = 1;
+				gbc.gridheight = 1;
+				gbc.anchor = GridBagConstraints.WEST;					
+				gbc.insets = new Insets(5,5,5,5);
+				
+				//Create a panel with title and text
+				JPanel panelStore = panelNewsCreator(news.getTitle(), news.getText());
+				panelContent.add(panelStore);
+				
+				panelContent.get(panelNumber).setVisible(true);
+				
+				gbl.setConstraints(panelContent.get(panelNumber), gbc);
+				
+				panel.add(panelContent.get(panelNumber), gbc);
+				y++;
+				panelNumber++;
 		}
 		
 		return panel;
@@ -239,8 +234,8 @@ public class NewsForm extends JPanel {
 	private JPanel initPanelButton() {
 		JPanel panel = new JPanel();
 		
-		JButton buttonCreate = new JButton("Create News");
-		JButton buttonDelete = new JButton("Delete News");
+		buttonCreate = new JButton("Create News");
+		buttonDelete = new JButton("Delete News");
 		
 		var gbc = new GridBagConstraints();
 		var gbl = new GridBagLayout();

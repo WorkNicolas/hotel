@@ -55,7 +55,7 @@ public class ReservationTicketView extends JPanel {
 		infoPanel.setPreferredSize(new Dimension(450, 50));
 		add(infoPanel, BorderLayout.WEST);
 		
-		JLabel lblInfo = new JLabel("INFORMATION:");
+		JLabel lblInfo = new JLabel("ORDER HISTORY");
 		infoPanel.add(lblInfo);
 		lblInfo.setVerticalTextPosition(SwingConstants.TOP);
 		lblInfo.setVerticalAlignment(SwingConstants.TOP);
@@ -70,7 +70,7 @@ public class ReservationTicketView extends JPanel {
 		roomPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		roomPanel.setPreferredSize(new Dimension(450, 45));
 		add(roomPanel, BorderLayout.CENTER);
-		JLabel lblRoom = new JLabel("ROOM ");
+		JLabel lblRoom = new JLabel("ROOM INFORMATION");
 		roomPanel.add(lblRoom);
 		lblRoom.setFont(new Font("Arial Black", Font.PLAIN, 15));
 	}

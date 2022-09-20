@@ -18,6 +18,7 @@ import payment.Receipt;
 import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.ReservationState;
+import reservation.TicketController;
 import room.Manager;
 import service.ServiceController;
 import service.Waiter;
@@ -50,7 +51,18 @@ public class App extends View implements Subscriber<State> {
             sOrder.addActionListener(e -> {
     			activate(roomService);
             });
+            var t = new TicketController(ticketView);
             rInfo.addActionListener(e -> {
+                var maybeReservation = Hotelier.getLatest(reservations);
+                maybeReservation.ifPresent(r -> {
+                    try {
+                        Receipt a = Waiter.getReceipt(r.getId());
+                        t.accept(a, r);
+                    } catch (SQLException ex) {
+                        // TODO Auto-generated catch block
+                        ex.printStackTrace();
+                    }
+                });
                 activate(ticketView);
                 //DO NOT CHANGE Status
             });

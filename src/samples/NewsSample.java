@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
+import news.CreateListener;
 import news.News;
 import news.NewsForm;
 
@@ -18,6 +19,7 @@ public class NewsSample  extends JFrame {
         setTitle("News");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
         var form = new NewsForm(true);
+		form.buttonCreate.addActionListener(new CreateListener(form));
         form.createNewPanels(mockNews(10));
         add(form);
 		setVisible(true);
