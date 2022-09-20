@@ -1,11 +1,7 @@
 package db;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
 /**
  * Helper class for communicating with the assigned DB
  * @author JCSJ
@@ -26,33 +22,5 @@ public class Connector {
             DB_USER, 
             DB_PASS
         );
-    }
-
-    /**
-     * @apiNote SHOULD NORMALLY be used for creating tables.
-     */
-    protected static boolean executeSQLFile(String path) throws SQLException, FileNotFoundException {
-        var conn = connect();
-        var s = new Scanner(new File(path));
-        String sql = "";
-        while(s.hasNextLine()) {
-            sql += s.nextLine();
-        }
-        Statement st = conn.createStatement();
-        s.close();
-        var r = st.execute(sql);
-        conn.close();
-        return r;
-    }
-
-    /**
-     * @apiNote For table creation
-     */
-    protected static boolean executeSQL(String sql) throws SQLException {
-        var conn = connect();
-        var s = conn.createStatement();
-        var r = s.execute(sql);
-        conn.close();
-        return r;
     }
 }

@@ -1,7 +1,6 @@
 package auth;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.function.Consumer;
 import javax.swing.JOptionPane;
 /**
@@ -77,20 +76,15 @@ public class RegistrationForm extends RegistrationPanel implements ActionListene
 	 * Prompts the Registrar to create a new account.
 	 */
 	public void try_register() {
-		try {
-			var u = getUser();
-			int id = Registrar.getRegistrar().register(u);
-			if (id == 0) {
-				errorPane("email is taken");
-				return;
-			}
-			u.setId(id);
-			clear();
-			successPane();
-			consumer.accept(u);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			errorPane("Server couldn't handle your request. Please try again later.");
+		var u = getUser();
+		int id = Registrar.getRegistrar().register(u);
+		if (id == 0) {
+			errorPane("email is taken");
+			return;
 		}
+		u.setId(id);
+		clear();
+		successPane();
+		consumer.accept(u);
 	}
 }

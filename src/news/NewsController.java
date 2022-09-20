@@ -10,8 +10,8 @@ import db.Fetcher;
  */
 public class NewsController extends Connector  implements Fetcher<Integer, ArrayList<News>>{
     public static final String TABLE_NAME = "news";
-    public NewsController() throws SQLException {
-        //executeSQL("");
+    public NewsController() {
+        
     }
 
     /**

@@ -13,11 +13,6 @@ import room.Info;
  */
 public class Hotelier extends Connector{
     protected static final String TABLE_NAME = "reservations";
-    public Hotelier() throws SQLException {
-        Connector.executeSQL("CREATE TABLE IF NOT EXISTS `reservations` ( `id` int PRIMARY KEY AUTO_INCREMENT, `start` date NOT NULL, `end` date NOT NULL, `room_id` int NOT NULL, `tenant_id` int NOT NULL, `payment_id` int NOT NULL, FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`), FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`), FOREIGN KEY (`payment_id`) REFERENCES `payments`(`id`) )");
-
-        Connector.executeSQL("CREATE TABLE IF NOT EXISTS `payments` ( `id` int PRIMARY KEY AUTO_INCREMENT, `amount` float NOT NULL, `method` varchar(64) NOT NULL, `account` varchar(128) NOT NULL, `discount` float NOT NULL)");
-    }
 
     public static int getIDByEmail(String email) throws SQLException {
         var conn = connect();
