@@ -56,7 +56,7 @@ public class App extends View implements Subscriber<State> {
                 var maybeReservation = Hotelier.getLatest(reservations);
                 maybeReservation.ifPresent(r -> {
                     try {
-                        Receipt a = Waiter.getReceipt(r.getId());
+                        Receipt a = Waiter.fetchReceipt(r.getId());
                         t.accept(a, r);
                     } catch (SQLException ex) {
                         // TODO Auto-generated catch block

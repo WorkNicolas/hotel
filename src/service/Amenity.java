@@ -10,6 +10,14 @@ public class Amenity {
     protected final float price;
     protected int supply;
     protected int amount;
+    protected float discount_rate;
+    public float getDiscount_rate() {
+        return discount_rate;
+    }
+
+    public void setDiscount_rate(float discount_rate) {
+        this.discount_rate = discount_rate;
+    }
 
     public int getAmount() {
         return amount;
@@ -30,7 +38,9 @@ public class Amenity {
             Type.valueOf(rs.getString("type")),
             0,
             rs.getInt("price"),
-            rs.getInt("supply"));
+            rs.getInt("supply"), 
+            0
+        );
     }
 
     public int getId() {
@@ -45,21 +55,25 @@ public class Amenity {
         return price;
     }
 
+    public float getDiscountedPrice() {
+        return price - (price * discount_rate);
+    }
     public void setSupply(int supply) {
         this.supply = supply;
     }
 
     public Amenity(int id, String name, float price, int supply, Type type) {
-        this(id, name, type, 0, price, supply);
+        this(id, name, type, 0, price, supply, 0);
     }
 
-    public Amenity(int id, String name, Type type, int amount, float price, int supply) {
+    public Amenity(int id, String name, Type type, int amount, float price, int supply, int discount_rate) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.amount = amount;
         this.price = price;
         this.supply = supply;
+        this.discount_rate = discount_rate;
     }
 
     /**

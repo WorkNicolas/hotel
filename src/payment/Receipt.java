@@ -56,11 +56,12 @@ public class Receipt {
      * @return discounted total
      */
     public float getDiscountedTotal() {
-        float percentage = Optional
-            .ofNullable(discountMap.get(discountKey))
-            .orElse(DEFAULT_DISCOUNT);
+        float total = 0;
+        for (var a: amenities.values()) {
+            total += a.getDiscountedPrice() * a.getAmount();
+        }
             
-        return getTotal() * percentage;
+        return total;
     }
 
     public boolean put(Amenity a) {

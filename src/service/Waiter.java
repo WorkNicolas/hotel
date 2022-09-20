@@ -11,6 +11,7 @@ import reservation.Hotelier;
 
 public class Waiter extends Connector {
     public static String TABLE_NAME = "orders";
+    public static String TABLE_PAYMENT = "payments";
 
     /**
      * {@summary Adds all bought amenities and updates the available supply in the db}
@@ -51,24 +52,20 @@ public class Waiter extends Connector {
         return results;
     }
 
-    public static Receipt getReceipt(int reservation_id) throws SQLException {
+    /* GET all amenities columns. Include order's amount and the discounted payment */
+    public static Receipt fetchReceipt(int reservation_id) throws SQLException {
         var conn = connect();
-        //SELECT items that have been bought by reservation_id
-        var amenityQuery =conn.prepareStatement("SELECT * FROM " + Supplier.TABLE_NAME + " WHERE id IN (SELECT item_id FROM " + TABLE_NAME + " WHERE reservation_id = ?)");
-        amenityQuery.setInt(1, reservation_id);
-        var amenitiesResult = amenityQuery.executeQuery();
-        var amenities = Supplier.asAmenities(amenitiesResult);
-        //SELECT item_id and amount
-        var orderQuery = conn.prepareStatement("SELECT item_id, amount FROM " + TABLE_NAME + " WHERE reservation_id = ?");
-        orderQuery.setInt(1, reservation_id);
-        var orderResults = orderQuery.executeQuery();
-        int i = 0;
-        while(orderResults.next()) {
-            //Update the amount
-            amenities.get(i).setAmount(orderResults.getInt("amount"));
-            i++;
+        var s = conn.prepareStatement(
+            "SELECT amenities.*, orders.amount, payments.discount FROM orders JOIN payments ON orders.item_id = payments.id JOIN amenities ON orders.item_id = amenities.id");
+        var r = s.executeQuery();
+        var receipt = new Receipt();
+        while(r.next()) {
+            var a = new Amenity(r);
+            a.setAmount(r.getInt("amount"));
+            a.setDiscount_rate(r.getFloat("discount"));
+            receipt.put(a);
         }
         conn.close();
-        return new Receipt(amenities);
+        return receipt;
     }
 }

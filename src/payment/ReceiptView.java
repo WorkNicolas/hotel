@@ -17,7 +17,7 @@ public class ReceiptView extends JPanel {
     public JLabel lblTotal;
     public JLabel lblDiscounted;
     public static final String[] columns = new String[] {
-        "Name", "Price", "Amount", "Category"
+        "Name", "Price", "Discount %", "Amount", "Category"
     };
     public ReceiptView(Receipt r) {
         this.r = r;
@@ -30,8 +30,9 @@ public class ReceiptView extends JPanel {
                 var a = iterator.next();
                 data[i][0] = a.getName();
                 data[i][1] = a.getPrice();
-                data[i][2] = a.getAmount();
-                data[i][3] = a.getType().toString();
+                data[i][2] = ((int) (a.getDiscount_rate() * 100)) + "%";
+                data[i][3] = a.getAmount();
+                data[i][4] = a.getType().toString();
                 i++;
             }
         }
