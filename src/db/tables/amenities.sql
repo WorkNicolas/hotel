@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS `amenities` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `price` double NOT NULL,
+  `price` float NOT NULL,
   `supply` int NOT NULL,
-  PRIMARY KEY (`id`)
-)
+  `type` enum('BREAKFAST','DISH','DESSERT','BEVERAGE','LUNCH','THING') NOT NULL DEFAULT 
+'THING'
+);

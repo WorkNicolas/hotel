@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `reservations` (
   FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`),
   FOREIGN KEY (`tenant_id`) REFERENCES `users` (`id`),
   FOREIGN KEY (`payment_id`) REFERENCES `payments`(`id`)
-)
+);

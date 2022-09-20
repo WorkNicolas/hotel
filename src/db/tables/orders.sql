@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS orders(
     Foreign Key (reservation_id) REFERENCES reservations(id),
     Foreign Key (item_Id) REFERENCES amenities(id),
     Foreign Key (payment_id) REFERENCES payments(id)
-)
+);

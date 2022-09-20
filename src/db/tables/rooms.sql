@@ -1,9 +1,8 @@
 CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `size` int NOT NULL,
   `type` enum('BASIC','STANDARD','SUITE') NOT NULL,
   `url` varchar(8000) NOT NULL,
-  `available` tinyint(1) NOT NULL DEFAULT '1',
   `rate` int NOT NULL,
-  PRIMARY KEY (`id`)
-)
+  `name` VARCHAR(128) NOT NULL
+);
