@@ -34,7 +34,7 @@ public class ReservationTicketView extends JPanel {
 		panel.add(lblExtraTitle);
 		lblExtraTitle.setFont(new Font("Arial Black", Font.PLAIN, 15));
 		
-		JLabel lblExtraInfo = new JLabel("<html><ul><li>Although Hotel San Juan does not charge a fee to change, or cancel your booking, El San Juan Hotel may still charge a fee in accordance with its own rules and regulation </li><li>Cancellations, or changes made after 11:59 PM (PHT) on June 19, 2022 or no-show are subjects to a hotel fee equal to the first night&#39;s rate plus taxes, and fee.</li><li>View your online itinerary for additional rules and restrictions.</li><li>Check-in time starts at 8 AM.</li><li>If a late check-in is planned, contact us for the late check-in policy.</li></ul><html>");
+		JLabel lblExtraInfo = new JLabel("<html><ul><li>Although Hotel San Juan does not charge a fee to change, or cancel your booking, El San Juan Hotel may still charge a fee in accordance with its own rules and regulation </li><li>During your stay, you may cancel anytime, the remaining nights shall be refunded.</li><li>View your online itinerary for additional rules and restrictions.</li><li>Check-in time starts at 8 AM.</li><li>If a late check-in is planned, contact us for the late check-in policy.</li></ul><html>");
 		lblExtraInfo.setFont(new Font("Arial", Font.BOLD, 15));
 		panel.add(lblExtraInfo);
 		
