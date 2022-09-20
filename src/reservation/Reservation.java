@@ -45,4 +45,8 @@ public class Reservation {
     public void setStay(Stay stay) {
         this.stay = stay;
     }
+
+    public String toString() {
+        return "" + id;
+    }
 }

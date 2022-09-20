@@ -20,6 +20,7 @@ public class Connector {
      * {@summary Creates a connection using the Connector's credentials} 
      */
     public static Connection connect() throws SQLException {
+        DriverManager.setLoginTimeout(5);
         return DriverManager.getConnection(
             DB_URL,
             DB_USER, 

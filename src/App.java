@@ -53,15 +53,31 @@ public class App extends View implements Subscriber<State> {
             });
             var t = new TicketController(ticketView);
             rInfo.addActionListener(e -> {
-                var maybeReservation = Hotelier.getLatest(reservations);
-                maybeReservation.ifPresent(r -> {
-                    try {
-                        Receipt a = Waiter.fetchReceipt(r.getId());
-                        t.accept(a, r);
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
+
+                String id = null;
+                {
+                    int size = reservations.size();
+                    var ids = new String[size];
+                    for (int i = 0; i < size; i++) {
+                        ids[i] = reservations.get(i).toString();
                     }
-                });
+                    id = (String) JOptionPane.showInputDialog(this, "Select a reservation:", "Past Transactions", JOptionPane.QUESTION_MESSAGE, null, ids, ids[0]);
+                    if (id == null)
+                        return;
+                }
+
+                try {
+                    for (var r:reservations) {
+                        if (r.toString().equals(id)) {
+                            Receipt a = Waiter.fetchReceipt(r.getId());
+                            t.accept(a, r);
+                            break;
+                        }
+                    }
+                    
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
                 activate(ticketView);
                 //DO NOT CHANGE Status
             });

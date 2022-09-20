@@ -3,7 +3,7 @@
     ### Windows:
         1. Press windows key
         2. type in "edit env"
-        3. Under "User variables for <your user account>, type the database access credentials
+        3. Under "User variables for <your user account>, type the database access credentials.
 2. Don't forget to create the DB associated with DB_NAME.
 ## Getting Started
 
