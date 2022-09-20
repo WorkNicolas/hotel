@@ -27,6 +27,7 @@ public class ReservationTests {
         var rooms = m.fetch(stay);
         assertEquals(1, rooms.size());
         var payment = Generator.genPayment();
+        //Failling test
         rooms.forEach(new Consumer<RawInfo>() {
 
             @Override

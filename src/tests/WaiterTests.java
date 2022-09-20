@@ -1,6 +1,5 @@
 package tests;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,11 +31,5 @@ public class WaiterTests {
             4 //Existing reservation
         );
         assertNotEquals(0, results.size());
-    }
-
-    @Test
-    public void shouldGetReceipt() throws SQLException {
-        var result = Waiter.fetchReceipt(4);
-        assertEquals(33, result.amenities.size());
     }
 }
