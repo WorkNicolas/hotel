@@ -36,12 +36,12 @@ public class WaiterTests {
 
     @Test
     public void shouldGetReceipt() throws SQLException {
-        var result = Waiter.getReceipt(4);
+        var result = Waiter.fetchReceipt(4);
         assertEquals(33, result.amenities.size());
     }
     public static void main(String[] args) {
         try {
-            var result = Waiter.getReceipt(4);
+            var result = Waiter.fetchReceipt(4);
             
         } catch (Exception e) {
             e.printStackTrace();
