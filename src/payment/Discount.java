@@ -1,7 +1,7 @@
 package payment;
 
 /**
- * @author San Juan, Jean Carlo
+ * @author JCSJ
  * @implNote
  * <b>rate</b> is treated as the decimal form of a percentage.
  * so: <b>10%</b> should be <b>0.1f</b>

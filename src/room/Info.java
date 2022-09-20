@@ -8,6 +8,7 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 
 /** 
+ * @author JCSJ
  * Upgraded version of RawInfo, here the image resource is loaded. When it is unavailable a defualt image is used.
  * @implNote ImageIcon must retrieved from the URL
  * @see Manager

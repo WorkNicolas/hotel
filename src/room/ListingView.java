@@ -12,7 +12,7 @@ import java.awt.BorderLayout;
 
 /**
  * @author Mendoza, Carl Nicolas
- * @author San Juan, Jean Carlo
+ * @author JCSJ
  */
 public class ListingView extends JPanel {
     public ArrayList<JButton> buttons;

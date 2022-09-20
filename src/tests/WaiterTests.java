@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 
 import payment.Receipt;
 import samples.Generator;
-import samples.ReservationSample;
 import service.Supplier;
 import service.Waiter;
 

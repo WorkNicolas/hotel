@@ -9,6 +9,9 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+/**
+ * @author JCSJ
+ */
 public class Helper {
     public static ImageIcon createImageIcon(Color color, int width, int height) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

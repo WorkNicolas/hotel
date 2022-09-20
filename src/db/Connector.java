@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 /**
  * Helper class for communicating with the assigned DB
+ * @author JCSJ
  */
 public class Connector {
     protected static final String DB_HOST = System.getenv("DB_HOST");

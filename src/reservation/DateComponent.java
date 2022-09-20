@@ -6,6 +6,10 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+
+/**
+ * @author JCSJ
+ */
 public class  DateComponent extends SpinnerDateModel {
     public JSpinner ui;
     private final String pattern = "yyyy-MM-dd";

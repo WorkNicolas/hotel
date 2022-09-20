@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import db.Connector;
 import db.Fetcher;
 
+/**
+ * @author JCSJ
+ */
 public class NewsController extends Connector  implements Fetcher<Integer, ArrayList<News>>{
     public static final String TABLE_NAME = "news";
     public NewsController() throws SQLException {

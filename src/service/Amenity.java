@@ -3,6 +3,9 @@ package service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @author JCSJ
+ */
 public class Amenity {
     protected final int id;
     protected final String name;

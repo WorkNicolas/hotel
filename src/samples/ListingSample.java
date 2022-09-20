@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import room.ListingForm;
 import room.RawInfo;
 
+/**
+ * @author JCSJ
+ * @author Mendoza, Carl Nicolas
+ */
 public class ListingSample {
     public static void main(String[] args) {
         JFrame j = new JFrame();

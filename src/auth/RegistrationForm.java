@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 /**
  * Controls the Registration via inheritance
  * @author Mendoza, Carl Nicolas
- * @author San Juan, Jean Carlo
+ * @author JCSJ
  */
 public class RegistrationForm extends RegistrationPanel implements ActionListener {
 	protected int MIN_PASSWORD_LENGTH = 8;

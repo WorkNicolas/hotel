@@ -1,6 +1,9 @@
 package room;
 import javax.swing.JLabel;
 
+/**
+ * @author JCSJ
+ */
 public class LazyLoader implements Runnable {
     protected JLabel label;
     protected RawInfo room;

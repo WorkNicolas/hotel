@@ -8,7 +8,9 @@ import db.Connector;
 import payment.Payment;
 import payment.Receipt;
 import reservation.Hotelier;
-
+/**
+ * @author JCSJ
+ */
 public class Waiter extends Connector {
     public static String TABLE_NAME = "orders";
     public static String TABLE_PAYMENT = "payments";

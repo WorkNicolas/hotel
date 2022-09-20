@@ -15,6 +15,10 @@ import java.awt.Cursor;
 import java.awt.Point;
 import javax.swing.border.LineBorder;
 
+/**
+ * @author Bañez, Roxanne
+ * @author JCSJ
+ */
 public class ReservationTicketView extends JPanel {
 	public JButton btnProceed;
 	public JPanel infoPanel;

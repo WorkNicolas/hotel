@@ -9,6 +9,7 @@ import db.Fetcher;
 import reservation.Stay;
 
 /**
+ * @author JCSJ
  * Queries the db for available rooms
  */
 public class Manager extends Connector implements Fetcher<Stay, ArrayList<RawInfo>>{

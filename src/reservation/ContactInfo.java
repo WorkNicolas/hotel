@@ -3,6 +3,9 @@ package reservation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @author JCSJ
+ */
 public class ContactInfo {
     protected String name;
     protected String address;

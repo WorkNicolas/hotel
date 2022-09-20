@@ -9,6 +9,9 @@ import payment.Payment;
 import payment.PaymentDialog;
 import payment.Receipt;
 
+/**
+ * @author JCSJ
+ */
 public class ServiceController {
     public RoomServicePanel ui;
     private Receipt receipt = new Receipt();

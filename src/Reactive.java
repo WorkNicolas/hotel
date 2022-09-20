@@ -2,6 +2,7 @@ import java.util.concurrent.SubmissionPublisher;
 
 /**
  * Publisher that holds a value
+ * @author JCSJ
  */
 public class Reactive<T> extends SubmissionPublisher<T> {
     protected T value;

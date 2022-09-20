@@ -1,5 +1,6 @@
 /**
  * Singleton for keeping App Major States
+ * @author JCSJ
  */
 public class Status extends Reactive<State> {
     public Status(State value) {

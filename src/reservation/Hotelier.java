@@ -11,6 +11,9 @@ import db.Connector;
 import payment.Payment;
 import room.Info;
 
+/**
+ * @author JCSJ
+ */
 public class Hotelier extends Connector{
     protected static final String TABLE_NAME = "reservations";
     public Hotelier() throws SQLException {

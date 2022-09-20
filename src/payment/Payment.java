@@ -2,7 +2,9 @@ package payment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * @author JCSJ
+ */
 public class Payment {
     protected int id;
 

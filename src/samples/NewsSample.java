@@ -9,6 +9,9 @@ import news.CreateListener;
 import news.News;
 import news.NewsForm;
 
+/**
+ * @author Mendoza, Carl Nicolas
+ */
 public class NewsSample  extends JFrame {
     public static void main(String[] args) {
         var frame = new NewsSample();

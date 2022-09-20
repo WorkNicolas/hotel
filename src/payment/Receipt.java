@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import service.Amenity;
 /**
+ * @author JCSJ
 * {@link https://www.dti.gov.ph/archives/news-archives/dti-urges-e-commerce-platforms-to-adopt-online-discount-guidelines/} 
  */
 public class Receipt {

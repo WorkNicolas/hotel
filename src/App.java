@@ -24,7 +24,7 @@ import service.ServiceController;
 import service.Waiter;
 
 /**
- * @author Jean Carlo Molina San Juan
+ * @author JCSJ
  */
 public class App extends View implements Subscriber<State> {
     Subscription subscription;

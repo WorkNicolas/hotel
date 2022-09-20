@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
+ * @author JCSJ
  * {@summary Controls and Combines both the QueryBar and RoomListing}
  * Should look like:
  * <QueryBar>

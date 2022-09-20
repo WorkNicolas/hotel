@@ -8,6 +8,7 @@ import reservation.DateComponent;
 import reservation.Stay;
 
 /**
+ * @author JCSJ
  * should look like:
  * <label><input:date><label><input:date><button>
  */

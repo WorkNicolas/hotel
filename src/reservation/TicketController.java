@@ -6,6 +6,10 @@ import payment.ReceiptView;
 import room.Info;
 import room.QueryBar;
 import room.RoomPanel;
+
+/**
+ * @author JCSJ
+ */
 public class TicketController implements PairConsumer<Receipt, Reservation>{
     ReservationTicketView ui;
     RoomPanel rp;

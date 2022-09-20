@@ -14,7 +14,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 /**
- * @author San Juan, Jean Carlo
+ * @author JCSJ
  * @implNote
  * Looks like:
  * <code>

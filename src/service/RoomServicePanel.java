@@ -5,7 +5,11 @@ import javax.swing.border.LineBorder;
 
 import java.awt.*;
 import java.util.ArrayList;
-
+/**
+ * @author JCSJ
+ * @author Mariano, Charimel
+ * @author Mendoza, Carl Nicolas
+ */
 public class RoomServicePanel extends JPanel {
 	public ArrayList<Amenity> content;
 	public JButton addOrder;

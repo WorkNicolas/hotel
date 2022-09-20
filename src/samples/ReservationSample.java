@@ -5,6 +5,10 @@ import javax.swing.border.EmptyBorder;
 import reservation.ReservationTicketView;
 import reservation.TicketController;
 
+/**
+ * @author JCSJ
+ * @author Banez, Roxanne
+ */
 public class ReservationSample extends JFrame {
 	private ReservationTicketView panel;
 

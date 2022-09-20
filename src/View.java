@@ -9,7 +9,7 @@ import reservation.ReservationTicketView;
 import room.ListingForm;
 import service.RoomServicePanel;
 /**
- * @author Jean Carlo Molina San Juan
+ * @author JCSJ
  */
 public class View extends JFrame {
 	protected JMenuBar navbar = new JMenuBar();

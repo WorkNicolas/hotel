@@ -13,6 +13,9 @@ import room.Info;
 import room.RawInfo;
 import service.Amenity;
 
+/**
+ * @author JCSJ
+ */
 public class Generator {
     
 	public static Stay genStay() {

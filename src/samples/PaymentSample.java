@@ -3,6 +3,9 @@ import payment.Discount;
 import payment.Payment;
 import payment.PaymentDialog;
 
+/**
+ * @author JCSJ
+ */
 public class PaymentSample {
     public static void main(String[] args) {
         var j = new PaymentDialog(null, "Test",  new Discount[] {

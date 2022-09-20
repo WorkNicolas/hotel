@@ -6,7 +6,9 @@ import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
+/**
+ * @author JCSJ
+ */
 public class RoomPanel extends JPanel {
     public JButton button;
 	public JLabel imageLabel;

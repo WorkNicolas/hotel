@@ -4,7 +4,7 @@ import javax.swing.*;
 
 
 /**
- * @author Jean Carlo Molina San Juan
+ * @author JCSJ
  */
 public class LoginForm extends JPanel {
 	private JLabel lName = new JLabel("Email:");

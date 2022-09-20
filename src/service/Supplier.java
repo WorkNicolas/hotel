@@ -6,6 +6,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import db.Connector;
 
+/**
+ * @author JCSJ
+ */
 public class Supplier extends Connector { 
     public final static String TABLE_NAME = "amenities";
     public static ArrayList<Amenity> fetchAvailable() throws SQLException {

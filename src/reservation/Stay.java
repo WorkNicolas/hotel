@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+/**
+ * @author JCSJ
+ */
 public class Stay {
     protected Date start;
     protected Date end;

@@ -2,6 +2,9 @@ package payment;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+/**
+ * @author JCSJ
+ */
 public class PaymentDialog extends JDialog {
     private PaymentPanel panel;
     private Payment result;

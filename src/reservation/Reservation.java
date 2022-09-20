@@ -3,6 +3,7 @@ import payment.Payment;
 import room.Info;
 
 /**
+ * @author JCSJ
  * Matches the reservations table
  * @implNote Queried record contains two FOREIGN KEYS:
  * 1. a room_id for RoomInfo
