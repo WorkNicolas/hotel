@@ -49,7 +49,12 @@ public class App extends View implements Subscriber<State> {
                 activate(listingForm);
             });
             sOrder.addActionListener(e -> {
-    			activate(roomService);
+                try {
+                    roomService.setContent(service.Supplier.fetchAvailable());
+        			activate(roomService);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             });
             var t = new TicketController(ticketView);
             rInfo.addActionListener(e -> {
