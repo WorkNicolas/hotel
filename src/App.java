@@ -1,17 +1,19 @@
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.util.ArrayList;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 import Style.Style;
 import auth.LoginListener;
 import auth.LoginObserver;
 import auth.RegistrationForm;
 import auth.User;
 import auth.Verifier;
+import db.Connector;
 import news.NewsController;
 import payment.Payment;
 import payment.Receipt;
@@ -37,6 +39,7 @@ public class App extends View implements Subscriber<State> {
     private ServiceController serviceController;
     public App() throws SQLException {
         super();
+
         {//MENU
             uLogin.addActionListener(e -> {
                 Status.self.submit(State.AUTH);
@@ -308,7 +311,6 @@ public class App extends View implements Subscriber<State> {
 	@Override
 	public void onError(Throwable throwable) {
 		//PASS
-
 	}
 
 	@Override
@@ -317,15 +319,38 @@ public class App extends View implements Subscriber<State> {
 		System.exit(0); // FORCE SHUTDOWN
 	}
 
+    public static void showError(String s) {
+        JOptionPane.showMessageDialog(null, s, "ERROR:", JOptionPane.ERROR_MESSAGE);
+    }
     public static void main(String[] args) {
         Style.init();
+        Runnable failed = () -> showError("Failed to communicate with the server!");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+                try {
+                    var pingServer  = Connector.connect();
+                } catch (CommunicationsException e) {
+                    failed.run();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    if (e.getErrorCode() == 1045) {
+                        showError("You are not authorized to access the database!");
+                    } else {
+                        showError(e.toString());
+                    }
+                    return;
+                }
 				try {
 					App a  = new App();
 					a.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-				} catch (Exception e) {
+				} catch( SQLTimeoutException t) {
+                    failed.run();
+                } catch (CommunicationsException e) {
+                    failed.run();
+                }
+                catch (Exception e) {
+                    showError(e.toString());
 					e.printStackTrace();
 				}
 			}

@@ -12,11 +12,13 @@ public class Connector {
     protected static final String DB_PASS = System.getenv("DB_PASS");
     protected static final String DB_NAME = System.getenv("DB_NAME");
     protected static final String DB_URL = "jdbc:mysql://" + DB_HOST + "/" + DB_NAME;
+    {
+        DriverManager.setLoginTimeout(5);
+    }
     /** 
      * {@summary Creates a connection using the Connector's credentials} 
      */
     public static Connection connect() throws SQLException {
-        DriverManager.setLoginTimeout(5);
         return DriverManager.getConnection(
             DB_URL,
             DB_USER, 
