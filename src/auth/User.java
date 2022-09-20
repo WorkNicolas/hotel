@@ -1,5 +1,4 @@
 package auth;
-
 /**
  * {@summary For user authorization}
  * @apiNote When id is <= 0, it is invalid.

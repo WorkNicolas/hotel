@@ -1,12 +1,9 @@
 package room;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import reservation.DateComponent;
 import reservation.Stay;
-
 /**
  * @author JCSJ
  * should look like:

@@ -1,5 +1,4 @@
 package room;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,7 +6,6 @@ import java.util.ArrayList;
 import db.Connector;
 import db.Fetcher;
 import reservation.Stay;
-
 /**
  * @author JCSJ
  * Queries the db for available rooms

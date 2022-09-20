@@ -1,12 +1,9 @@
 package auth;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.function.Consumer;
-
 import javax.swing.JOptionPane;
-
 /**
  * Controls the Registration via inheritance
  * @author Mendoza, Carl Nicolas

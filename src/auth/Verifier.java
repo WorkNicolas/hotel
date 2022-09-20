@@ -1,9 +1,7 @@
 package auth;
 import java.sql.PreparedStatement;
 import java.util.Optional;
-
 import db.Connector;
-
 /**
  * {@summary For user authentication}
  * @see Registrar

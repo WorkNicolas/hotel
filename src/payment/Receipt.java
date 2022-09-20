@@ -1,5 +1,4 @@
 package payment;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import service.Amenity;

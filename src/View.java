@@ -1,8 +1,6 @@
 import java.util.HashMap;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import auth.LoginForm;
 import news.NewsForm;
 import reservation.ReservationTicketView;

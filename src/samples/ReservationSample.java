@@ -1,10 +1,8 @@
 package samples;
-
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
 import reservation.ReservationTicketView;
 import reservation.TicketController;
-
 /**
  * @author JCSJ
  * @author Banez, Roxanne

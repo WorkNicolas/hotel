@@ -3,10 +3,8 @@ import java.awt.EventQueue;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.border.EmptyBorder;
-
 import service.RoomServicePanel;
 import service.Supplier;
-
 /**
  * @author JCSJ
  * @author Mariano, Charimel

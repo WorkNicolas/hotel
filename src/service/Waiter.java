@@ -1,9 +1,7 @@
 package service;
-
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import db.Connector;
 import payment.Payment;
 import payment.Receipt;

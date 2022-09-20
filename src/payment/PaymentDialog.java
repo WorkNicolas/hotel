@@ -1,5 +1,4 @@
 package payment;
-
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 /**

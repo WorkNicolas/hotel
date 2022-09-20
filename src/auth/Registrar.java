@@ -2,9 +2,7 @@ package auth;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import db.Connector;
-
 /**
  * {@summary Handles database management for users}
  * @see Verifier

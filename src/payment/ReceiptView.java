@@ -1,5 +1,4 @@
 package payment;
-
 import java.sql.SQLException;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -8,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import service.Supplier;
-
 /**
  * @author JCSJ
  * @implNote Price/Amount sorting is incorrect as the objects are sroted by String.

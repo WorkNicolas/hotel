@@ -1,7 +1,5 @@
 package reservation;
-
 import java.awt.Dimension;
-
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
@@ -14,7 +12,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Point;
 import javax.swing.border.LineBorder;
-
 /**
  * @author Bañez, Roxanne
  * @author JCSJ

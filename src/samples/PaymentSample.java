@@ -2,7 +2,6 @@ package samples;
 import payment.Discount;
 import payment.Payment;
 import payment.PaymentDialog;
-
 /**
  * @author JCSJ
  */

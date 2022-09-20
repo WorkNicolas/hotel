@@ -1,10 +1,7 @@
 package samples;
-
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.JFrame;
-
 import news.CreateListener;
 import news.News;
 import news.NewsForm;

@@ -1,5 +1,4 @@
 package service;
-
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -8,7 +7,6 @@ import payment.PairConsumer;
 import payment.Payment;
 import payment.PaymentDialog;
 import payment.Receipt;
-
 /**
  * @author JCSJ
  */

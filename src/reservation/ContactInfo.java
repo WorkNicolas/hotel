@@ -1,8 +1,6 @@
 package reservation;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 /**
  * @author JCSJ
  */

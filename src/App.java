@@ -3,10 +3,8 @@ import java.util.ArrayList;
 import java.util.concurrent.Flow.Subscriber;
 import java.util.concurrent.Flow.Subscription;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import auth.LoginListener;
 import auth.LoginObserver;
 import auth.RegistrationForm;

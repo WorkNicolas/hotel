@@ -1,7 +1,6 @@
 package auth;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 /**
  * Reacts to user input for the login form.
  * @see LoginForm

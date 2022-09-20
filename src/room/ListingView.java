@@ -1,5 +1,4 @@
 package room;
-
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -9,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.BorderLayout;
-
 /**
  * @author Mendoza, Carl Nicolas
  * @author JCSJ

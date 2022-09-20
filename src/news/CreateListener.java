@@ -1,7 +1,6 @@
 package news;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 /**
  * @author Mendoza, Carl Nicolas
  * @author JCSJ

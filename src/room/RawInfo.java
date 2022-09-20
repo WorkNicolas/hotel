@@ -1,8 +1,6 @@
 package room;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 /**
  * @author JCSJ
  * Represents a record in the `rooms` table

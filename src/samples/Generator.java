@@ -1,5 +1,4 @@
 package samples;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
@@ -12,7 +11,6 @@ import reservation.Stay;
 import room.Info;
 import room.RawInfo;
 import service.Amenity;
-
 /**
  * @author JCSJ
  */

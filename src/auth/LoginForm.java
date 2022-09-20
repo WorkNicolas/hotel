@@ -1,8 +1,6 @@
 package auth;
 import java.awt.*;
 import javax.swing.*;
-
-
 /**
  * @author JCSJ
  */

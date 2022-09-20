@@ -1,7 +1,6 @@
 package reservation;
 import payment.Payment;
 import room.Info;
-
 /**
  * @author JCSJ
  * Matches the reservations table

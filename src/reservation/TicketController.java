@@ -1,12 +1,10 @@
 package reservation;
-
 import payment.PairConsumer;
 import payment.Receipt;
 import payment.ReceiptView;
 import room.Info;
 import room.QueryBar;
 import room.RoomPanel;
-
 /**
  * @author JCSJ
  */

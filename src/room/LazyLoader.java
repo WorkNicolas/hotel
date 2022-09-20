@@ -1,6 +1,5 @@
 package room;
 import javax.swing.JLabel;
-
 /**
  * @author JCSJ
  */

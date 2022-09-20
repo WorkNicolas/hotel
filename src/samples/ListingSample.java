@@ -1,9 +1,6 @@
 package samples;
-
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
-
 import room.ListingForm;
 import room.RawInfo;
 

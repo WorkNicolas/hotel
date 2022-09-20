@@ -1,24 +1,19 @@
 package room;
-
 import java.util.ArrayList;
 import java.util.function.Consumer;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
 import db.Fetcher;
 import payment.Discount;
 import payment.PaymentDialog;
 import reservation.ContactInfo;
 import reservation.Reservation;
 import reservation.Stay;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 /**
  * @author JCSJ
  * {@summary Controls and Combines both the QueryBar and RoomListing}

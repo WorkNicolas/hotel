@@ -1,16 +1,13 @@
 package reservation;
-
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Optional;
-
 import auth.Registrar;
 import auth.User;
 import db.Connector;
 import payment.Payment;
 import room.Info;
-
 /**
  * @author JCSJ
  */

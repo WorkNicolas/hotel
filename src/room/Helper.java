@@ -5,10 +5,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
 /**
  * @author JCSJ
  */

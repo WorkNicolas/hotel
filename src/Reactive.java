@@ -1,5 +1,4 @@
 import java.util.concurrent.SubmissionPublisher;
-
 /**
  * Publisher that holds a value
  * @author JCSJ
