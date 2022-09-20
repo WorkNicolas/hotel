@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import auth.LoginForm;
+import news.NewsForm;
 import reservation.ReservationTicketView;
 import room.ListingForm;
 import service.RoomServicePanel;
@@ -18,13 +19,15 @@ public class View extends JFrame {
 	protected JMenuItem uLogout = new JMenuItem("Logout");
 	protected JMenu menuReservation = new JMenu("Reservation");
 	protected JMenuItem rInfo = new JMenuItem("Info");
-	protected JMenuItem rNew = new JMenuItem("New");
 	protected JMenuItem rExtend = new JMenuItem("Extend");
 	protected JMenuItem rCancel = new JMenuItem("Cancel");
 	protected JMenu menuRoomService = new JMenu("Room Service");
+	protected JMenuItem sOrder = new JMenuItem("Order");
+	protected JMenu menuNews = new JMenu("News");
+	protected JMenuItem itemSeeNews = new JMenuItem("See");
 	protected LoginForm loginForm = new LoginForm();
 	protected ListingForm listingForm;
-	protected JMenuItem order = new JMenuItem("Order");
+	protected NewsForm newsForm = new NewsForm();
 	protected RoomServicePanel roomService;
 	protected HashMap<State, JPanel> panels = new HashMap<>();
 	protected ReservationTicketView ticketView;
@@ -56,12 +59,13 @@ public class View extends JFrame {
 		menuUser.add(uLogout);
 		navbar.add(menuUser);
 		menuReservation.add(rInfo);
-		menuReservation.add(rNew);
 		menuReservation.add(rExtend);
 		menuReservation.add(rCancel);
-		menuRoomService.add(order);
+		menuRoomService.add(sOrder);
+		menuNews.add(itemSeeNews);
 		navbar.add(menuReservation);
 		navbar.add(menuRoomService);
+		navbar.add(menuNews);
 		setJMenuBar(navbar);
 	}
 
@@ -78,7 +82,7 @@ public class View extends JFrame {
 			panels.put(State.BOOKED, ticketView);
 			panels.put(State.CHECKEDIN, roomService);
 			panels.put(State.BROWSE, listingForm);
-			panels.put(State.auth, loginForm);
+			panels.put(State.AUTH, loginForm);
 		}
 		{ // Setup loginForm
 			add(loginForm);

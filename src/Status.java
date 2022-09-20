@@ -6,5 +6,5 @@ public class Status extends Reactive<State> {
         super(value);
     }
 
-    public static Status self = new Status(State.auth);
+    public static Status self = new Status(State.AUTH);
 }

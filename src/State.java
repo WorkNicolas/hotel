@@ -1,5 +1,5 @@
 public enum State {
-    auth,
+    AUTH,
     BROWSE,
     BOOKED,
     CHECKEDIN

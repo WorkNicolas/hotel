@@ -36,19 +36,25 @@ public class App extends View implements Subscriber<State> {
     public App() throws SQLException {
         super();
         {//MENU
+            uLogin.addActionListener(e -> {
+                Status.self.submit(State.AUTH);
+            });
             uLogout.addActionListener(e -> {
-                Status.self.submit(State.auth);
+                Status.self.submit(State.AUTH);
                 ReservationStatus.self.submit(ReservationState.NONE);
             });
     
-            order.addActionListener(e -> {
+            sOrder.addActionListener(e -> {
     			activate(roomService);
             });
             rInfo.addActionListener(e -> {
                 activate(ticketView);
                 //DO NOT CHANGE Status
             });
-           
+            
+            itemSeeNews.addActionListener(e -> {
+                activate(newsForm);
+            });
             rCancel.addActionListener(e -> {
                 verifier.getUser().ifPresent(user -> {
                     reservations = Hotelier.getReservations(user);
@@ -77,13 +83,12 @@ public class App extends View implements Subscriber<State> {
                         return;
                     }
                     JOptionPane.showMessageDialog(this, "You have cancelled your booking. Please await your refund.");
-                    Status.self.submit(State.auth);
+                    Status.self.submit(State.AUTH);
                     loginListener.tryLogin(user);
                 });
             });
         }
         {//Login related
-            //TODO allow changing of default button per panel.
             getRootPane().setDefaultButton(loginForm.bLogin);
             RegistrationForm p = new RegistrationForm(created -> {
                 loginListener.tryLogin(
@@ -150,23 +155,20 @@ public class App extends View implements Subscriber<State> {
                     switch (item) {
                         case NONE: case DONE:
                             //TODO: For case DONE: Allow viewing past tickets.
-                            rNew.setEnabled(true);
                             rInfo.setEnabled(false);
                             rExtend.setEnabled(false);
                             rCancel.setEnabled(false);
-                            order.setEnabled(false);
+                            sOrder.setEnabled(false);
                             break;
                         case ONGOING:
-                            rNew.setEnabled(false);
                             rExtend.setEnabled(true);
                             rCancel.setEnabled(true);
-                            order.setEnabled(true);
+                            sOrder.setEnabled(true);
                             rInfo.setEnabled(true);
                             break;
                         case UPCOMING:
-                            rNew.setEnabled(false);
                             rCancel.setEnabled(true);
-                            order.setEnabled(false);
+                            sOrder.setEnabled(false);
                             rInfo.setEnabled(true);
                             break;
                         default:
@@ -203,7 +205,7 @@ public class App extends View implements Subscriber<State> {
                     listingForm.remove(listingForm.dialog);
                     listingForm.onSuccess();
                     verifier.getUser().ifPresent(user -> {
-                        Status.self.submit(State.auth);
+                        Status.self.submit(State.AUTH);
                         loginListener.tryLogin(user);
                     });
                     return;
@@ -251,6 +253,8 @@ public class App extends View implements Subscriber<State> {
                     });
                 });
                 break;
+            case AUTH:
+                getRootPane().setDefaultButton(loginForm.bLogin);
             default:
                 break;
         }
