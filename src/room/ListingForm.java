@@ -12,7 +12,6 @@ import javax.swing.SwingUtilities;
 import payment.Discount;
 import payment.PaymentDialog;
 import reservation.ContactInfo;
-import reservation.Hotelier;
 import reservation.Reservation;
 import reservation.Stay;
 
@@ -31,12 +30,17 @@ public class ListingForm extends JPanel implements ActionListener {
     public PaymentDialog dialog;
     private Consumer<Reservation> consumer;
     private Fetcher<Stay, ArrayList<RawInfo>> fetcher;
+    private Fetcher<Stay, Integer> counter;
     public void setConsumer(Consumer<Reservation> consumer) {
         this.consumer = consumer;
     }
 
     public void setFetcher(Fetcher<Stay, ArrayList<RawInfo>> fetcher) {
         this.fetcher = fetcher;
+    }
+
+    public void setCounter(Fetcher<Stay, Integer> counter) {
+        this.counter = counter;
     }
     public static Discount[] discounts = new Discount[] {
         new Discount("NONE", 0f),
@@ -84,12 +88,10 @@ public class ListingForm extends JPanel implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (tenant == null)
+        if (tenant == null || counter == null || last == null)
             return;
         RawInfo r = ui.data.get(Integer.valueOf(e.getActionCommand()));
-        int span = Hotelier.count(last);
-        span = span < 0 ? span * -1: span; //Prevent negative spans
-        span = Math.max(1, span + 1); //Make dates inclusive
+        int span = counter.fetch(last);
         var payment = dialog.prompt(r.getRate() * span);
         if (payment == null)
             return;

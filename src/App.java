@@ -191,6 +191,9 @@ public class App extends View implements Subscriber<State> {
       
         {//Payment 
             roomManager = new Manager();
+            listingForm.setCounter(latest -> {
+                return Hotelier.count(latest);
+            });
             listingForm.setFetcher(roomManager);
             listingForm.setConsumer(r -> {
                 try {

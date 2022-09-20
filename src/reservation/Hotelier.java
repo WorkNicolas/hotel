@@ -205,6 +205,8 @@ public class Hotelier extends Connector{
             if (r.next()) {
                 int span = r.getInt(1);
                 conn.close();
+                span = span < 0 ? span * -1: span; //Prevent negative spans
+                span = Math.max(1, span + 1); //Make dates inclusive
                 return span;
             }
         } catch (SQLException e) {
