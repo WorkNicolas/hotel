@@ -87,7 +87,12 @@ public class Hotelier extends Connector{
     }
     public static boolean cancel(int id) throws SQLException {
         var conn = connect();
-        var s = conn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
+        try {
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        var s = conn.prepareStatement("UPDATE " + TABLE_NAME + " SET CANCEL = CURDATE() WHERE id = ?");
         s.setInt(1, id);
         var status = s.executeUpdate();
         return status == 1;
@@ -122,7 +127,7 @@ public class Hotelier extends Connector{
     public static ArrayList<Reservation> getReservations(ContactInfo c) throws SQLException {
         var conn = connect();
         ArrayList<Reservation> reservations = new ArrayList<>();
-        var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE tenant_id = ? ORDER BY start DESC");
+        var s = conn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE tenant_id = ? AND cancel IS NULL ORDER BY start DESC");
         s.setInt(1, c.getId());
         var r = s.executeQuery();
         while (r.next()) {
