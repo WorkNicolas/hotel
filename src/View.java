@@ -20,7 +20,6 @@ public class View extends JFrame {
 	protected JMenu menuReservation = new JMenu("Reservation");
 	protected JMenuItem rInfo = new JMenuItem("Info");
 	protected JMenuItem rNew = new JMenuItem("New");
-	protected JMenuItem rExtend = new JMenuItem("Extend");
 	protected JMenuItem rCancel = new JMenuItem("Cancel");
 	protected JMenu menuRoomService = new JMenu("Room Service");
 	protected JMenuItem sOrder = new JMenuItem("Order");
@@ -61,7 +60,6 @@ public class View extends JFrame {
 		navbar.add(menuUser);
 		menuReservation.add(rInfo);
 		menuReservation.add(rNew);
-		menuReservation.add(rExtend);
 		menuReservation.add(rCancel);
 		menuRoomService.add(sOrder);
 		menuNews.add(itemSeeNews);

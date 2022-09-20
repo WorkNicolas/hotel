@@ -181,13 +181,11 @@ public class App extends View implements Subscriber<State> {
                             //TODO: For case DONE: Allow viewing past tickets.
                             rNew.setEnabled(true);
                             rInfo.setEnabled(false);
-                            rExtend.setEnabled(false);
                             rCancel.setEnabled(false);
                             sOrder.setEnabled(false);
                             break;
                         case ONGOING:
                             rNew.setEnabled(false);
-                            rExtend.setEnabled(true);
                             rCancel.setEnabled(true);
                             sOrder.setEnabled(true);
                             rInfo.setEnabled(true);
