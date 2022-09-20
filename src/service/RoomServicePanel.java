@@ -57,15 +57,10 @@ public class RoomServicePanel extends JPanel {
 		lblDessert.setVerticalAlignment(SwingConstants.TOP);
 		foodPanel.add(lblDessert);
 		
-		JLabel lblItems = new JLabel(); //adjusted
-		
-		//might delete this jlist items, just use it to show how the jlist works for order panel
+		JLabel lblItems = new JLabel();
 		
 		var breakfastList = createPart(Type.BREAKFAST, content, lblBreakfast, ListSelectionModel.SINGLE_SELECTION);
 		foodPanel.add(new JScrollPane (breakfastList));
-		
-		//might delete this jlist items, just use it to show how the jlist works for order panel
-		
 		var dessertList = createPart(Type.DESSERT, content, lblDessert, ListSelectionModel.SINGLE_SELECTION);
 		foodPanel.add(new JScrollPane (dessertList));
 		
@@ -81,13 +76,9 @@ public class RoomServicePanel extends JPanel {
 		lblBeverages.setVerticalAlignment(SwingConstants.TOP);
 		foodPanel.add(lblBeverages);
 		
-		//might delete this jlist items, just use it to show how the jlist works for order panel
-		
 		var lunchDinnerList = createPart(Type.DISH, content, lblLunchDinner, ListSelectionModel.SINGLE_SELECTION);
 		lunchDinnerList.setBorder(new LineBorder(Color.GRAY, 2));
 		foodPanel.add(new JScrollPane (lunchDinnerList));
-		
-		//might delete this jlist items, just use it to show how the jlist works for order panel
 		
 		var beveragesList = createPart(Type.BEVERAGE, content, lblBeverages, ListSelectionModel.SINGLE_SELECTION);
 		foodPanel.add(new JScrollPane (beveragesList));
@@ -101,8 +92,6 @@ public class RoomServicePanel extends JPanel {
 		JLabel lblHotelNecessities = new JLabel("Hotel Necessities");
 		lblHotelNecessities.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHotelNecessities.setFont(new Font("Tahoma", Font.BOLD, 18));
-		
-		//might delete this jlist items, just use it to show how the jlist works for order panel
 		
 		var hotelNecessitiesList = createPart(Type.THING, content,lblHotelNecessities, ListSelectionModel.SINGLE_SELECTION);
 		hotelNecessitiesList.setFont(new Font("Tahoma", Font.PLAIN, 16));
