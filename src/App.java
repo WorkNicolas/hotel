@@ -200,9 +200,15 @@ public class App extends View implements Subscriber<State> {
                 public void onNext(ReservationState item) {
                     System.out.println("Item:" + item);
                     switch (item) {
-                        case NONE: case DONE:
+                        case NONE:
                             rNew.setEnabled(true);
                             rInfo.setEnabled(false);
+                            rCancel.setEnabled(false);
+                            sOrder.setEnabled(false);
+                            break;
+                        case DONE:
+                            rNew.setEnabled(true);
+                            rInfo.setEnabled(true);
                             rCancel.setEnabled(false);
                             sOrder.setEnabled(false);
                             break;
